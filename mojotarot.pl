@@ -53,12 +53,12 @@ __DATA__
 % title 'Tarot!';
 
 <div>
-<button class="btn" title="Unsort the deck" onclick="window.location.href='/'">Home</button>
+<button class="btn btn-primary" title="Unsort the deck" onclick="window.location.href='/'">Home</button>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="mysubmit" title="View the deck" value="View" class="btn" />
+  <input type="submit" name="mysubmit" title="View the deck" value="View" class="btn btn-success" />
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="mysubmit" title="Shuffle the deck" value="Shuffle" class="btn" />
+  <input type="submit" name="mysubmit" title="Shuffle the deck" value="Shuffle" class="btn btn-warning" />
 </form>
 <form method="get" style="display: inline-block;">
   <input type="hidden" name="mysubmit" value="Cut" />
