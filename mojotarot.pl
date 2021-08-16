@@ -53,7 +53,7 @@ __DATA__
 % title 'Tarot!';
 
 <div>
-<button class="btn" onclick="window.location.href='/'">Home</button>
+<button class="btn" title="Unsort the deck" onclick="window.location.href='/'">Home</button>
 <form method="get" style="display: inline-block;">
   <input type="submit" name="mysubmit" title="View the deck" value="View" class="btn" />
 </form>
@@ -61,16 +61,17 @@ __DATA__
   <input type="submit" name="mysubmit" title="Shuffle the deck" value="Shuffle" class="btn" />
 </form>
 <form method="get" style="display: inline-block;">
-  <select name="cut" class="btn btn-mini">
-% for my $n (1 .. @$deck) {
+  <input type="hidden" name="mysubmit" value="Cut" />
+  <select name="cut" title="Cut the deck" class="btn btn-mini" onchange="this.form.submit()">
+    <option value="0" selected disabled>Cut...</option>
+% for my $n (1 .. $#$deck) {
     <option value="<%= $n %>"><%= $n %></option>
 % }
   </select>
-  <input type="submit" name="mysubmit" title="Cut the deck" value="Cut" class="btn" />
 </form>
 <form method="get" style="display: inline-block;">
   <input type="hidden" name="mysubmit" value="Spread" />
-  <select name="type" onchange="this.form.submit()" class="btn btn-mini">
+  <select name="type" title="Generate a spread" onchange="this.form.submit()" class="btn btn-mini">
     <option value="0" selected disabled>Spread...</option>
     <option value="3">Three Card Spread</option>
     <option value="7">Seven Card Spread</option>
