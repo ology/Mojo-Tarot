@@ -53,28 +53,24 @@ __DATA__
 % title 'Tarot!';
 
 <div>
-<button onclick="window.location.href='/'">Start Over</button>
-|
+<button class="btn" onclick="window.location.href='/'">Home</button>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="mysubmit" title="View the deck" value="View" />
+  <input type="submit" name="mysubmit" title="View the deck" value="View" class="btn" />
 </form>
-|
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="mysubmit" title="Shuffle the deck" value="Shuffle" />
+  <input type="submit" name="mysubmit" title="Shuffle the deck" value="Shuffle" class="btn" />
 </form>
-|
 <form method="get" style="display: inline-block;">
-  <select name="cut">
+  <select name="cut" class="btn btn-mini">
 % for my $n (1 .. @$deck) {
     <option value="<%= $n %>"><%= $n %></option>
 % }
   </select>
-  <input type="submit" name="mysubmit" title="Cut the deck" value="Cut" />
+  <input type="submit" name="mysubmit" title="Cut the deck" value="Cut" class="btn" />
 </form>
-|
 <form method="get" style="display: inline-block;">
   <input type="hidden" name="mysubmit" value="Spread" />
-  <select name="type" onchange="this.form.submit()">
+  <select name="type" onchange="this.form.submit()" class="btn btn-mini">
     <option value="0" selected disabled>Spread...</option>
     <option value="3">Three Card Spread</option>
     <option value="7">Seven Card Spread</option>
@@ -83,9 +79,10 @@ __DATA__
 </form>
 </div>
 
+<p></p>
+
 % if ($spread) {
 <div>
-  <p></p>
 % for my $card (@$spread) {
   <img src="<%= $card->[2] %>" alt="<%= $card->[0] %>" title="<%= $card->[0] %>" height="200" width="100" />
 % }
@@ -94,7 +91,6 @@ __DATA__
 
 % if ($view) {
 <div>
-  <p></p>
   <table cellpadding="2" border="0">
 % my $cells = 6;
 % for my $n (0 .. $#$deck) {
@@ -118,7 +114,23 @@ __DATA__
 
 @@ layouts/default.html.ep
 <!DOCTYPE html>
-<html>
-  <head><title><%= title %></title></head>
-  <body><%= content %></body>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title><%= title %></title>
+  </head>
+  <body>
+    <div class="container" style="padding-top: 10px;">
+      <%= content %>
+      <p></p>
+      <div id="footer" class="text-secondary">
+        <hr>
+        Built by <a href="http://gene.ology.net/">Gene</a>
+        with <a href="https://www.perl.org/">Perl</a> and
+        <a href="https://mojolicious.org/">Mojolicious</a>
+      </div>
+    </div>
+  </body>
 </html>
