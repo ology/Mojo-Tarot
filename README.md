@@ -1,0 +1,2 @@
+# Mojo-Tarot
+Tarot Automation
