@@ -9,6 +9,11 @@ get '/' => sub ($c) {
   my $type = $c->param('type');
   my $cut = $c->param('cut');
   my $submit = $c->param('mysubmit') || '';
+  my $choice = $c->param('choice');
+  my $choices = $c->cookie('choices') || '';
+  $choices = [ split /\|/, $choices ];
+  push @$choices, $choice if $choice;
+  $c->cookie(choices => join '|', @$choices);
   my $deck = $c->cookie('deck') || '';
   $deck = [ split /\|/, $deck ];
   my ($view, $spread) = (0, 0);
@@ -24,15 +29,21 @@ get '/' => sub ($c) {
   elsif ($submit eq 'Spread') {
     $spread = Tarot::spread($deck, $type);
   }
+  elsif ($submit eq 'Clear') {
+    $c->cookie(choices => '');
+    $choices = [];
+  }
   else {
     $deck = Tarot::build_deck();
   }
   $c->cookie(deck => join '|', @$deck);
+  $choices = [ map { [ Tarot::choose($deck, $_) ] } @$choices ];
   $c->render(
     template => 'index',
     deck => $deck,
     view => $view,
     spread => $spread,
+    choices => $choices,
   );
 } => 'index';
 
@@ -69,6 +80,7 @@ __DATA__
 % }
   </select>
 </form>
+<!--
 <form method="get" style="display: inline-block;">
   <input type="hidden" name="mysubmit" value="Spread" />
   <select name="type" title="Generate a spread" onchange="this.form.submit()" class="btn btn-mini">
@@ -78,9 +90,30 @@ __DATA__
     <option value="10">Ten Card Spread</option>
   </select>
 </form>
+-->
+<form method="get" style="display: inline-block;">
+  <input type="hidden" name="mysubmit" value="Choose" />
+  <select name="choice" title="Choose a card" class="btn btn-mini" onchange="this.form.submit()">
+    <option value="0" selected disabled>Choose...</option>
+% for my $n (1 .. @$deck) {
+    <option value="<%= $n %>"><%= $n %></option>
+% }
+  </select>
+</form>
+<form method="get" style="display: inline-block;">
+  <input type="submit" name="mysubmit" title="Clear the choices" value="Clear" class="btn btn-light" />
+</form>
 </div>
 
 <p></p>
+
+% if (@$choices) {
+<div>
+% for my $card (@$choices) {
+  <img src="<%= $card->[2] %>" alt="<%= $card->[0] %>" title="<%= $card->[0] %>" height="200" width="100" />
+% }
+</div>
+% }
 
 % if ($spread) {
 <div>
