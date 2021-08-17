@@ -115,37 +115,37 @@ __DATA__
 
 % if (@$choices) {
 <div>
-% for my $card (@$choices) {
+%   for my $card (@$choices) {
   <img src="<%= $card->[2] %>" alt="<%= $card->[0] %>" title="<%= $card->[0] %>" height="200" width="100" />
-% }
+%   }
 </div>
 % }
 % elsif ($spread) {
 <div>
-% for my $card (@$spread) {
+%   for my $card (@$spread) {
   <img src="<%= $card->[2] %>" alt="<%= $card->[0] %>" title="<%= $card->[0] %>" height="200" width="100" />
-% }
+%   }
 </div>
 % }
 % elsif ($view) {
 <div>
   <table cellpadding="2" border="0">
-% my $cells = 6;
-% for my $n (0 .. $#$deck) {
-%   my $row = 0;
-%   if ($n == 0 || $n % $cells == 0) {
+%   my $cells = 6;
+%   for my $n (0 .. $#$deck) {
+%     my $row = 0;
+%     if ($n == 0 || $n % $cells == 0) {
     <tr>
-%   }
+%     }
       <td>
         <img src="/images/<%= $deck->[$n] %>.jpeg" alt="<%= $deck->[$n] %>" title="<%= $deck->[$n] %>" height="200" width="100" />
       </td>
-%   if ($row == $cells - 1) {
+%     if ($row == $cells - 1) {
 %     $row = 0;
     </tr>
-%   } else {
-%     $row++;
+%     } else {
+%       $row++;
+%     }
 %   }
-% }
   </table>
 </div>
 % }
