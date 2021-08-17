@@ -37,7 +37,7 @@ get '/' => sub ($c) {
     $c->cookie(choices => '');
     $choices = [];
   }
-  else {
+  elsif ($submit eq 'Reset') {
     $deck = Tarot::build_deck();
   }
 
@@ -71,7 +71,7 @@ __DATA__
 % title 'Tarot!';
 
 <div>
-<button class="btn btn-primary" title="Unsort the deck" onclick="window.location.href='/'">Reset</button>
+<button class="btn btn-primary" title="Unsort the deck" onclick="window.location.href='/?Submit=Reset'">Reset</button>
 <form method="get" style="display: inline-block;">
   <input type="submit" name="mysubmit" title="View the deck" value="View" class="btn btn-success" />
 </form>
