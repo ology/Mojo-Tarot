@@ -71,7 +71,7 @@ __DATA__
 % title 'Tarot!';
 
 <div>
-<button class="btn btn-primary" title="Unsort the deck" onclick="window.location.href='/'">Home</button>
+<button class="btn btn-primary" title="Unsort the deck" onclick="window.location.href='/'">Reset</button>
 <form method="get" style="display: inline-block;">
   <input type="submit" name="mysubmit" title="View the deck" value="View" class="btn btn-success" />
 </form>
