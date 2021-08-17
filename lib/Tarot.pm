@@ -68,7 +68,7 @@ sub cut_deck {
 
 sub choose {
   my ($deck, $n) = @_;
-  if (defined $n) {
+  if ($n) {
     $n -= 1;
   }
   else {
