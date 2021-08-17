@@ -42,6 +42,7 @@ get '/' => sub ($c) {
   }
 
   $c->cookie(deck => join '|', @$deck);
+
   $choices = [ map { [ Tarot::choose($deck, $_) ] } @$choices ];
 
   $c->render(
