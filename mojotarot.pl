@@ -9,8 +9,8 @@ get '/' => sub ($c) {
   my $type   = $c->param('type');
   my $cut    = $c->param('cut');
   my $submit = $c->param('mysubmit') || '';
+  my $choice = $c->param('choice');
 
-  my $choice  = $c->param('choice');
   my $choices = $c->cookie('choices') || '';
   $choices = [ split /\|/, $choices ];
   push @$choices, $choice if $choice;
