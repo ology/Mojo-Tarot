@@ -120,16 +120,14 @@ __DATA__
 % }
 </div>
 % }
-
-% if ($spread) {
+% elsif ($spread) {
 <div>
 % for my $card (@$spread) {
   <img src="<%= $card->[2] %>" alt="<%= $card->[0] %>" title="<%= $card->[0] %>" height="200" width="100" />
 % }
 </div>
 % }
-
-% if ($view) {
+% elsif ($view) {
 <div>
   <table cellpadding="2" border="0">
 % my $cells = 6;
