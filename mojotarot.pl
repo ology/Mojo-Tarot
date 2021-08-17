@@ -6,17 +6,21 @@ use lib 'lib';
 use Tarot;
 
 get '/' => sub ($c) {
-  my $type = $c->param('type');
-  my $cut = $c->param('cut');
+  my $type   = $c->param('type');
+  my $cut    = $c->param('cut');
   my $submit = $c->param('mysubmit') || '';
-  my $choice = $c->param('choice');
+
+  my $choice  = $c->param('choice');
   my $choices = $c->cookie('choices') || '';
   $choices = [ split /\|/, $choices ];
   push @$choices, $choice if $choice;
   $c->cookie(choices => join '|', @$choices);
+
   my $deck = $c->cookie('deck') || '';
   $deck = [ split /\|/, $deck ];
+
   my ($view, $spread) = (0, 0);
+
   if ($submit eq 'View') {
     $view = 1;
   }
@@ -36,8 +40,10 @@ get '/' => sub ($c) {
   else {
     $deck = Tarot::build_deck();
   }
+
   $c->cookie(deck => join '|', @$deck);
   $choices = [ map { [ Tarot::choose($deck, $_) ] } @$choices ];
+
   $c->render(
     template => 'index',
     deck => $deck,
