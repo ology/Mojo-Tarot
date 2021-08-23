@@ -7,7 +7,6 @@ use Test::More;
 use_ok 'Tarot';
 
 my $d = Tarot::build_deck();
-
 is @$d, 78, 'full deck';
 
 my $expect = [qw(fool magician priestess empress emperor hierophant lovers chariot strength hermit)];
