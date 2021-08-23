@@ -10,7 +10,7 @@ my $d = Tarot::build_deck();
 is @$d, 78, 'full deck';
 
 my $expect = [qw(fool magician priestess empress emperor hierophant lovers chariot strength hermit)];
-is_deeply [@$d[0 .. 9]], $expect, 'looks sorted';
+is_deeply [@$d[0 .. $#$expect]], $expect, 'looks sorted';
 
 $d = Tarot::shuffle_deck($d);
 ok $d->[0] ne $expect->[0]
