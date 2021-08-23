@@ -28,7 +28,16 @@ $expect = $d->[0];
 $d = Tarot::cut_deck($d, 1);
 is $d->[-1], $expect, 'cut deck';
 
-my $spread = Tarot::spread($d, 3);
-is @$spread, 3, 'spread size';
+my $got = Tarot::spread($d, 3);
+is @$got, 3, 'spread size';
+
+$expect = [@$d[0 .. 2]];
+$got = [Tarot::choose($d, 1)];
+is @$got, 3, 'choose size';
+is $got->[0], $expect->[0], 'choose';
+$got = [Tarot::choose($d, 1)];
+is $got->[0], $expect->[1], 'choose';
+$got = [Tarot::choose($d, 1)];
+is $got->[0], $expect->[2], 'choose';
 
 done_testing();
