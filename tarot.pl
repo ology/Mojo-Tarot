@@ -14,21 +14,22 @@ my $expect = [qw(fool magician priestess empress emperor hierophant lovers chari
 is_deeply [@$d[0 .. 9]], $expect, 'looks sorted';
 
 $d = Tarot::shuffle_deck($d);
-ok $d->[0] ne 'fool'
-  && $d->[1] ne 'magician'
-  && $d->[2] ne 'priestess'
-  && $d->[3] ne 'empress'
-  && $d->[4] ne 'emperor'
-  && $d->[5] ne 'hierophant'
-  && $d->[6] ne 'lovers'
-  && $d->[7] ne 'chariot'
-  && $d->[8] ne 'strength'
-  && $d->[9] ne 'hermit', 'looks shuffled';
+ok $d->[0] ne $expect->[0]
+  && $d->[1] ne $expect->[1]
+  && $d->[2] ne $expect->[2]
+  && $d->[3] ne $expect->[3]
+  && $d->[4] ne $expect->[4]
+  && $d->[5] ne $expect->[5]
+  && $d->[6] ne $expect->[6]
+  && $d->[7] ne $expect->[7]
+  && $d->[8] ne $expect->[8]
+  && $d->[9] ne $expect->[9], 'looks shuffled';
 
 $expect = $d->[0];
 $d = Tarot::cut_deck($d, 1);
 is $d->[-1], $expect, 'cut deck';
 
-my $spread = Tarot::spread($d);
+my $spread = Tarot::spread($d, 3);
+is @$spread, 3, 'spread size';
 
 done_testing();
