@@ -2,18 +2,21 @@
 use strict;
 use warnings;
 
-use Data::Dumper::Compact qw(ddc);
+use Test::More;
 
-use Tarot;
+use_ok 'Tarot';
 
 my $d = Tarot::build_deck();
-#warn(__PACKAGE__,' ',__LINE__," MARK: ",scalar(@$d),' - ',ddc($d));
+
+is @$d, 78, 'full deck';
+
+my $expect = [qw(fool magician priestess empress emperor hierophant lovers chariot strength hermit)];
+is_deeply [@$d[0 .. 9]], $expect, 'looks sorted';
 
 $d = Tarot::shuffle_deck($d);
-#warn(__PACKAGE__,' ',__LINE__," MARK: ",scalar(@$d),' - ',ddc($d));
 
 $d = Tarot::cut_deck($d, 1);
-#warn(__PACKAGE__,' ',__LINE__," MARK: ",scalar(@$d),' - ',ddc($d));
 
 my $spread = Tarot::spread($d);
-warn(__PACKAGE__,' ',__LINE__," MARK: ",ddc($spread));
+
+done_testing();
