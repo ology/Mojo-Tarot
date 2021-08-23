@@ -3,8 +3,6 @@ use strict;
 use warnings;
 
 use Data::Dumper::Compact qw(ddc);
-use Carp qw(croak);
-use List::Util qw(shuffle);
 
 use Tarot;
 
