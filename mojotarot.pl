@@ -47,7 +47,7 @@ get '/' => sub ($c) {
     push @crumbs, $submit;
   }
   else {
-    push @crumbs, 'Choose';
+    push @crumbs, "Choose $choice";
   }
 
   $c->cookie(deck => join '|', @$deck);
