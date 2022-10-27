@@ -108,7 +108,7 @@ __DATA__
   </select>
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="mysubmit" title="Clear the choices" value="Clear" class="btn btn-light" />
+  <input type="submit" name="mysubmit" title="Clear the choices" value="Clear" class="btn btn-outline-dark" />
 </form>
 </div>
 
