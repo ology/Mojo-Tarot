@@ -47,10 +47,10 @@ get '/' => sub ($c) {
 
   $c->render(
     template => 'index',
-    deck => $deck,
-    view => $view,
-    spread => $spread,
-    choices => $choices,
+    deck     => $deck,
+    view     => $view,
+    spread   => $spread,
+    choices  => $choices,
   );
 } => 'index';
 
