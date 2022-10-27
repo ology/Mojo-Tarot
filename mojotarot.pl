@@ -21,17 +21,22 @@ get '/' => sub ($c) {
 
   my ($view, $spread) = (0, 0);
 
+  my @crumbs;
+
   if ($submit eq 'View') {
     $view = 1;
   }
   elsif ($submit eq 'Shuffle') {
     $deck = Tarot::shuffle_deck($deck);
+    push @crumbs, $submit;
   }
   elsif ($submit eq 'Cut') {
     $deck = Tarot::cut_deck($deck, $cut);
+    push @crumbs, "$submit $cut";
   }
   elsif ($submit eq 'Spread') {
     $spread = Tarot::spread($deck, $type);
+    push @crumbs, "$submit $type";
   }
   elsif ($submit eq 'Clear') {
     $c->cookie(choices => '');
@@ -39,6 +44,10 @@ get '/' => sub ($c) {
   }
   elsif ($submit eq 'Reset') {
     $deck = Tarot::build_deck();
+    push @crumbs, $submit;
+  }
+  else {
+    push @crumbs, 'Choose';
   }
 
   $c->cookie(deck => join '|', @$deck);
@@ -51,6 +60,7 @@ get '/' => sub ($c) {
     view     => $view,
     spread   => $spread,
     choices  => $choices,
+    crumbs   => \@crumbs,
   );
 } => 'index';
 
@@ -113,6 +123,10 @@ __DATA__
 </div>
 
 <p></p>
+
+<%= join ' > ', @$crumbs %>
+
+<hr>
 
 % if (@$choices) {
 <div>
