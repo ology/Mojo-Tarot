@@ -19,39 +19,43 @@ get '/' => sub ($c) {
   my $deck = $c->cookie('deck') || '';
   $deck = [ split /\|/, $deck ];
 
-  my ($view, $spread) = (0, 0);
+  my $crumb_trail = $c->cookie('crumbs') || '';
+  $crumb_trail = [ split /\|/, $crumb_trail ];
 
-  my @crumbs;
+  my ($view, $spread) = (0, 0);
 
   if ($submit eq 'View') {
     $view = 1;
   }
   elsif ($submit eq 'Shuffle') {
     $deck = Tarot::shuffle_deck($deck);
-    push @crumbs, $submit;
+    push @$crumb_trail, $submit;
   }
   elsif ($submit eq 'Cut') {
     $deck = Tarot::cut_deck($deck, $cut);
-    push @crumbs, "$submit $cut";
+    push @$crumb_trail, "$submit $cut";
   }
   elsif ($submit eq 'Spread') {
     $spread = Tarot::spread($deck, $type);
-    push @crumbs, "$submit $type";
+    push @$crumb_trail, "$submit $type";
     $c->cookie(choices => '');
     $choices = [];
   }
   elsif ($submit eq 'Clear') {
+    $c->cookie(crumbs => '');
+    $crumb_trail = [];
     $c->cookie(choices => '');
     $choices = [];
   }
   elsif ($submit eq 'Reset') {
     $deck = Tarot::build_deck();
-    push @crumbs, $submit;
+    push @$crumb_trail, $submit;
   }
   else {
-    push @crumbs, "Choose $choice";
+    push @$crumb_trail, "Choose $choice";
   }
 
+  $c->cookie(crumbs => join '|', @$crumb_trail);
   $c->cookie(deck => join '|', @$deck);
 
   $choices = [ map { [ Tarot::choose($deck, $_) ] } @$choices ];
@@ -62,7 +66,7 @@ get '/' => sub ($c) {
     view     => $view,
     spread   => $spread,
     choices  => $choices,
-    crumbs   => \@crumbs,
+    crumbs   => $crumb_trail,
   );
 } => 'index';
 
