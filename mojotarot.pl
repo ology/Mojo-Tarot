@@ -93,9 +93,9 @@ __DATA__
   <input type="hidden" name="mysubmit" value="Spread" />
   <select name="type" title="Generate a spread" onchange="this.form.submit()" class="btn btn-mini">
     <option value="0" selected disabled>Spread...</option>
-    <option value="3">Three Card Spread</option>
-    <option value="7">Seven Card Spread</option>
-    <option value="10">Ten Card Spread</option>
+% for my $n (1 .. 10) {
+    <option value="<%= $n %>"><%= $n %></option>
+% }
   </select>
 </form>
 <form method="get" style="display: inline-block;">
