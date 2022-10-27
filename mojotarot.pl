@@ -131,9 +131,10 @@ __DATA__
 
 <p></p>
 
+% if (@$crumbs) {
 <%= join ' > ', @$crumbs %>
-
 <hr>
+% }
 
 % if (@$choices) {
 <div>
