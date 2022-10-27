@@ -37,6 +37,8 @@ get '/' => sub ($c) {
   elsif ($submit eq 'Spread') {
     $spread = Tarot::spread($deck, $type);
     push @crumbs, "$submit $type";
+    $c->cookie(choices => '');
+    $choices = [];
   }
   elsif ($submit eq 'Clear') {
     $c->cookie(choices => '');
