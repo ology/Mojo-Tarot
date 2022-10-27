@@ -89,7 +89,6 @@ __DATA__
 % }
   </select>
 </form>
-<!--
 <form method="get" style="display: inline-block;">
   <input type="hidden" name="mysubmit" value="Spread" />
   <select name="type" title="Generate a spread" onchange="this.form.submit()" class="btn btn-mini">
@@ -99,7 +98,6 @@ __DATA__
     <option value="10">Ten Card Spread</option>
   </select>
 </form>
--->
 <form method="get" style="display: inline-block;">
   <input type="hidden" name="mysubmit" value="Choose" />
   <select name="choice" title="Choose a card" class="btn btn-mini" onchange="this.form.submit()">
