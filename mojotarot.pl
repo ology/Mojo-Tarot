@@ -49,7 +49,8 @@ get '/' => sub ($c) {
   }
   elsif ($submit eq 'Reset') {
     $deck = Tarot::build_deck();
-    push @$crumb_trail, $submit;
+    $c->cookie(crumbs => '');
+    $crumb_trail = [];
   }
   else {
     push @$crumb_trail, "Choose $choice";
