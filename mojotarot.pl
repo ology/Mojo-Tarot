@@ -150,6 +150,7 @@ __DATA__
 </div>
 % }
 % elsif ($view) {
+<hr>
 <div>
   <table cellpadding="2" border="0">
 %   my $cells = 6;
