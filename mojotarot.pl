@@ -89,10 +89,10 @@ __DATA__
 
 <div>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="mysubmit" title="Unsort the deck" value="Reset" class="btn btn-primary" />
+  <input type="submit" name="mysubmit" title="View the deck" value="View" class="btn btn-success" />
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="mysubmit" title="View the deck" value="View" class="btn btn-success" />
+  <input type="submit" name="mysubmit" title="Unsort the deck" value="Reset" class="btn btn-primary" />
 </form>
 <form method="get" style="display: inline-block;">
   <input type="submit" name="mysubmit" title="Shuffle the deck" value="Shuffle" class="btn btn-warning" />
