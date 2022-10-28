@@ -155,7 +155,7 @@ __DATA__
 <hr>
 <div>
   <table cellpadding="2" border="0">
-%   my $cells = 6;
+%   my $cells = 3;
 %   for my $n (0 .. $#$deck) {
 %     my $row = 0;
 %     if ($n == 0 || $n % $cells == 0) {
