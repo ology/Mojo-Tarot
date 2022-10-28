@@ -100,7 +100,7 @@ __DATA__
 <form method="get" style="display: inline-block;">
   <input type="hidden" name="mysubmit" value="Cut" />
   <select name="cut" title="Cut the deck" class="btn btn-mini" onchange="this.form.submit()">
-    <option value="0" selected disabled>Cut...</option>
+    <option value="0" selected disabled>Cut</option>
 % for my $n (1 .. $#$deck) {
     <option value="<%= $n %>"><%= $n %></option>
 % }
@@ -109,7 +109,7 @@ __DATA__
 <form method="get" style="display: inline-block;">
   <input type="hidden" name="mysubmit" value="Spread" />
   <select name="type" title="Generate a spread" onchange="this.form.submit()" class="btn btn-mini">
-    <option value="0" selected disabled>Spread...</option>
+    <option value="0" selected disabled>Spread</option>
 % for my $n (1 .. 10) {
     <option value="<%= $n %>"><%= $n %></option>
 % }
@@ -118,7 +118,7 @@ __DATA__
 <form method="get" style="display: inline-block;">
   <input type="hidden" name="mysubmit" value="Choose" />
   <select name="choice" title="Choose a card" class="btn btn-mini" onchange="this.form.submit()">
-    <option value="0" selected disabled>From deck...</option>
+    <option value="0" selected disabled>From deck</option>
 % for my $n (1 .. @$deck) {
     <option value="<%= $n %>"><%= $n %></option>
 % }
