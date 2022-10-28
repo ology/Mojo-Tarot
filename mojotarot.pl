@@ -8,7 +8,7 @@ use Tarot;
 get '/' => sub ($c) {
   my $type   = $c->param('type');
   my $cut    = $c->param('cut');
-  my $submit = $c->param('mysubmit') || '';
+  my $submit = $c->param('action') || '';
   my $choice = $c->param('choice');
 
   my $choices = $c->cookie('choices') || '';
@@ -89,16 +89,16 @@ __DATA__
 
 <div>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="mysubmit" title="View the deck" value="View" class="btn btn-success" />
+  <input type="submit" name="action" title="View the deck" value="View" class="btn btn-success" />
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="mysubmit" title="Unsort the deck" value="Reset" class="btn btn-primary" />
+  <input type="submit" name="action" title="Unsort the deck" value="Reset" class="btn btn-primary" />
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="mysubmit" title="Shuffle the deck" value="Shuffle" class="btn btn-warning" />
+  <input type="submit" name="action" title="Shuffle the deck" value="Shuffle" class="btn btn-warning" />
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="hidden" name="mysubmit" value="Cut" />
+  <input type="hidden" name="action" value="Cut" />
   <select name="cut" title="Cut the deck" class="btn btn-mini" onchange="this.form.submit()">
     <option value="0" selected disabled>Cut</option>
 % for my $n (1 .. $#$deck) {
@@ -107,7 +107,7 @@ __DATA__
   </select>
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="hidden" name="mysubmit" value="Spread" />
+  <input type="hidden" name="action" value="Spread" />
   <select name="type" title="Generate a spread" onchange="this.form.submit()" class="btn btn-mini">
     <option value="0" selected disabled>Spread</option>
 % for my $n (1 .. 10) {
@@ -116,7 +116,7 @@ __DATA__
   </select>
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="hidden" name="mysubmit" value="Choose" />
+  <input type="hidden" name="action" value="Choose" />
   <select name="choice" title="Choose a card" class="btn btn-mini" onchange="this.form.submit()">
     <option value="0" selected disabled>From deck</option>
 % for my $n (1 .. @$deck) {
@@ -125,7 +125,7 @@ __DATA__
   </select>
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="mysubmit" title="Clear the choices" value="Clear" class="btn btn-outline-dark" />
+  <input type="submit" name="action" title="Clear the choices" value="Clear" class="btn btn-outline-dark" />
 </form>
 </div>
 
