@@ -143,6 +143,7 @@ __DATA__
 </div>
 % }
 % elsif ($spread) {
+<hr>
 <div>
 %   for my $card (@$spread) {
   <img src="<%= $card->[2] %>" alt="<%= $card->[0] %>" title="<%= $card->[0] %>" height="200" width="100" />
