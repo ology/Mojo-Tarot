@@ -118,7 +118,7 @@ __DATA__
 <form method="get" style="display: inline-block;">
   <input type="hidden" name="mysubmit" value="Choose" />
   <select name="choice" title="Choose a card" class="btn btn-mini" onchange="this.form.submit()">
-    <option value="0" selected disabled>Choose...</option>
+    <option value="0" selected disabled>From deck...</option>
 % for my $n (1 .. @$deck) {
     <option value="<%= $n %>"><%= $n %></option>
 % }
