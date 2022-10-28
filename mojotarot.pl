@@ -85,7 +85,7 @@ __DATA__
 
 @@ index.html.ep
 % layout 'default';
-% title 'Tarot!';
+% title 'Tarot Viewer';
 
 <div>
 <form method="get" style="display: inline-block;">
@@ -186,6 +186,7 @@ __DATA__
   </head>
   <body>
     <div class="container" style="padding-top: 10px;">
+      <h1><%= title %></h1>
       <%= content %>
       <p></p>
       <div id="footer" class="text-secondary">
