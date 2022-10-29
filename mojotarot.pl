@@ -23,6 +23,8 @@ get '/' => sub ($c) {
   my $deck = $c->cookie('deck') || '';
   $deck = [ split /\|/, $deck ];
 
+  my $full_deck = Tarot::build_deck();
+
   my $crumb_trail = $c->cookie('crumbs') || '';
   $crumb_trail = [ split /\|/, $crumb_trail ];
 
@@ -66,9 +68,9 @@ get '/' => sub ($c) {
 
   my $choice_cards = [ map { [ Tarot::choose($deck, $_) ] } @$choices ];
 
-  unless (@$orientations) {
-    $orientations = [ map { int rand 2 } @$deck ];
-  }
+#  unless ($submit eq 'Reset' && @$orientations) {
+#    $orientations = [ map { int rand 2 } @$deck ];
+#  }
   $c->cookie(orient => join '|', @$orientations);
 
   $c->render(
