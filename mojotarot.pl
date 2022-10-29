@@ -36,7 +36,7 @@ get '/' => sub ($c) {
     push @$crumb_trail, $submit;
   }
   elsif ($submit eq 'Cut') {
-    $deck = Tarot::cut_deck($deck, $cut);
+    ($orientations, $deck) = Tarot::cut_deck($orientations, $deck, $cut);
     push @$crumb_trail, "$submit $cut";
   }
   elsif ($submit eq 'Spread') {

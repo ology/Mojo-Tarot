@@ -55,15 +55,19 @@ sub shuffle_deck {
 }
 
 sub cut_deck {
-  my ($deck, $n) = @_;
+  my ($orientations, $deck, $n) = @_;
   $n ||= int @$deck / 2;
   croak "N must be between 1 and ", scalar(@$deck), "\n"
     if $n > @$deck || $n < 1;
+  $orientations = [
+    @$orientations[ $n .. $#$orientations ],
+    @$orientations[ 0 .. $n - 1 ],
+  ];
   $deck = [
     @$deck[ $n .. $#$deck ],
     @$deck[ 0 .. $n - 1 ],
   ];
-  return $deck;
+  return $orientations, $deck;
 }
 
 sub choose {
