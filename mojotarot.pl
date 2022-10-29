@@ -53,7 +53,7 @@ get '/' => sub ($c) {
     $crumb_trail = ['Reset'];
   }
   else {
-    push @$crumb_trail, "Choose $choice";
+    push @$crumb_trail, "Choose $choice" if $choice;
   }
 
   $c->cookie(crumbs => join '|', @$crumb_trail);
