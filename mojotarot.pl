@@ -71,7 +71,7 @@ get '/' => sub ($c) {
 #  unless ($submit eq 'Reset' && @$orientations) {
 #    $orientations = [ map { int rand 2 } @$deck ];
 #  }
-  $c->cookie(orient => join '|', @$orientations);
+#  $c->cookie(orient => join '|', @$orientations);
 
   $c->render(
     template => 'index',
