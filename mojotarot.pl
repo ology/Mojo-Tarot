@@ -50,7 +50,7 @@ get '/' => sub ($c) {
   elsif ($submit eq 'Reset') {
     $deck = Tarot::build_deck();
     $c->cookie(crumbs => '');
-    $crumb_trail = [];
+    $crumb_trail = ['Reset'];
   }
   else {
     push @$crumb_trail, "Choose $choice";
