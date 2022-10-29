@@ -25,7 +25,8 @@ ok $d->[0] ne $expect->[0]
   && $d->[9] ne $expect->[9], 'looks shuffled';
 
 $expect = $d->[0];
-$d = Tarot::cut_deck($d, 1);
+my $orientations = [];
+($orientations, $d) = Tarot::cut_deck($orientations, $d, 1);
 is $d->[-1], $expect, 'cut deck';
 
 my $got = Tarot::spread($d, 3);
@@ -33,7 +34,7 @@ is @$got, 3, 'spread size';
 
 $expect = [@$d[0 .. 2]];
 $got = [Tarot::choose($d, 1)];
-is @$got, 3, 'choose size';
+is @$got, 2, 'choose size';
 is $got->[0], $expect->[0], 'choose';
 $got = [Tarot::choose($d, 1)];
 is $got->[0], $expect->[1], 'choose';
