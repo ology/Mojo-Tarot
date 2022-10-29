@@ -10,11 +10,15 @@ get '/' => sub ($c) {
   my $cut    = $c->param('cut');
   my $submit = $c->param('action') || '';
   my $choice = $c->param('choice');
+  my $orient = $c->param('orientation') || 0;
 
   my $choices = $c->cookie('choices') || '';
   $choices = [ split /\|/, $choices ];
   push @$choices, $choice if $choice;
   $c->cookie(choices => join '|', @$choices);
+
+  my $orientations = $c->cookie('orient') || '';
+  $orientations = [ split /\|/, $orientations ];
 
   my $deck = $c->cookie('deck') || '';
   $deck = [ split /\|/, $deck ];
@@ -49,6 +53,7 @@ get '/' => sub ($c) {
   }
   elsif ($submit eq 'Reset') {
     $deck = Tarot::build_deck();
+    $c->cookie(orient => '');
     $c->cookie(crumbs => '');
     $crumb_trail = ['Reset'];
   }
@@ -61,9 +66,15 @@ get '/' => sub ($c) {
 
   $choices = [ map { [ Tarot::choose($deck, $_) ] } @$choices ];
 
+  unless (@$orientations) {
+    $orientations = [ map { int rand 2 } @$deck ];
+  }
+  $c->cookie(orient => join '|', @$orientations);
+
   $c->render(
     template => 'index',
     deck     => $deck,
+    orient   => $orientations,
     view     => $view,
     spread   => $spread,
     choices  => $choices,
@@ -162,7 +173,8 @@ __DATA__
     <tr>
 %     }
       <td>
-        <img src="/images/<%= $deck->[$n] %>.jpeg" alt="<%= $deck->[$n] %>" title="<%= $deck->[$n] %>" height="200" width="100" />
+%       my $style = $orient->[$n] ? 'transform: scaleY(-1);' : '';
+        <img src="/images/<%= $deck->[$n] %>.jpeg" alt="<%= $deck->[$n] %>" title="<%= $deck->[$n] %>" height="200" width="100" style="<%= $style %>"/>
       </td>
 %     if ($row == $cells - 1) {
 %     $row = 0;
