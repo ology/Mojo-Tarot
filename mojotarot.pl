@@ -10,7 +10,6 @@ get '/' => sub ($c) {
   my $cut    = $c->param('cut');
   my $submit = $c->param('action') || '';
   my $choice = $c->param('choice');
-  my $orient = $c->param('orientation') || 0;
 
   my $choices = $c->cookie('choices') || '';
   $choices = [ split /\|/, $choices ];
