@@ -77,9 +77,8 @@ sub choose {
   my $card = $deck->[$n];
   # Remove the card from the deck
   splice @$deck, $n, 1;
-  my $orientation = int rand 2;
   my $filename = card_file($card);
-  return $card, $orientation, $filename;
+  return $card, $filename;
 }
 
 sub spread {

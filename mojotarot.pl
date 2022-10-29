@@ -139,7 +139,7 @@ __DATA__
 <hr>
 <div>
 %   for my $card (@$choices) {
-  <img src="<%= $card->[2] %>" alt="<%= $card->[0] %>" title="<%= $card->[0] %>" height="200" width="100" />
+  <img src="<%= $card->[1] %>" alt="<%= $card->[0] %>" title="<%= $card->[0] %>" height="200" width="100" />
 %   }
 </div>
 % }
@@ -147,7 +147,7 @@ __DATA__
 <hr>
 <div>
 %   for my $card (@$spread) {
-  <img src="<%= $card->[2] %>" alt="<%= $card->[0] %>" title="<%= $card->[0] %>" height="200" width="100" />
+  <img src="<%= $card->[1] %>" alt="<%= $card->[0] %>" title="<%= $card->[0] %>" height="200" width="100" />
 %   }
 </div>
 % }
