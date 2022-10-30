@@ -73,14 +73,14 @@ get '/' => sub ($c) {
 
   $c->cookie(crumbs => join '|', @$crumb_trail);
 
-  my $choice_cards = [ map { [ Tarot::choose($deck, $_) ] } @$choices ];
+  my @choice_cards = map { [ Tarot::choose($deck, $_) ] } @$choices;
 
   $c->render(
     template => 'index',
     deck     => $deck,
     view     => $view,
     spread   => $spread,
-    choices  => $choice_cards,
+    choices  => \@choice_cards,
     crumbs   => $crumb_trail,
   );
 } => 'index';
