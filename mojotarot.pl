@@ -36,7 +36,7 @@ get '/' => sub ($c) {
     $view = 1;
   }
   elsif ($submit eq 'Shuffle') {
-    $deck = Tarot::shuffle_deck($deck);
+    ($deck) = Tarot::shuffle_deck($deck);
     push @$crumb_trail, $submit;
     _store_deck($c, $deck);
   }
@@ -46,7 +46,7 @@ get '/' => sub ($c) {
     _store_deck($c, $deck);
   }
   elsif ($submit eq 'Spread') {
-    $spread = Tarot::spread($deck, $type);
+    ($spread) = Tarot::spread($deck, $type);
     push @$crumb_trail, "$submit $type";
     _store_deck($c, $deck);
     $c->cookie(choices => '');
@@ -60,7 +60,7 @@ get '/' => sub ($c) {
     $choices = [];
   }
   elsif ($submit eq 'Reset') {
-    $deck = Tarot::build_deck();
+    ($deck) = Tarot::build_deck();
     _store_deck($c, $deck);
     $c->cookie(crumbs => '');
     $crumb_trail = ['Reset'];
@@ -98,7 +98,7 @@ app->start;
 
 sub _store_deck {
   my ($c, $deck) = @_;
-  $deck ||= Tarot::build_deck();
+  ($deck) ||= Tarot::build_deck();
   # TODO Purge old session decks
   my $stamp = time();
   store($deck, './deck-' . $stamp . '.dat');
