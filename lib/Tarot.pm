@@ -1,5 +1,8 @@
 package Tarot;
 
+use strict;
+use warnings;
+
 use Data::Dumper::Compact qw(ddc);
 use Carp qw(croak);
 use List::Util qw(shuffle);
@@ -36,7 +39,7 @@ use constant MINOR_ARCANA_SUITS => (
 );
 
 sub build_deck {
-  my @deck = (
+  my @cards = (
     MAJOR_ARCANA,
     (
       map {
@@ -45,44 +48,67 @@ sub build_deck {
       } MINOR_ARCANA_SUITS
     ),
   );
-  return \@deck;
+  my %deck;
+  my $n = 0;
+  for my $card (@cards) {
+    $n++;
+    $deck{$card} = { p => $n, o => 0, chosen => 0 }; # position, orientation
+  }
+  return \%deck;
 }
 
 sub shuffle_deck {
-  my $deck = shift;
-  $deck = [ shuffle(@$deck) ];
-  return $deck;
+  my ($deck, $orient) = @_;
+  my @shuffled = shuffle(keys %$deck);
+  my $shuffled_deck;
+  my $i = 0;
+  for my $card (@shuffled) {
+    $i++;
+    my $orientation = $orient ? int rand 2 : $deck->{$card}{o};
+    $shuffled_deck->{$card} = { p => $i, o => $orientation };
+  }
+  return $shuffled_deck;
 }
 
 sub cut_deck {
-  my ($orientations, $deck, $n) = @_;
-  $n ||= int @$deck / 2;
-  croak "N must be between 1 and ", scalar(@$deck), "\n"
-    if $n > @$deck || $n < 1;
-  $orientations = [
-    @$orientations[ $n .. $#$orientations ],
-    @$orientations[ 0 .. $n - 1 ],
-  ];
-  $deck = [
-    @$deck[ $n .. $#$deck ],
-    @$deck[ 0 .. $n - 1 ],
-  ];
-  return $orientations, $deck;
+  my ($deck, $n) = @_;
+  my @cards = keys %$deck;
+  $n ||= int(@cards) / 2; # default half of deck
+  croak "N must be between 1 and ", scalar(@cards), "\n"
+    if $n < 1 || $n > @cards;
+  my @ordered = sort { $deck->{$a}{p} <=> $deck->{$b}{p} } @cards;
+  my @cut = (
+    @ordered[ $n .. $#ordered ],
+    @ordered[  0 .. $n - 1 ],
+  );
+  my $cut_deck;
+  my $i = 0;
+  for my $card (@cut) {
+    $i++;
+    $cut_deck->{$card} = { p => $i, o => $deck->{$card}{o} };
+  }
+  return $cut_deck;
 }
 
 sub choose {
   my ($deck, $n) = @_;
-  if ($n) {
-    $n -= 1;
+  $n ||= int rand keys %$deck;
+  my $chosen;
+  for my $card (keys %$deck) {
+    if ($deck->{$card}{p} == $n) {
+      $chosen = $card;
+      last;
+    }
   }
-  else {
-    $n = int rand @$deck;
-  }
-  my $card = $deck->[$n];
-  # Remove the card from the deck
-  splice @$deck, $n, 1;
-  my $filename = card_file($card);
-  return $card, $filename;
+  croak 'No card chosen' unless $chosen;
+  my $filename = card_file($chosen);
+  $deck->{$chosen}{chosen} = 1;
+  return {
+    name => $chosen,
+    p    => $deck->{$chosen}{p},
+    o    => $deck->{$chosen}{o},
+    file => $filename,
+  };
 }
 
 sub spread {
@@ -90,7 +116,7 @@ sub spread {
   $n ||= 3;
   my @spread;
   for my $draw (1 .. $n) {
-    push @spread, [ choose($deck) ];
+    push @spread, choose($deck);
   }
   return \@spread;
 }
