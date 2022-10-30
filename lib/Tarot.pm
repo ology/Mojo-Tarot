@@ -52,7 +52,13 @@ sub build_deck {
   my $n = 0;
   for my $card (@cards) {
     $n++;
-    $deck{$card} = { p => $n, o => 0, chosen => 0 }; # position, orientation
+    $deck{$card} = {
+      name   => $card,
+      p      => $n, # position
+      o      => 0,  # orientation
+      chosen => 0,
+      file   => card_file($card),
+    };
   }
   return \%deck;
 }
