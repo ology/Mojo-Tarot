@@ -1,9 +1,11 @@
 #!/usr/bin/env perl
 use Mojolicious::Lite -signatures;
+
 use Data::Dumper::Compact qw(ddc);
+use Storable qw(retrieve store);
 
 use lib 'lib';
-use Tarot;
+use Tarot ();
 
 get '/' => sub ($c) {
   my $type   = $c->param('type');
@@ -11,13 +13,19 @@ get '/' => sub ($c) {
   my $submit = $c->param('action') || '';
   my $choice = $c->param('choice');
 
+  my $deck;
+  my $session = $c->session('session');
+  if ($session) {
+    $deck = retrieve './deck-' . $session . '.dat';
+  }
+  else {
+    _store_deck($c);
+  }
+
   my $choices = $c->cookie('choices') || '';
   $choices = [ split /\|/, $choices ];
   push @$choices, $choice if $choice;
   $c->cookie(choices => join '|', @$choices);
-
-  my $deck = $c->cookie('deck') || '';
-  $deck = [ split /\|/, $deck ];
 
   my $crumb_trail = $c->cookie('crumbs') || '';
   $crumb_trail = [ split /\|/, $crumb_trail ];
@@ -30,34 +38,40 @@ get '/' => sub ($c) {
   elsif ($submit eq 'Shuffle') {
     $deck = Tarot::shuffle_deck($deck);
     push @$crumb_trail, $submit;
+    _store_deck($c, $deck);
   }
   elsif ($submit eq 'Cut') {
     ($deck) = Tarot::cut_deck($deck, $cut);
     push @$crumb_trail, "$submit $cut";
+    _store_deck($c, $deck);
   }
   elsif ($submit eq 'Spread') {
     $spread = Tarot::spread($deck, $type);
     push @$crumb_trail, "$submit $type";
+    _store_deck($c, $deck);
     $c->cookie(choices => '');
     $choices = [];
   }
   elsif ($submit eq 'Clear') {
     $c->cookie(crumbs => '');
     $crumb_trail = [];
+    # TODO reset deck chosen=0
     $c->cookie(choices => '');
     $choices = [];
   }
   elsif ($submit eq 'Reset') {
     $deck = Tarot::build_deck();
+    _store_deck($c, $deck);
     $c->cookie(crumbs => '');
     $crumb_trail = ['Reset'];
+    $c->cookie(choices => '');
+    $choices = [];
   }
   else {
     push @$crumb_trail, "Choose $choice" if $choice;
   }
 
   $c->cookie(crumbs => join '|', @$crumb_trail);
-  $c->cookie(deck => join '|', @$deck);
 
   my $choice_cards = [ map { [ Tarot::choose($deck, $_) ] } @$choices ];
 
@@ -81,6 +95,16 @@ helper card_file => sub ($c, $card) {
 };
 
 app->start;
+
+sub _store_deck {
+  my ($c, $deck) = @_;
+  $deck ||= Tarot::build_deck();
+  # TODO Purge old session decks
+  my $stamp = time();
+  store($deck, './deck-' . $stamp . '.dat');
+  $c->session(session => $stamp);
+}
+
 __DATA__
 
 @@ index.html.ep
@@ -101,7 +125,7 @@ __DATA__
   <input type="hidden" name="action" value="Cut" />
   <select name="cut" title="Cut the deck" class="btn btn-mini" onchange="this.form.submit()">
     <option value="0" selected disabled>Cut</option>
-% for my $n (1 .. $#$deck) {
+% for my $n (1 .. 11) { # TODO
     <option value="<%= $n %>"><%= $n %></option>
 % }
   </select>
@@ -119,7 +143,7 @@ __DATA__
   <input type="hidden" name="action" value="Choose" />
   <select name="choice" title="Choose a card" class="btn btn-mini" onchange="this.form.submit()">
     <option value="0" selected disabled>From deck</option>
-% for my $n (1 .. @$deck) {
+% for my $n (1 .. 11) { # TODO
     <option value="<%= $n %>"><%= $n %></option>
 % }
   </select>
@@ -156,14 +180,14 @@ __DATA__
 <div>
   <table cellpadding="2" border="0">
 %   my $cells = 3;
-%   for my $n (0 .. $#$deck) {
+%   for my $n (0 .. 11) { # TODO
 %     my $row = 0;
 %     if ($n == 0 || $n % $cells == 0) {
     <tr>
 %     }
       <td>
 %       #my $style = $orient->[$n] ? 'transform: scaleY(-1);' : '';
-        <img src="/images/<%= $deck->[$n] %>.jpeg" alt="<%= $deck->[$n] %>" title="<%= $deck->[$n] %>" height="200" width="100" style="<%= $style %>"/>
+        <img src="/images/<%= $deck->{$n} %>.jpeg" alt="<%= $deck->{$n} %>" title="<%= $deck->{$n} %>" height="200" width="100"/>
       </td>
 %     if ($row == $cells - 1) {
 %     $row = 0;
