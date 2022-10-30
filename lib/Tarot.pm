@@ -102,15 +102,15 @@ sub choose {
   $n ||= int rand keys %$deck;
   my %not_chosen = %$deck;
   my $i = 0;
-  for my $card (keys %$deck) {
-    next if $deck->{$card}{chosen};
+  for my $card (sort { $not_chosen{$a}{p} <=> $not_chosen{$b}{p} } keys %not_chosen) {
+    next if $not_chosen{$card}{chosen};
     $i++;
     $not_chosen{$card} = $deck->{$card};
     $not_chosen{$card}{p} = $i;
   }
   my $chosen;
   for my $card (keys %not_chosen) {
-    if ($deck->{$card}{p} == $n) {
+    if ($not_chosen{$card}{p} == $n) {
       $chosen = $card;
       last;
     }
