@@ -16,16 +16,11 @@ get '/' => sub ($c) {
   push @$choices, $choice if $choice;
   $c->cookie(choices => join '|', @$choices);
 
-  my $orientations = $c->cookie('orient') || '';
-  $orientations = [ split /\|/, $orientations ];
-
   my $deck = $c->cookie('deck') || '';
   $deck = [ split /\|/, $deck ];
 
   my $crumb_trail = $c->cookie('crumbs') || '';
   $crumb_trail = [ split /\|/, $crumb_trail ];
-
-  my $full_deck = Tarot::build_deck();
 
   my ($view, $spread) = (0, 0);
 
@@ -37,7 +32,7 @@ get '/' => sub ($c) {
     push @$crumb_trail, $submit;
   }
   elsif ($submit eq 'Cut') {
-    ($orientations, $deck) = Tarot::cut_deck($orientations, $deck, $cut);
+    ($deck) = Tarot::cut_deck($deck, $cut);
     push @$crumb_trail, "$submit $cut";
   }
   elsif ($submit eq 'Spread') {
@@ -54,7 +49,6 @@ get '/' => sub ($c) {
   }
   elsif ($submit eq 'Reset') {
     $deck = Tarot::build_deck();
-    $c->cookie(orient => '');
     $c->cookie(crumbs => '');
     $crumb_trail = ['Reset'];
   }
@@ -67,15 +61,9 @@ get '/' => sub ($c) {
 
   my $choice_cards = [ map { [ Tarot::choose($deck, $_) ] } @$choices ];
 
-#  unless ($submit eq 'Reset' && @$orientations) {
-#    $orientations = [ map { int rand 2 } @$deck ];
-#  }
-#  $c->cookie(orient => join '|', @$orientations);
-
   $c->render(
     template => 'index',
     deck     => $deck,
-    orient   => $orientations,
     view     => $view,
     spread   => $spread,
     choices  => $choice_cards,
@@ -174,7 +162,7 @@ __DATA__
     <tr>
 %     }
       <td>
-%       my $style = $orient->[$n] ? 'transform: scaleY(-1);' : '';
+%       #my $style = $orient->[$n] ? 'transform: scaleY(-1);' : '';
         <img src="/images/<%= $deck->[$n] %>.jpeg" alt="<%= $deck->[$n] %>" title="<%= $deck->[$n] %>" height="200" width="100" style="<%= $style %>"/>
       </td>
 %     if ($row == $cells - 1) {
