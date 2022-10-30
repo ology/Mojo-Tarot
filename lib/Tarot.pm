@@ -100,8 +100,16 @@ sub cut_deck {
 sub choose {
   my ($deck, $n) = @_;
   $n ||= int rand keys %$deck;
-  my $chosen;
+  my %not_chosen = %$deck;
+  my $i = 0;
   for my $card (keys %$deck) {
+    next if $deck->{$card}{chosen};
+    $i++;
+    $not_chosen{$card} = $deck->{$card};
+    $not_chosen{$card}{p} = $i;
+  }
+  my $chosen;
+  for my $card (keys %not_chosen) {
     if ($deck->{$card}{p} == $n) {
       $chosen = $card;
       last;
