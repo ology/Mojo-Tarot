@@ -22,11 +22,6 @@ get '/' => sub ($c) {
     _store_deck($c);
   }
 
-  my $choices = $c->cookie('choices') || '';
-  $choices = [ split /\|/, $choices ];
-  push @$choices, $choice if $choice;
-  $c->cookie(choices => join '|', @$choices);
-
   my $crumb_trail = $c->cookie('crumbs') || '';
   $crumb_trail = [ split /\|/, $crumb_trail ];
 
@@ -49,38 +44,42 @@ get '/' => sub ($c) {
     ($spread) = Tarot::spread($deck, $type);
     push @$crumb_trail, "$submit $type";
     _store_deck($c, $deck);
-    $c->cookie(choices => '');
-    $choices = [];
   }
   elsif ($submit eq 'Clear') {
     $c->cookie(crumbs => '');
     $crumb_trail = [];
-    # TODO reset deck chosen=0
-    $c->cookie(choices => '');
-    $choices = [];
   }
   elsif ($submit eq 'Reset') {
     ($deck) = Tarot::build_deck();
     _store_deck($c, $deck);
     $c->cookie(crumbs => '');
     $crumb_trail = ['Reset'];
-    $c->cookie(choices => '');
-    $choices = [];
   }
-  else {
-    push @$crumb_trail, "Choose $choice" if $choice;
+  elsif ($submit eq 'Choose') {
+    Tarot::choose($deck, $choice);
+    push @$crumb_trail, "Choose $choice";
   }
 
   $c->cookie(crumbs => join '|', @$crumb_trail);
 
-  my @choice_cards = map { [ Tarot::choose($deck, $_) ] } @$choices;
+  my @choices;
+  my $remaining_in_deck;
+  for my $card (keys %$deck) {
+    if ($deck->{$card}{chosen}) {
+      push @choices, $deck->{$card};
+    }
+    else {
+      $remaining_in_deck++;
+    }
+  }
 
   $c->render(
     template => 'index',
     deck     => $deck,
+    remain   => $remaining_in_deck,
     view     => $view,
     spread   => $spread,
-    choices  => \@choice_cards,
+    choices  => \@choices,
     crumbs   => $crumb_trail,
   );
 } => 'index';
@@ -125,7 +124,7 @@ __DATA__
   <input type="hidden" name="action" value="Cut" />
   <select name="cut" title="Cut the deck" class="btn btn-mini" onchange="this.form.submit()">
     <option value="0" selected disabled>Cut</option>
-% for my $n (1 .. 11) { # TODO
+% for my $n (1 .. $remain) {
     <option value="<%= $n %>"><%= $n %></option>
 % }
   </select>
@@ -143,7 +142,7 @@ __DATA__
   <input type="hidden" name="action" value="Choose" />
   <select name="choice" title="Choose a card" class="btn btn-mini" onchange="this.form.submit()">
     <option value="0" selected disabled>From deck</option>
-% for my $n (1 .. 11) { # TODO
+% for my $n (1 .. $remain) {
     <option value="<%= $n %>"><%= $n %></option>
 % }
   </select>
@@ -163,7 +162,7 @@ __DATA__
 <hr>
 <div>
 %   for my $card (@$choices) {
-  <img src="<%= $card->[1] %>" alt="<%= $card->[0] %>" title="<%= $card->[0] %>" height="200" width="100" />
+  <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= $card->{name} %>" height="200" width="100" />
 %   }
 </div>
 % }
@@ -171,7 +170,7 @@ __DATA__
 <hr>
 <div>
 %   for my $card (@$spread) {
-  <img src="<%= $card->[1] %>" alt="<%= $card->[0] %>" title="<%= $card->[0] %>" height="200" width="100" />
+  <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= $card->{name} %>" height="200" width="100" />
 %   }
 </div>
 % }
@@ -179,15 +178,16 @@ __DATA__
 <hr>
 <div>
   <table cellpadding="2" border="0">
+%   my $n = 0;
 %   my $cells = 3;
-%   for my $n (0 .. 11) { # TODO
-%     my $row = 0;
+%   for my $name (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
+%   my $row = 0;
 %     if ($n == 0 || $n % $cells == 0) {
     <tr>
 %     }
       <td>
 %       #my $style = $orient->[$n] ? 'transform: scaleY(-1);' : '';
-        <img src="/images/<%= $deck->{$n} %>.jpeg" alt="<%= $deck->{$n} %>" title="<%= $deck->{$n} %>" height="200" width="100"/>
+        <img src="<%= $deck->{$name}{file} %>" alt="<%= $name %>" title="<%= $name %>" height="200" width="100"/>
       </td>
 %     if ($row == $cells - 1) {
 %     $row = 0;
@@ -195,6 +195,7 @@ __DATA__
 %     } else {
 %       $row++;
 %     }
+%     $n++;
 %   }
   </table>
 </div>
