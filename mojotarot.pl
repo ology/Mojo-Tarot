@@ -61,20 +61,15 @@ get '/' => sub ($c) {
   $c->cookie(crumbs => join '|', @$crumb_trail);
 
   my @choices;
-  my $remaining_in_deck;
   for my $card (keys %$deck) {
     if ($deck->{$card}{chosen}) {
       push @choices, $deck->{$card};
-    }
-    else {
-      $remaining_in_deck++;
     }
   }
 
   $c->render(
     template => 'index',
     deck     => $deck,
-    remain   => $remaining_in_deck,
     view     => $view,
     spread   => $spread,
     choices  => \@choices,
@@ -127,7 +122,7 @@ __DATA__
   <input type="hidden" name="action" value="Cut" />
   <select name="cut" title="Cut the deck" class="btn btn-mini" onchange="this.form.submit()">
     <option value="0" selected disabled>Cut</option>
-% for my $n (1 .. $remain) {
+% for my $n (1 .. keys %$deck) {
     <option value="<%= $n %>"><%= $n %></option>
 % }
   </select>
@@ -145,7 +140,7 @@ __DATA__
   <input type="hidden" name="action" value="Choose" />
   <select name="choice" title="Choose a card" class="btn btn-mini" onchange="this.form.submit()">
     <option value="0" selected disabled>From deck</option>
-% for my $n (1 .. $remain) {
+% for my $n (1 .. keys %$deck) {
     <option value="<%= $n %>"><%= $n %></option>
 % }
   </select>
