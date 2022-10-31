@@ -116,7 +116,6 @@ sub choose {
     }
   }
   croak 'No card chosen' unless $chosen;
-  my $filename = card_file($chosen);
   $deck->{$chosen}{chosen} = 1;
   return $deck->{$chosen};
 }
