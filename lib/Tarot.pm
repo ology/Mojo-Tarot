@@ -6,6 +6,7 @@ use warnings;
 use Data::Dumper::Compact qw(ddc);
 use Carp qw(croak);
 use List::Util qw(shuffle);
+use Clone qw(clone);
 
 use constant MAJOR_ARCANA => (
   'fool',
@@ -100,13 +101,10 @@ sub cut_deck {
 sub choose {
   my ($deck, $n) = @_;
   $n ||= int rand keys %$deck;
-  my %not_chosen = %$deck;
-  my $i = 0;
+  my %not_chosen = %{ clone($deck) };
   for my $card (sort { $not_chosen{$a}{p} <=> $not_chosen{$b}{p} } keys %not_chosen) {
     next if $not_chosen{$card}{chosen};
-    $i++;
     $not_chosen{$card} = $deck->{$card};
-    $not_chosen{$card}{p} = $i;
   }
   my $chosen;
   for my $card (keys %not_chosen) {
