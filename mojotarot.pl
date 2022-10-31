@@ -26,6 +26,9 @@ get '/' => sub ($c) {
     $session = _store_deck($c);
   }
 
+  my $choices = $c->cookie('choice') || '';
+  $choices = [ split /\|/, $choices ];
+
   my $crumb_trail = $c->cookie('crumbs') || '';
   $crumb_trail = [ split /\|/, $crumb_trail ];
 
@@ -48,24 +51,27 @@ get '/' => sub ($c) {
   }
   elsif ($submit eq 'Reset') {
     ($deck) = Tarot::build_deck();
+    $c->cookie(choice => '');
+    $choices = [];
     $c->cookie(crumbs => '');
     $crumb_trail = ['Reset'];
   }
   elsif ($submit eq 'Choose') {
     Tarot::choose($deck, $choice);
+    push @$choices, $choice;
     push @$crumb_trail, "Choose $choice";
   }
 
 #warn __PACKAGE__,' L',__LINE__,' ',ddc([map { $deck->{$_} } sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck]);
   _store_deck($c, $deck, $session);
 
+  $c->cookie(choice => join '|', @$choices);
   $c->cookie(crumbs => join '|', @$crumb_trail);
 
   my @choices;
-  for my $card (keys %$deck) {
-    if ($deck->{$card}{chosen}) {
-      push @choices, $deck->{$card};
-    }
+  for my $n (@$choices) {
+    my $card = ( grep { $deck->{$_}{p} == $n } keys %$deck )[0];
+    push @choices, $deck->{$card};
   }
 
   $c->render(
