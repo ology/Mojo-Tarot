@@ -7,6 +7,8 @@ use Storable qw(retrieve store);
 use lib 'lib';
 use Tarot ();
 
+# TODO Purge old session decks
+
 get '/' => sub ($c) {
   my $type   = $c->param('type');
   my $cut    = $c->param('cut');
@@ -15,11 +17,13 @@ get '/' => sub ($c) {
 
   my $deck;
   my $session = $c->session('session');
-  if ($session) {
-    $deck = retrieve './deck-' . $session . '.dat';
+  my $session_file = './deck-' . $session . '.dat';
+  if ($session && -e $session_file) {
+    $deck = retrieve $session_file;
   }
   else {
-    _store_deck($c);
+    $c->app->log->info('Making new session deck');
+    $session = _store_deck($c);
   }
 
   my $crumb_trail = $c->cookie('crumbs') || '';
@@ -33,25 +37,17 @@ get '/' => sub ($c) {
   elsif ($submit eq 'Shuffle') {
     ($deck) = Tarot::shuffle_deck($deck);
     push @$crumb_trail, $submit;
-    _store_deck($c, $deck);
   }
   elsif ($submit eq 'Cut') {
     ($deck) = Tarot::cut_deck($deck, $cut);
     push @$crumb_trail, "$submit $cut";
-    _store_deck($c, $deck);
   }
   elsif ($submit eq 'Spread') {
     ($spread) = Tarot::spread($deck, $type);
     push @$crumb_trail, "$submit $type";
-    _store_deck($c, $deck);
-  }
-  elsif ($submit eq 'Clear') {
-    $c->cookie(crumbs => '');
-    $crumb_trail = [];
   }
   elsif ($submit eq 'Reset') {
     ($deck) = Tarot::build_deck();
-    _store_deck($c, $deck);
     $c->cookie(crumbs => '');
     $crumb_trail = ['Reset'];
   }
@@ -59,6 +55,8 @@ get '/' => sub ($c) {
     Tarot::choose($deck, $choice);
     push @$crumb_trail, "Choose $choice";
   }
+
+  _store_deck($c, $deck, $session);
 
   $c->cookie(crumbs => join '|', @$crumb_trail);
 
@@ -93,15 +91,20 @@ helper card_file => sub ($c, $card) {
   return Tarot::card_file($card);
 };
 
+app->log->level('info');
+
 app->start;
 
 sub _store_deck {
-  my ($c, $deck) = @_;
-  ($deck) ||= Tarot::build_deck();
-  # TODO Purge old session decks
-  my $stamp = time();
-  store($deck, './deck-' . $stamp . '.dat');
-  $c->session(session => $stamp);
+  my ($c, $deck, $session) = @_;
+  unless ($session) {
+    ($deck) = Tarot::build_deck();
+    $session = time();
+    $c->session(session => $session);
+  }
+  my $file = './deck-' . $session . '.dat';
+  store($deck, $file);
+  return $c->session('session');
 }
 
 __DATA__
@@ -146,9 +149,6 @@ __DATA__
     <option value="<%= $n %>"><%= $n %></option>
 % }
   </select>
-</form>
-<form method="get" style="display: inline-block;">
-  <input type="submit" name="action" title="Clear the choices" value="Clear" class="btn btn-outline-dark" />
 </form>
 </div>
 
