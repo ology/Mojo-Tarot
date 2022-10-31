@@ -56,6 +56,7 @@ get '/' => sub ($c) {
     push @$crumb_trail, "Choose $choice";
   }
 
+#warn __PACKAGE__,' L',__LINE__,' ',ddc([map { $deck->{$_} } sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck]);
   _store_deck($c, $deck, $session);
 
   $c->cookie(crumbs => join '|', @$crumb_trail);
@@ -76,11 +77,6 @@ get '/' => sub ($c) {
     crumbs   => $crumb_trail,
   );
 } => 'index';
-
-get '/reset' => sub ($c) {
-  $c->cookie(deck => '');
-  $c->redirect_to('index');
-} => 'reset';
 
 helper card_file => sub ($c, $card) {
   return Tarot::card_file($card);
@@ -140,8 +136,10 @@ __DATA__
   <input type="hidden" name="action" value="Choose" />
   <select name="choice" title="Choose a card" class="btn btn-mini" onchange="this.form.submit()">
     <option value="0" selected disabled>From deck</option>
-% for my $n (1 .. keys %$deck) {
-    <option value="<%= $n %>"><%= $n %></option>
+% for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
+%   my $n = $deck->{$card}{p};
+%   my $disabled = $deck->{$card}{chosen} ? 'disabled' : '';
+    <option value="<%= $n %>" <%= $disabled %>><%= $n %></option>
 % }
   </select>
 </form>
