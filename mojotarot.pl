@@ -45,6 +45,7 @@ get '/' => sub ($c) {
   elsif ($submit eq 'Shuffle') {
     Tarot::shuffle_deck($deck, $orient);
     push @$crumb_trail, $submit;
+    $view = 1;
   }
   elsif ($submit eq 'Cut') {
     Tarot::cut_deck($deck, $cut);
