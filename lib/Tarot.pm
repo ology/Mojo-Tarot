@@ -56,7 +56,7 @@ sub build_deck {
       name   => $card,
       p      => $n, # position
       o      => 0,  # orientation
-      chosen => 0,
+      chosen => 0,  # has been chosen
       file   => card_file($card),
     };
   }
