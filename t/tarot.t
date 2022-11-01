@@ -28,14 +28,16 @@ subtest build_deck => sub {
 };
 
 subtest shuffle_deck => sub {
-  my $is_shuffled = 0;
-  my ($shuffled) = Tarot::shuffle_deck($deck);
-  my $i = 0;
-  for my $card (sort { $shuffled->{$a}{p} <=> $shuffled->{$b}{p} } keys %$shuffled) {
-    $is_shuffled++ if $card ne $cards[$i];
-    $i++;
-  }
-  ok $is_shuffled, 'is shuffled';
+  subtest nonoriented => sub {
+    my $is_shuffled = 0;
+    my ($shuffled) = Tarot::shuffle_deck($deck);
+    my $i = 0;
+    for my $card (sort { $shuffled->{$a}{p} <=> $shuffled->{$b}{p} } keys %$shuffled) {
+      $is_shuffled++ if $card ne $cards[$i];
+      $i++;
+    }
+    ok $is_shuffled, 'is shuffled';
+  };
 
   subtest orientation => sub {
     my $is_oriented = 0;
