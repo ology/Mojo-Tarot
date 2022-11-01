@@ -30,13 +30,16 @@ subtest build_deck => sub {
 subtest shuffle_deck => sub {
   subtest nonoriented => sub {
     my $is_shuffled = 0;
+    my $is_oriented = 0;
     Tarot::shuffle_deck($deck);
     my $i = 0;
     for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
       $is_shuffled++ if $card ne $cards[$i];
+      $is_oriented++ if $deck->{$card}{o};
       $i++;
     }
     ok $is_shuffled, 'is shuffled';
+    ok !$is_oriented, 'is NOT oriented';
   };
 
   subtest orientation => sub {
@@ -65,14 +68,6 @@ subtest cut_deck => sub {
 done_testing();
 
 __END__
-$expect = $d->[0];
-my $orientations = [];
-($orientations, $d) = Tarot::cut_deck($orientations, $d, 1);
-is $d->[-1], $expect, 'cut deck';
-
-my $got = Tarot::spread($d, 3);
-is @$got, 3, 'spread size';
-
 $expect = [@$d[0 .. 2]];
 $got = [Tarot::choose($d, 1)];
 is @$got, 2, 'choose size';
