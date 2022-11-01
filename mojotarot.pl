@@ -129,7 +129,7 @@ __DATA__
 </form>
 <form method="get" style="display: inline-block;">
   <input type="hidden" name="action" value="Cut" />
-  <select name="cut" title="Cut the deck" class="btn btn-mini" onchange="this.form.submit()">
+  <select name="cut" title="Cut the deck" class="btn btn-mini btn-info" onchange="this.form.submit()">
     <option value="0" selected disabled>Cut</option>
 % for my $n (1 .. keys %$deck) {
     <option value="<%= $n %>"><%= $n %></option>
@@ -143,6 +143,7 @@ __DATA__
     <input class="form-check-input" type="checkbox" name="orient" <%= $checked %> title="Shuffle with approximately half upside down" />
   </div>
 </form>
+<p></p>
 <form method="get" style="display: inline-block;">
   <input type="hidden" name="action" value="Spread" />
   <select name="type" title="Generate a spread" onchange="this.form.submit()" class="btn btn-mini">
@@ -235,7 +236,7 @@ __DATA__
   </head>
   <body>
     <div class="container" style="padding-top: 10px;">
-      <h1><%= title %></h1>
+      <h3><%= title %></h3>
       <%= content %>
       <p></p>
       <div id="footer" class="text-secondary">
