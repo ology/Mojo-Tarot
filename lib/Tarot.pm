@@ -122,6 +122,13 @@ sub spread {
   return \@spread;
 }
 
+sub clear {
+  my ($deck) = @_;
+  for my $card (keys %$deck) {
+    $deck->{$card}{chosen} = 0;
+  }
+}
+
 sub card_file {
   my ($card) = @_;
   my $filename = '/images/' . $card . '.jpeg';
