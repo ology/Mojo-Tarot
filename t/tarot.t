@@ -6,26 +6,36 @@ use Test::More;
 
 use_ok 'Tarot';
 
-my ($deck) = Tarot::build_deck();
-is keys %$deck, 78, 'full deck';
+my $deck;
+my @cards;
 
-my @expect = Tarot::build_cards();
+subtest build_cards => sub {
+  @cards = Tarot::build_cards();
+  is @cards, 78, 'cards';
+};
 
-my $i = 0;
-for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
-  is $card, $expect[$i], $card;
-  $i++;
-}
-diag 'If we got here ok, the deck is sorted';
+subtest build_deck => sub {
+  ($deck) = Tarot::build_deck();
+  is keys %$deck, @cards, 'full deck';
 
-my $is_shuffled = 0;
-my ($shuffled) = Tarot::shuffle_deck($deck);
-$i = 0;
-for my $card (sort { $shuffled->{$a}{p} <=> $shuffled->{$b}{p} } keys %$shuffled) {
-  $is_shuffled++ if $card ne $expect[$i];
-  $i++;
-}
-ok $is_shuffled, 'shuffle';
+  my $i = 0;
+  for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
+    is $card, $cards[$i], $card;
+    $i++;
+  }
+  diag 'If we got here ok, the deck is sorted';
+};
+
+subtest shuffle_deck => sub {
+  my $is_shuffled = 0;
+  my ($shuffled) = Tarot::shuffle_deck($deck);
+  my $i = 0;
+  for my $card (sort { $shuffled->{$a}{p} <=> $shuffled->{$b}{p} } keys %$shuffled) {
+    $is_shuffled++ if $card ne $cards[$i];
+    $i++;
+  }
+  ok $is_shuffled, 'shuffle_deck';
+};
 
 done_testing();
 
