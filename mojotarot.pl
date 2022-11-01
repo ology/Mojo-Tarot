@@ -164,7 +164,7 @@ __DATA__
   </select>
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="action" title="Clear the choices" value="Clear" class="btn btn-outline-dark" />
+  <input type="submit" name="action" title="Clear the choices" value="Clear" class="btn btn-sm btn-outline-dark" />
 </form>
 </div>
 
