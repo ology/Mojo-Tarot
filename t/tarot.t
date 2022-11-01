@@ -6,12 +6,21 @@ use Test::More;
 
 use_ok 'Tarot';
 
-my $d = Tarot::build_deck();
-is @$d, 78, 'full deck';
+my ($deck) = Tarot::build_deck();
+is keys %$deck, 78, 'full deck';
 
-my $expect = [qw(fool magician priestess empress emperor hierophant lovers chariot strength hermit)];
-is_deeply [@$d[0 .. $#$expect]], $expect, 'looks sorted';
+my @expect = Tarot::build_cards();
 
+my $i = 0;
+for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
+  is $card, $expect[$i], $card;
+  $i++;
+}
+diag 'If we got here ok, the deck is sorted';
+
+done_testing();
+
+__END__
 $d = Tarot::shuffle_deck($d);
 ok $d->[0] ne $expect->[0]
   && $d->[1] ne $expect->[1]
