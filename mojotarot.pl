@@ -22,8 +22,8 @@ get '/' => sub ($c) {
     $deck = retrieve $session_file;
   }
   else {
-    $c->app->log->info('Making new session deck');
     $session = _store_deck($c);
+    $c->app->log->info("Made new session deck $session");
   }
 
   my $choices = $c->cookie('choice') || '';
