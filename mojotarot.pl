@@ -29,7 +29,7 @@ get '/' => sub ($c) {
   }
 
   # collect the choices that have been made
-  my $choices = $c->cookie('choice') || '';
+  my $choices = $c->cookie('choice');
   $choices = [ split /\|/, $choices ];
 
   # remember the actions taken
@@ -163,7 +163,7 @@ __DATA__
 <form method="get" style="display: inline-block;">
   <input type="hidden" name="action" value="Choose" />
   <select name="choice" title="Choose a card" class="btn btn-mini" onchange="this.form.submit()">
-    <option value="0" selected disabled>From deck</option>
+    <option value="" selected disabled>From deck</option>
 % for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
 %   my $n = $deck->{$card}{p};
 %   my $disabled = $deck->{$card}{chosen} ? 'disabled' : '';
