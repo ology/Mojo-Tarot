@@ -143,6 +143,7 @@ __DATA__
 % }
   </select>
 </form>
+<br>
 <form method="get" style="display: inline-block;">
   <input type="hidden" name="action" value="Spread" />
   <select name="type" title="Generate a spread" onchange="this.form.submit()" class="btn btn-mini">
