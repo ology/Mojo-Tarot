@@ -75,4 +75,15 @@ subtest choose => sub {
   }
 };
 
+subtest spread => sub {
+  ($deck) = Tarot::build_deck();
+  my $expected = 3;
+  Tarot::spread($deck, $expected);
+  my $chosen = 0;
+  for my $card (keys %$deck) {
+    $chosen++ if $deck->{$card}{chosen};
+  }
+  is $chosen, $expected, 'spread';
+};
+
 done_testing();
