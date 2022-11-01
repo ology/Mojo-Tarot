@@ -122,13 +122,13 @@ __DATA__
 
 <div>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="action" title="View the deck" value="View" class="btn btn-success" />
+  <input type="submit" name="action" title="View the deck" value="View" class="btn btn-sm btn-success" />
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="action" title="Unsort the deck" value="Reset" class="btn btn-primary" />
+  <input type="submit" name="action" title="Reset the deck" value="Reset" class="btn btn-sm btn-primary" />
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="action" title="Shuffle the deck" value="Shuffle" class="btn btn-warning" />
+  <input type="submit" name="action" title="Shuffle the deck" value="Shuffle" class="btn btn-sm btn-warning" />
   <div class="form-check form-check-inline">
 % my $checked = $orient ? 'checked' : '';
     <input class="form-check-input" type="checkbox" name="orient" <%= $checked %> />
