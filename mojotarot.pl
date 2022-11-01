@@ -180,7 +180,9 @@ __DATA__
 <p></p>
 
 % if (@$crumbs) {
-<%= join ' > ', @$crumbs %>
+<div class="small">
+  <%= join ' > ', @$crumbs %>
+</div>
 % }
 
 % if (@$choices) {
@@ -245,6 +247,10 @@ __DATA__
     <style>
       .block {
         display: inline-block;
+      }
+      .small {
+        font-size: small;
+        color: darkgrey;
       }
     </style>
   </head>
