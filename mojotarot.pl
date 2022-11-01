@@ -125,7 +125,7 @@ __DATA__
 
 @@ index.html.ep
 % layout 'default';
-% title 'Tarot Viewer';
+% title 'Court de Gébelin';
 
 <div>
 <form method="get" style="display: inline-block;">
