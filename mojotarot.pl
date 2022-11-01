@@ -10,14 +10,15 @@ use Tarot ();
 # TODO Purge old session decks
 
 get '/' => sub ($c) {
-  my $type   = $c->param('type');
-  my $cut    = $c->param('cut');
-  my $submit = $c->param('action') || '';
-  my $choice = $c->param('choice');
-  my $orient = $c->param('orient') || 0;
+  my $type   = $c->param('type');         # of spread
+  my $cut    = $c->param('cut');          # cut deck
+  my $submit = $c->param('action') || ''; # action to perform
+  my $choice = $c->param('choice');       # chosen card
+  my $orient = $c->param('orient') || 0;  # upside down or not?
 
+  # is there a deck to use?
   my $deck;
-  my $session = $c->session('session');
+  my $session = $c->session('session') || '';
   my $session_file = './deck-' . $session . '.dat';
   if ($session && -e $session_file) {
     $deck = retrieve $session_file;
