@@ -220,6 +220,7 @@ __DATA__
 %       my $style = $deck->{$name}{o} ? 'transform: scaleY(-1);' : '';
         <a href="<%= $deck->{$name}{file} %>">
         <img src="<%= $deck->{$name}{file} %>" alt="<%= $name %>" title="<%= $name %> (<%= $deck->{$name}{p} %>)" height="200" width="100" style="<%= $style %>" />
+        </a>
       </td>
 %     if ($row == $cells - 1) {
 %     $row = 0;
