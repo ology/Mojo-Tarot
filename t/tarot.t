@@ -18,21 +18,18 @@ for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
 }
 diag 'If we got here ok, the deck is sorted';
 
+my $is_shuffled = 0;
+my ($shuffled) = Tarot::shuffle_deck($deck);
+$i = 0;
+for my $card (sort { $shuffled->{$a}{p} <=> $shuffled->{$b}{p} } keys %$shuffled) {
+  $is_shuffled++ if $card ne $expect[$i];
+  $i++;
+}
+ok $is_shuffled, 'the deck is shuffled';
+
 done_testing();
 
 __END__
-$d = Tarot::shuffle_deck($d);
-ok $d->[0] ne $expect->[0]
-  && $d->[1] ne $expect->[1]
-  && $d->[2] ne $expect->[2]
-  && $d->[3] ne $expect->[3]
-  && $d->[4] ne $expect->[4]
-  && $d->[5] ne $expect->[5]
-  && $d->[6] ne $expect->[6]
-  && $d->[7] ne $expect->[7]
-  && $d->[8] ne $expect->[8]
-  && $d->[9] ne $expect->[9], 'looks shuffled';
-
 $expect = $d->[0];
 my $orientations = [];
 ($orientations, $d) = Tarot::cut_deck($orientations, $d, 1);
