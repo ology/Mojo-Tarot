@@ -72,10 +72,10 @@ sub shuffle_deck {
   my @shuffled = shuffle(keys %$deck);
   my $i = 0;
   for my $card (@shuffled) {
-    $i++;
     my $orientation = $orient ? int rand 2 : $deck->{$card}{o};
     $deck->{$card}->{p} = $i;
     $deck->{$card}->{o} = $orientation;
+    $i++;
   }
 }
 
