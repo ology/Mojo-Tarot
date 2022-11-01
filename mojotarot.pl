@@ -162,7 +162,7 @@ __DATA__
 <hr>
 <div>
 %   for my $card (@$choices) {
-  <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= $card->{name} %>" height="200" width="100" />
+  <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= $card->{name} %> (<%= $card->{p} %>)" height="200" width="100" />
 %   }
 </div>
 % }
@@ -170,7 +170,7 @@ __DATA__
 <hr>
 <div>
 %   for my $card (@$spread) {
-  <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= $card->{name} %>" height="200" width="100" />
+  <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= $card->{name} %> (<%= $card->{p} %>)" height="200" width="100" />
 %   }
 </div>
 % }
@@ -187,7 +187,7 @@ __DATA__
 %     }
       <td>
 %       #my $style = $orient->[$n] ? 'transform: scaleY(-1);' : '';
-        <img src="<%= $deck->{$name}{file} %>" alt="<%= $name %>" title="<%= $name %>" height="200" width="100"/>
+        <img src="<%= $deck->{$name}{file} %>" alt="<%= $name %>" title="<%= $name %> (<%= $deck->{$name}{p} %>)" height="200" width="100"/>
       </td>
 %     if ($row == $cells - 1) {
 %     $row = 0;
