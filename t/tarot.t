@@ -65,4 +65,14 @@ subtest cut_deck => sub {
   }
 };
 
+subtest choose => sub {
+  ($deck) = Tarot::build_deck();
+  diag 'Choose the card at position 1';
+  Tarot::choose($deck, 1);
+  for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
+    is $card, 'fool', 'fool';
+    last;
+  }
+};
+
 done_testing();
