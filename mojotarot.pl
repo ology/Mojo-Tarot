@@ -67,6 +67,9 @@ get '/' => sub ($c) {
     $choices = [];
     $c->cookie(crumbs => '');
     $crumb_trail = [];
+    for my $card (keys %$deck) {
+      $deck->{$card}{chosen} = 0;
+    }
   }
 
   _store_deck($c, $deck, $session);
