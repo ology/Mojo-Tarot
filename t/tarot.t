@@ -66,15 +66,3 @@ subtest cut_deck => sub {
 };
 
 done_testing();
-
-__END__
-$expect = [@$d[0 .. 2]];
-$got = [Tarot::choose($d, 1)];
-is @$got, 2, 'choose size';
-is $got->[0], $expect->[0], 'choose';
-$got = [Tarot::choose($d, 1)];
-is $got->[0], $expect->[1], 'choose';
-$got = [Tarot::choose($d, 1)];
-is $got->[0], $expect->[2], 'choose';
-
-done_testing();
