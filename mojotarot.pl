@@ -28,14 +28,17 @@ get '/' => sub ($c) {
     $c->app->log->info("Made new session deck $session");
   }
 
+  # collect the choices that have been made
   my $choices = $c->cookie('choice') || '';
   $choices = [ split /\|/, $choices ];
 
+  # remember the actions taken
   my $crumb_trail = $c->cookie('crumbs') || '';
   $crumb_trail = [ split /\|/, $crumb_trail ];
 
   my ($view, $spread) = (0, 0);
 
+  # take action!
   if ($submit eq 'View') {
     $view = 1;
   }
@@ -73,11 +76,14 @@ get '/' => sub ($c) {
     $crumb_trail = [];
   }
 
+  # remember the deck
   _store_deck($c, $deck, $session);
 
+  # remember the choices and actions
   $c->cookie(choice => join '|', @$choices);
   $c->cookie(crumbs => join '|', @$crumb_trail);
 
+  # get the cards that have been chosen
   my @choices;
   for my $n (@$choices) {
     my $card = ( grep { $deck->{$_}{p} == $n } keys %$deck )[0];
