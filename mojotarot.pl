@@ -164,7 +164,7 @@ __DATA__
 <form method="get" style="display: inline-block;">
   <input type="hidden" name="action" value="Choose" />
   <select name="choice" title="Choose a card" class="btn btn-mini" onchange="this.form.submit()">
-    <option value="" selected disabled>From deck</option>
+    <option value="" selected disabled>Card</option>
 % for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
 %   my $n = $deck->{$card}{p};
 %   my $disabled = $deck->{$card}{chosen} ? 'disabled' : '';
