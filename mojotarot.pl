@@ -47,6 +47,7 @@ get '/' => sub ($c) {
   }
   elsif ($submit eq 'Spread') {
     ($spread) = Tarot::spread($deck, $type);
+    push @$choices, map { $_->{p} } @$spread;
     push @$crumb_trail, "$submit $type";
   }
   elsif ($submit eq 'Reset') {
