@@ -62,8 +62,13 @@ get '/' => sub ($c) {
     push @$choices, $choice;
     push @$crumb_trail, "Choose $choice";
   }
+  elsif ($submit eq 'Clear') {
+    $c->cookie(choice => '');
+    $choices = [];
+    $c->cookie(crumbs => '');
+    $crumb_trail = [];
+  }
 
-#warn __PACKAGE__,' L',__LINE__,' ',ddc([map { $deck->{$_} } sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck]);
   _store_deck($c, $deck, $session);
 
   $c->cookie(choice => join '|', @$choices);
@@ -149,6 +154,9 @@ __DATA__
     <option value="<%= $n %>" <%= $disabled %>><%= $n %></option>
 % }
   </select>
+</form>
+<form method="get" style="display: inline-block;">
+  <input type="submit" name="action" title="Clear the choices" value="Clear" class="btn btn-outline-dark" />
 </form>
 </div>
 
