@@ -114,7 +114,7 @@ sub choose {
 sub spread {
   my ($deck, $n) = @_;
   $n ||= 3;
-  my %non_chosen = %$deck;
+  my %non_chosen = map { $_ => $deck->{$_} } grep { $deck->{$_}{chosen} == 0 } keys %$deck;
   my @spread;
   for my $draw (1 .. $n) {
     push @spread, choose(\%non_chosen);
