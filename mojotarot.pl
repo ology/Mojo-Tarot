@@ -63,13 +63,11 @@ get '/' => sub ($c) {
     push @$crumb_trail, "Choose $choice";
   }
   elsif ($submit eq 'Clear') {
+    Tarot::clear($deck);
     $c->cookie(choice => '');
     $choices = [];
     $c->cookie(crumbs => '');
     $crumb_trail = [];
-    for my $card (keys %$deck) {
-      $deck->{$card}{chosen} = 0;
-    }
   }
 
   _store_deck($c, $deck, $session);
