@@ -70,15 +70,13 @@ sub build_deck {
 sub shuffle_deck {
   my ($deck, $orient) = @_;
   my @shuffled = shuffle(keys %$deck);
-  my %shuffled_deck = %$deck;
   my $i = 0;
   for my $card (@shuffled) {
     $i++;
     my $orientation = $orient ? int rand 2 : $deck->{$card}{o};
-    $shuffled_deck{$card}->{p} = $i;
-    $shuffled_deck{$card}->{o} = $orientation;
+    $deck->{$card}->{p} = $i;
+    $deck->{$card}->{o} = $orientation;
   }
-  return \%shuffled_deck;
 }
 
 sub cut_deck {
@@ -92,13 +90,11 @@ sub cut_deck {
     @ordered[ $n .. $#ordered ],
     @ordered[  0 .. $n - 1 ],
   );
-  my %cut_deck = %$deck;
   my $i = 0;
   for my $card (@cut) {
-    $cut_deck{$card}->{p} = $i;
+    $deck->{$card}{p} = $i;
     $i++;
   }
-  return \%cut_deck;
 }
 
 sub choose {
