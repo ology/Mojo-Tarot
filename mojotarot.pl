@@ -10,7 +10,7 @@ use Tarot ();
 # TODO Purge old session decks
 
 get '/' => sub ($c) {
-  my $type   = $c->param('type');         # of spread
+  my $type   = $c->param('type');         # spread type
   my $cut    = $c->param('cut');          # cut deck
   my $action = $c->param('action') || ''; # action to perform
   my $choice = $c->param('choice');       # chosen card
