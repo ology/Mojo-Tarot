@@ -30,9 +30,9 @@ subtest build_deck => sub {
 subtest shuffle_deck => sub {
   subtest nonoriented => sub {
     my $is_shuffled = 0;
-    my ($shuffled) = Tarot::shuffle_deck($deck);
+    Tarot::shuffle_deck($deck);
     my $i = 0;
-    for my $card (sort { $shuffled->{$a}{p} <=> $shuffled->{$b}{p} } keys %$shuffled) {
+    for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
       $is_shuffled++ if $card ne $cards[$i];
       $i++;
     }
@@ -41,12 +41,25 @@ subtest shuffle_deck => sub {
 
   subtest orientation => sub {
     my $is_oriented = 0;
-    my ($oriented) = Tarot::shuffle_deck($deck, 1);
-    for my $card (keys %$oriented) {
-      $is_oriented++ if $oriented->{$card}{o};
+    Tarot::shuffle_deck($deck, 1);
+    for my $card (keys %$deck) {
+      $is_oriented++ if $deck->{$card}{o};
     }
     ok $is_oriented, 'is oriented';
   };
+};
+
+subtest cut_deck => sub {
+  my $sa = Set::Array->new(@cards);
+  my @rotated = $sa->rotate('ftol');
+  ($deck) = Tarot::build_deck();
+  diag 'Cut deck at position 1';
+  Tarot::cut_deck($deck, 1);
+  my $i = 0;
+  for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
+    is $card, $rotated[$i], $card;
+    $i++;
+  }
 };
 
 done_testing();
