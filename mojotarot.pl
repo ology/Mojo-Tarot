@@ -12,7 +12,7 @@ use Tarot ();
 get '/' => sub ($c) {
   my $type   = $c->param('type');         # of spread
   my $cut    = $c->param('cut');          # cut deck
-  my $submit = $c->param('action') || ''; # action to perform
+  my $action = $c->param('action') || ''; # action to perform
   my $choice = $c->param('choice');       # chosen card
   my $orient = $c->param('orient') || 0;  # upside down or not?
 
@@ -39,24 +39,24 @@ get '/' => sub ($c) {
   my ($view, $spread) = (0, 0);
 
   # take action!
-  if ($submit eq 'view') {
+  if ($action eq 'view') {
     $view = 1;
   }
-  elsif ($submit eq 'shuffle') {
+  elsif ($action eq 'shuffle') {
     Tarot::shuffle_deck($deck, $orient);
-    push @$crumb_trail, $submit;
+    push @$crumb_trail, $action;
     $view = 1;
   }
-  elsif ($submit eq 'cut') {
+  elsif ($action eq 'cut') {
     Tarot::cut_deck($deck, $cut);
-    push @$crumb_trail, "$submit $cut";
+    push @$crumb_trail, "$action $cut";
   }
-  elsif ($submit eq 'spread') {
+  elsif ($action eq 'spread') {
     ($spread) = Tarot::spread($deck, $type);
     push @$choices, map { $_->{p} } @$spread;
-    push @$crumb_trail, "$submit $type";
+    push @$crumb_trail, "$action $type";
   }
-  elsif ($submit eq 'reset') {
+  elsif ($action eq 'reset') {
     ($deck) = Tarot::build_deck();
     $c->cookie(choice => '');
     $choices = [];
@@ -64,12 +64,12 @@ get '/' => sub ($c) {
     $crumb_trail = ['Reset'];
     $orient = 0;
   }
-  elsif ($submit eq 'choose') {
+  elsif ($action eq 'choose') {
     Tarot::choose($deck, $choice);
     push @$choices, $choice;
     push @$crumb_trail, "Choose $choice";
   }
-  elsif ($submit eq 'clear') {
+  elsif ($action eq 'clear') {
     Tarot::clear($deck);
     $c->cookie(choice => '');
     $choices = [];
