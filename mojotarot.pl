@@ -131,7 +131,7 @@ __DATA__
   <input type="submit" name="action" title="Shuffle the deck" value="Shuffle" class="btn btn-sm btn-warning" />
   <div class="form-check form-check-inline">
 % my $checked = $orient ? 'checked' : '';
-    <input class="form-check-input" type="checkbox" name="orient" <%= $checked %> title="50% upside down" />
+    <input class="form-check-input" type="checkbox" name="orient" <%= $checked %> title="Shuffle with approximately half upside down" />
   </div>
 </form>
 <form method="get" style="display: inline-block;">
