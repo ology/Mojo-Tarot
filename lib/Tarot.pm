@@ -102,6 +102,7 @@ sub choose {
   $n ||= int rand keys %$deck;
   my $chosen;
   for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
+    next unless $deck->{$card}{p} == $n;
     $chosen = $card;
     last;
   }
