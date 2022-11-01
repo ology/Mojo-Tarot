@@ -188,7 +188,9 @@ __DATA__
 <div>
 %   for my $card (@$choices) {
 %     my $style = $card->{o} ? 'transform: scaleY(-1);' : '';
+  <a href="<%= $card->{file} %>">
   <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= $card->{name} %> (<%= $card->{p} %>)" height="200" width="100" style="<%= $style %>" />
+  </a>
 %   }
 </div>
 % }
@@ -197,7 +199,9 @@ __DATA__
 <div>
 %   for my $card (@$spread) {
 %     my $style = $card->{o} ? 'transform: scaleY(-1);' : '';
+  <a href="<%= $card->{file} %>">
   <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= $card->{name} %> (<%= $card->{p} %>)" height="200" width="100" style="<%= $style %>" />
+  </a>
 %   }
 </div>
 % }
@@ -214,6 +218,7 @@ __DATA__
 %     }
       <td>
 %       my $style = $deck->{$name}{o} ? 'transform: scaleY(-1);' : '';
+        <a href="<%= $deck->{$name}{file} %>">
         <img src="<%= $deck->{$name}{file} %>" alt="<%= $name %>" title="<%= $name %> (<%= $deck->{$name}{p} %>)" height="200" width="100" style="<%= $style %>" />
       </td>
 %     if ($row == $cells - 1) {
