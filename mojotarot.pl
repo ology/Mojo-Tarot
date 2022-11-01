@@ -43,11 +43,11 @@ get '/' => sub ($c) {
     $view = 1;
   }
   elsif ($submit eq 'Shuffle') {
-    ($deck) = Tarot::shuffle_deck($deck, $orient);
+    Tarot::shuffle_deck($deck, $orient);
     push @$crumb_trail, $submit;
   }
   elsif ($submit eq 'Cut') {
-    ($deck) = Tarot::cut_deck($deck, $cut);
+    Tarot::cut_deck($deck, $cut);
     push @$crumb_trail, "$submit $cut";
   }
   elsif ($submit eq 'Spread') {
