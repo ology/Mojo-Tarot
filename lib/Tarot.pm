@@ -55,7 +55,6 @@ sub build_deck {
   my %deck;
   my $n = 0;
   for my $card (@cards) {
-    $n++;
     $deck{$card} = {
       name   => $card,
       p      => $n, # position
@@ -63,6 +62,7 @@ sub build_deck {
       chosen => 0,  # has been chosen
       file   => card_file($card),
     };
+    $n++;
   }
   return \%deck;
 }
@@ -95,15 +95,15 @@ sub cut_deck {
   my %cut_deck = %$deck;
   my $i = 0;
   for my $card (@cut) {
-    $i++;
     $cut_deck{$card}->{p} = $i;
+    $i++;
   }
   return \%cut_deck;
 }
 
 sub choose {
   my ($deck, $n) = @_;
-  $n ||= int rand keys %$deck;
+  $n //= int rand keys %$deck;
   my $chosen;
   for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
     next unless $deck->{$card}{p} == $n;
