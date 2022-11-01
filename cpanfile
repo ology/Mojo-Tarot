@@ -1,4 +1,4 @@
-requires Mojolicious;
-requires Data::Dumper::Compact;
-requires Storable;
-requires List::Util;
+requires 'Data::Dumper::Compact';
+requires 'Mojolicious';
+requires 'List::Util';
+requires 'Storable';
