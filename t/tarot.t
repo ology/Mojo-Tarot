@@ -34,7 +34,16 @@ subtest shuffle_deck => sub {
     $is_shuffled++ if $card ne $cards[$i];
     $i++;
   }
-  ok $is_shuffled, 'shuffle_deck';
+  ok $is_shuffled, 'is shuffled';
+};
+
+subtest orientation => sub {
+  my $is_oriented = 0;
+  my ($oriented) = Tarot::shuffle_deck($deck, 1);
+  for my $card (keys %$oriented) {
+    $is_oriented++ if $oriented->{$card}{o};
+  }
+  ok $is_oriented, 'is oriented';
 };
 
 done_testing();
