@@ -25,7 +25,7 @@ for my $card (sort { $shuffled->{$a}{p} <=> $shuffled->{$b}{p} } keys %$shuffled
   $is_shuffled++ if $card ne $expect[$i];
   $i++;
 }
-ok $is_shuffled, 'the deck is shuffled';
+ok $is_shuffled, 'shuffle';
 
 done_testing();
 
