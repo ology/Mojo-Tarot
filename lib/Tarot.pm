@@ -38,8 +38,8 @@ use constant MINOR_ARCANA_SUITS => (
   'pentacles',
 );
 
-sub build_deck {
-  my @cards = (
+sub build_cards {
+  return (
     MAJOR_ARCANA,
     (
       map {
@@ -48,6 +48,10 @@ sub build_deck {
       } MINOR_ARCANA_SUITS
     ),
   );
+}
+
+sub build_deck {
+  my @cards = build_cards();
   my %deck;
   my $n = 0;
   for my $card (@cards) {
