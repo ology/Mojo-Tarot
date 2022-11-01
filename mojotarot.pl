@@ -128,13 +128,6 @@ __DATA__
   <input type="submit" name="action" title="Reset the deck" value="Reset" class="btn btn-sm btn-primary" />
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="action" title="Shuffle the deck" value="Shuffle" class="btn btn-sm btn-warning" />
-  <div class="form-check form-check-inline">
-% my $checked = $orient ? 'checked' : '';
-    <input class="form-check-input" type="checkbox" name="orient" <%= $checked %> title="Shuffle with approximately half upside down" />
-  </div>
-</form>
-<form method="get" style="display: inline-block;">
   <input type="hidden" name="action" value="Cut" />
   <select name="cut" title="Cut the deck" class="btn btn-mini" onchange="this.form.submit()">
     <option value="0" selected disabled>Cut</option>
@@ -143,7 +136,13 @@ __DATA__
 % }
   </select>
 </form>
-<br>
+<form method="get" style="display: inline-block;">
+  <input type="submit" name="action" title="Shuffle the deck" value="Shuffle" class="btn btn-sm btn-warning" />
+  <div class="form-check form-check-inline">
+% my $checked = $orient ? 'checked' : '';
+    <input class="form-check-input" type="checkbox" name="orient" <%= $checked %> title="Shuffle with approximately half upside down" />
+  </div>
+</form>
 <form method="get" style="display: inline-block;">
   <input type="hidden" name="action" value="Spread" />
   <select name="type" title="Generate a spread" onchange="this.form.submit()" class="btn btn-mini">
