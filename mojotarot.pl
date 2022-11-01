@@ -39,7 +39,7 @@ get '/' => sub ($c) {
   my ($view, $spread) = (0, 0);
 
   # take action!
-  if ($action eq 'view') {
+  if ($action eq 'View') {
     $view = 1;
   }
   elsif ($action eq 'Shuffle') {
