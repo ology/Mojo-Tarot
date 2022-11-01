@@ -14,6 +14,7 @@ get '/' => sub ($c) {
   my $cut    = $c->param('cut');
   my $submit = $c->param('action') || '';
   my $choice = $c->param('choice');
+  my $orient = $c->param('orient') || 1;
 
   my $deck;
   my $session = $c->session('session');
@@ -38,7 +39,7 @@ get '/' => sub ($c) {
     $view = 1;
   }
   elsif ($submit eq 'Shuffle') {
-    ($deck) = Tarot::shuffle_deck($deck);
+    ($deck) = Tarot::shuffle_deck($deck, $orient);
     push @$crumb_trail, $submit;
   }
   elsif ($submit eq 'Cut') {
@@ -171,7 +172,8 @@ __DATA__
 <hr>
 <div>
 %   for my $card (@$choices) {
-  <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= $card->{name} %> (<%= $card->{p} %>)" height="200" width="100" />
+%     my $style = $card->{o} ? 'transform: scaleY(-1);' : '';
+  <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= $card->{name} %> (<%= $card->{p} %>)" height="200" width="100" style="<%= $style %>" />
 %   }
 </div>
 % }
@@ -179,7 +181,8 @@ __DATA__
 <hr>
 <div>
 %   for my $card (@$spread) {
-  <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= $card->{name} %> (<%= $card->{p} %>)" height="200" width="100" />
+%     my $style = $card->{o} ? 'transform: scaleY(-1);' : '';
+  <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= $card->{name} %> (<%= $card->{p} %>)" height="200" width="100" style="<%= $style %>" />
 %   }
 </div>
 % }
@@ -195,8 +198,8 @@ __DATA__
     <tr>
 %     }
       <td>
-%       #my $style = $orient->[$n] ? 'transform: scaleY(-1);' : '';
-        <img src="<%= $deck->{$name}{file} %>" alt="<%= $name %>" title="<%= $name %> (<%= $deck->{$name}{p} %>)" height="200" width="100"/>
+%       my $style = $deck->{$name}{o} ? 'transform: scaleY(-1);' : '';
+        <img src="<%= $deck->{$name}{file} %>" alt="<%= $name %>" title="<%= $name %> (<%= $deck->{$name}{p} %>)" height="200" width="100" style="<%= $style %>" />
       </td>
 %     if ($row == $cells - 1) {
 %     $row = 0;
