@@ -39,24 +39,24 @@ get '/' => sub ($c) {
   my ($view, $spread) = (0, 0);
 
   # take action!
-  if ($submit eq 'View') {
+  if ($submit eq 'view') {
     $view = 1;
   }
-  elsif ($submit eq 'Shuffle') {
+  elsif ($submit eq 'shuffle') {
     Tarot::shuffle_deck($deck, $orient);
     push @$crumb_trail, $submit;
     $view = 1;
   }
-  elsif ($submit eq 'Cut') {
+  elsif ($submit eq 'cut') {
     Tarot::cut_deck($deck, $cut);
     push @$crumb_trail, "$submit $cut";
   }
-  elsif ($submit eq 'Spread') {
+  elsif ($submit eq 'spread') {
     ($spread) = Tarot::spread($deck, $type);
     push @$choices, map { $_->{p} } @$spread;
     push @$crumb_trail, "$submit $type";
   }
-  elsif ($submit eq 'Reset') {
+  elsif ($submit eq 'reset') {
     ($deck) = Tarot::build_deck();
     $c->cookie(choice => '');
     $choices = [];
@@ -64,12 +64,12 @@ get '/' => sub ($c) {
     $crumb_trail = ['Reset'];
     $orient = 0;
   }
-  elsif ($submit eq 'Choose') {
+  elsif ($submit eq 'choose') {
     Tarot::choose($deck, $choice);
     push @$choices, $choice;
     push @$crumb_trail, "Choose $choice";
   }
-  elsif ($submit eq 'Clear') {
+  elsif ($submit eq 'clear') {
     Tarot::clear($deck);
     $c->cookie(choice => '');
     $choices = [];
@@ -130,13 +130,13 @@ __DATA__
 
 <div>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="action" title="View the deck" value="View" class="btn btn-sm btn-success" />
+  <input type="submit" name="action" title="View the deck" value="view" class="btn btn-sm btn-success" />
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="action" title="Reset the deck" value="Reset" class="btn btn-sm btn-primary" />
+  <input type="submit" name="action" title="Reset the deck" value="reset" class="btn btn-sm btn-primary" />
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="hidden" name="action" value="Cut" />
+  <input type="hidden" name="action" value="cut" />
   <select name="cut" title="Cut the deck" class="btn btn-mini btn-info" onchange="this.form.submit()">
     <option value="0" selected disabled>Cut</option>
 % for my $n (1 .. keys %$deck) {
@@ -145,7 +145,7 @@ __DATA__
   </select>
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="action" title="Shuffle the deck" value="Shuffle" class="btn btn-sm btn-warning" />
+  <input type="submit" name="action" title="Shuffle the deck" value="shuffle" class="btn btn-sm btn-warning" />
   <div class="form-check form-check-inline">
 % my $checked = $orient ? 'checked' : '';
     <input class="form-check-input" type="checkbox" name="orient" <%= $checked %> title="Shuffle with approximately half upside down" />
@@ -153,7 +153,7 @@ __DATA__
 </form>
 <p></p>
 <form method="get" style="display: inline-block;">
-  <input type="hidden" name="action" value="Spread" />
+  <input type="hidden" name="action" value="spread" />
   <select name="type" title="Generate a spread" onchange="this.form.submit()" class="btn btn-mini">
     <option value="0" selected disabled>Spread</option>
 % for my $n (1 .. 10) {
@@ -162,7 +162,7 @@ __DATA__
   </select>
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="hidden" name="action" value="Choose" />
+  <input type="hidden" name="action" value="choose" />
   <select name="choice" title="Choose a card" class="btn btn-mini" onchange="this.form.submit()">
     <option value="" selected disabled>From deck</option>
 % for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
@@ -173,7 +173,7 @@ __DATA__
   </select>
 </form>
 <form method="get" style="display: inline-block;">
-  <input type="submit" name="action" title="Clear the choices" value="Clear" class="btn btn-sm btn-outline-dark" />
+  <input type="submit" name="action" title="Clear the choices" value="clear" class="btn btn-sm btn-outline-dark" />
 </form>
 </div>
 
