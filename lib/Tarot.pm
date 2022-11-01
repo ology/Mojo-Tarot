@@ -57,6 +57,7 @@ sub build_deck {
   for my $card (@cards) {
     $deck{$card} = {
       name   => $card,
+      n      => $n, # original card number
       p      => $n, # position
       o      => 0,  # orientation
       chosen => 0,  # has been chosen
