@@ -92,13 +92,13 @@ sub cut_deck {
     @ordered[ $n .. $#ordered ],
     @ordered[  0 .. $n - 1 ],
   );
-  my $cut_deck = { %$deck };
+  my %cut_deck = %$deck;
   my $i = 0;
   for my $card (@cut) {
     $i++;
-    $cut_deck->{$card}{p} = $i;
+    $cut_deck{$card}->{p} = $i;
   }
-  return $cut_deck;
+  return \%cut_deck;
 }
 
 sub choose {
