@@ -129,13 +129,13 @@ __DATA__
 % title 'Court de Gébelin';
 
 <div>
-<form method="get" style="display: inline-block;">
+<form method="get" class="block">
   <input type="submit" name="action" title="View the deck" value="View" class="btn btn-sm btn-success" />
 </form>
-<form method="get" style="display: inline-block;">
+<form method="get" class="block">
   <input type="submit" name="action" title="Reset the deck" value="Reset" class="btn btn-sm btn-primary" />
 </form>
-<form method="get" style="display: inline-block;">
+<form method="get" class="block">
   <input type="hidden" name="action" value="Cut" />
   <select name="cut" title="Cut the deck" class="btn btn-mini btn-info" onchange="this.form.submit()">
     <option value="0" selected disabled>Cut</option>
@@ -144,7 +144,7 @@ __DATA__
 % }
   </select>
 </form>
-<form method="get" style="display: inline-block;">
+<form method="get" class="block">
   <input type="submit" name="action" title="Shuffle the deck" value="Shuffle" class="btn btn-sm btn-warning" />
   <div class="form-check form-check-inline">
 % my $checked = $orient ? 'checked' : '';
@@ -152,7 +152,7 @@ __DATA__
   </div>
 </form>
 <p></p>
-<form method="get" style="display: inline-block;">
+<form method="get" class="block">
   <input type="hidden" name="action" value="Spread" />
   <select name="type" title="Generate a spread" onchange="this.form.submit()" class="btn btn-mini">
     <option value="0" selected disabled>Spread</option>
@@ -161,7 +161,7 @@ __DATA__
 % }
   </select>
 </form>
-<form method="get" style="display: inline-block;">
+<form method="get" class="block">
   <input type="hidden" name="action" value="Choose" />
   <select name="choice" title="Choose a card" class="btn btn-mini" onchange="this.form.submit()">
     <option value="" selected disabled>Card</option>
@@ -172,7 +172,7 @@ __DATA__
 % }
   </select>
 </form>
-<form method="get" style="display: inline-block;">
+<form method="get" class="block">
   <input type="submit" name="action" title="Clear the choices" value="Clear" class="btn btn-sm btn-outline-dark" />
 </form>
 </div>
@@ -189,7 +189,7 @@ __DATA__
 %   for my $card (@$choices) {
 %     my $style = $card->{o} ? 'transform: scaleY(-1);' : '';
   <a href="<%= $card->{file} %>">
-  <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= $card->{name} %> (<%= $card->{p} %>)" height="200" width="100" style="<%= $style %>" />
+  <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= $card->{name} %> (<%= $card->{p} %>)" height="200" width="100" class="flip" />
   </a>
 %   }
 </div>
@@ -200,7 +200,7 @@ __DATA__
 %   for my $card (@$spread) {
 %     my $style = $card->{o} ? 'transform: scaleY(-1);' : '';
   <a href="<%= $card->{file} %>">
-  <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= $card->{name} %> (<%= $card->{p} %>)" height="200" width="100" style="<%= $style %>" />
+  <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= $card->{name} %> (<%= $card->{p} %>)" height="200" width="100" class="flip" />
   </a>
 %   }
 </div>
@@ -219,7 +219,7 @@ __DATA__
       <td>
 %       my $style = $deck->{$name}{o} ? 'transform: scaleY(-1);' : '';
         <a href="<%= $deck->{$name}{file} %>">
-        <img src="<%= $deck->{$name}{file} %>" alt="<%= $name %>" title="<%= $name %> (<%= $deck->{$name}{p} %>)" height="200" width="100" style="<%= $style %>" />
+        <img src="<%= $deck->{$name}{file} %>" alt="<%= $name %>" title="<%= $name %> (<%= $deck->{$name}{p} %>)" height="200" width="100" class="flip" />
         </a>
       </td>
 %     if ($row == $cells - 1) {
@@ -242,6 +242,14 @@ __DATA__
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title><%= title %></title>
+    <style>
+      .block {
+        display: inline-block;
+      }
+      .flip {
+        transform: scaleY(-1);
+      }
+    </style>
   </head>
   <body>
     <div class="container" style="padding-top: 10px;">
