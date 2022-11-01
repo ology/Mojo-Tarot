@@ -114,9 +114,10 @@ sub choose {
 sub spread {
   my ($deck, $n) = @_;
   $n ||= 3;
+  my %non_chosen = %$deck;
   my @spread;
   for my $draw (1 .. $n) {
-    push @spread, choose($deck);
+    push @spread, choose(\%non_chosen);
   }
   return \@spread;
 }
