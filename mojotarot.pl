@@ -14,7 +14,7 @@ get '/' => sub ($c) {
   my $cut    = $c->param('cut');
   my $submit = $c->param('action') || '';
   my $choice = $c->param('choice');
-  my $orient = $c->param('orient') || 1;
+  my $orient = $c->param('orient') || 0;
 
   my $deck;
   my $session = $c->session('session');
@@ -57,6 +57,7 @@ get '/' => sub ($c) {
     $choices = [];
     $c->cookie(crumbs => '');
     $crumb_trail = ['Reset'];
+    $orient = 0;
   }
   elsif ($submit eq 'Choose') {
     Tarot::choose($deck, $choice);
@@ -89,6 +90,7 @@ get '/' => sub ($c) {
     spread   => $spread,
     choices  => \@choices,
     crumbs   => $crumb_trail,
+    orient   => $orient,
   );
 } => 'index';
 
@@ -127,6 +129,10 @@ __DATA__
 </form>
 <form method="get" style="display: inline-block;">
   <input type="submit" name="action" title="Shuffle the deck" value="Shuffle" class="btn btn-warning" />
+  <div class="form-check form-check-inline">
+% my $checked = $orient ? 'checked' : '';
+    <input class="form-check-input" type="checkbox" name="orient" <%= $checked %> />
+  </div>
 </form>
 <form method="get" style="display: inline-block;">
   <input type="hidden" name="action" value="Cut" />
@@ -220,6 +226,11 @@ __DATA__
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
     <title><%= title %></title>
   </head>
   <body>
