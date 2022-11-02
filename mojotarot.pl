@@ -129,12 +129,18 @@ __DATA__
 % title 'Court de Gébelin';
 
 <div>
+
+% # View
 <form method="get" class="block">
   <input type="submit" name="action" title="View the deck" value="View" class="btn btn-sm btn-success" />
 </form>
+
+% # Reset
 <form method="get" class="block">
   <input type="submit" name="action" title="Reset the deck" value="Reset" class="btn btn-sm btn-primary" />
 </form>
+
+% # Cut
 <form method="get" class="block">
   <input type="hidden" name="action" value="Cut" />
   <select name="cut" title="Cut the deck" class="btn btn-mini btn-info" onchange="this.form.submit()">
@@ -144,6 +150,8 @@ __DATA__
 % }
   </select>
 </form>
+
+% # Shuffle
 <form method="get" class="block">
   <input type="submit" name="action" title="Shuffle the deck" value="Shuffle" class="btn btn-sm btn-warning" />
   <div class="form-check form-check-inline">
@@ -151,7 +159,10 @@ __DATA__
     <input class="form-check-input" type="checkbox" name="orient" <%= $checked %> title="Shuffle with approximately half upside down" />
   </div>
 </form>
+
 <p></p>
+
+% # Spread
 <form method="get" class="block">
   <input type="hidden" name="action" value="Spread" />
   <select name="type" title="Generate a spread" onchange="this.form.submit()" class="btn btn-mini">
@@ -161,6 +172,8 @@ __DATA__
 % }
   </select>
 </form>
+
+% # Choose
 <form method="get" class="block">
   <input type="hidden" name="action" value="Choose" />
   <select name="choice" title="Choose a card" class="btn btn-mini" onchange="this.form.submit()">
@@ -172,9 +185,12 @@ __DATA__
 % }
   </select>
 </form>
+
+% # Clear
 <form method="get" class="block">
   <input type="submit" name="action" title="Clear the choices" value="Clear" class="btn btn-sm btn-outline-dark" />
 </form>
+
 </div>
 
 <p></p>
