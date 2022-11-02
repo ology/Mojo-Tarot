@@ -102,6 +102,7 @@ sub choose {
   $n //= int rand keys %$deck;
   my $chosen;
   for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
+    next if $deck->{$card}{chosen};
     next unless $deck->{$card}{p} == $n;
     $chosen = $card;
     last;
@@ -116,8 +117,9 @@ sub spread {
   $n ||= 3;
   my @spread;
   for my $draw (1 .. $n) {
-    my %non_chosen = map { $_ => $deck->{$_} } grep { $deck->{$_}{chosen} == 0 } keys %$deck;
-    push @spread, choose(\%non_chosen);
+    my @non_chosen = map { $deck->{$_}{p} } grep { $deck->{$_}{chosen} == 0 } keys %$deck;
+    my $random = $non_chosen[ int rand @non_chosen ];
+    push @spread, choose($deck, $random);
   }
   return \@spread;
 }
