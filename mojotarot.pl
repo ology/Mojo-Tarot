@@ -17,7 +17,8 @@ get '/' => sub ($c) {
   my $action = $c->param('action') || ''; # action to perform
   my $choice = $c->param('choice');       # chosen card
   my $orient = $c->param('orient') || 0;  # upside down or not?
-  my $name   = $c->param('name');         # saved reading name
+  my $save   = $c->param('name');         # saved reading name
+  my $load   = $c->param('reading');      # reading to load
 
   # is there a deck to use?
   my $deck;
@@ -83,10 +84,6 @@ get '/' => sub ($c) {
   # remember the deck
   _store_deck($c, $deck, $session);
 
-  # remember the choices and actions
-  $c->cookie(choice => join '|', @$choices);
-  $c->cookie(crumbs => join '|', @$crumb_trail);
-
   # get the cards that have been chosen
   my @choices;
   for my $n (@$choices) {
@@ -97,11 +94,17 @@ get '/' => sub ($c) {
   if ($action eq 'Save') {
     my $saved = {
       session => $session,
-      name    => $name,
+      name    => $save,
       choices => \@choices,
     };
     my $file = './reading-' . time() . '.dat';
     store($saved, $file);
+  }
+  elsif ($action eq 'Load') {
+    my $data = retrieve $load;
+    @choices = $data->{choices}->@*;
+    $choices = [ map { $_->{p} } @choices ];
+    $crumb_trail = ['Load'];
   }
 
   my @readings;
@@ -112,6 +115,10 @@ get '/' => sub ($c) {
     my $data = retrieve $file;
     push @readings, { file => $file, name => $data->{name} };
   }
+
+  # remember the choices and actions
+  $c->cookie(choice => join '|', @$choices);
+  $c->cookie(crumbs => join '|', @$crumb_trail);
 
   $c->render(
     template => 'index',
