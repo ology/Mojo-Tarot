@@ -194,12 +194,14 @@ __DATA__
 <form method="get" class="block">
   <input type="hidden" name="action" value="Load" />
   <select name="reading" title="Choose a reading" class="btn btn-sm" onchange="this.form.submit()">
-    <option value="" selected disabled>Load</option>
+    <option value="" selected disabled>Load Reading</option>
 % for my $reading (@$readings) {
     <option value="<%= $reading->{file} %>"><%= $reading->{name} %></option>
 % }
   </select>
 </form>
+
+<p></p>
 
 % # Spread
 <form method="get" class="block">
