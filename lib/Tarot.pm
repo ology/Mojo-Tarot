@@ -83,7 +83,7 @@ sub cut_deck {
   my ($deck, $n) = @_;
   my @cards = keys %$deck;
   $n //= int(@cards) / 2; # default half of deck
-  die "N must be between 1 and ", scalar(@cards), "\n"
+  die "N must be between 0 and ", $#cards, "\n"
     if $n < 1 || $n > @cards;
   my @ordered = sort { $deck->{$a}{p} <=> $deck->{$b}{p} } @cards;
   my @cut = (
