@@ -318,7 +318,7 @@ __DATA__
     </style>
   </head>
   <body>
-    <div class="container" class="padpage">
+    <div class="container padpage">
       <h3><%= title %></h3>
       <%= content %>
       <p></p>
