@@ -143,7 +143,7 @@ __DATA__
 % # Cut
 <form method="get" class="block">
   <input type="hidden" name="action" value="Cut" />
-  <select name="cut" title="Cut the deck" class="btn btn-sm btn-info" onchange="this.form.submit()">
+  <select name="cut" title="Cut the deck" class="btn btn-sm" onchange="this.form.submit()">
     <option value="0" selected disabled>Cut</option>
 % for my $n (1 .. keys %$deck) {
     <option value="<%= $n %>"><%= $n %></option>
@@ -153,7 +153,7 @@ __DATA__
 
 % # Shuffle
 <form method="get" class="block">
-  <input type="submit" name="action" title="Shuffle the deck" value="Shuffle" class="btn btn-sm btn-warning" />
+  <input type="submit" name="action" title="Shuffle the deck" value="Shuffle" class="btn btn-sm btn-info" />
   <div class="form-check form-check-inline">
 % my $checked = $orient ? 'checked' : '';
     <input class="form-check-input" type="checkbox" name="orient" <%= $checked %> title="Shuffle with approximately half upside down" />
