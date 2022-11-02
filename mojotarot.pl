@@ -103,7 +103,7 @@ get '/' => sub ($c) {
     $crumbs = ["Load $data->{name}"];
   }
 
-    # TODO purge defunct readings
+  # TODO purge defunct readings
   my @readings;
   my @files = File::Find::Rule->file()
     ->name('reading-*.dat' )
