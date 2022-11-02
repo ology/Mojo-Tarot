@@ -88,13 +88,13 @@ get '/' => sub ($c) {
 
   # save or load readings
   if ($action eq 'Save') {
-    my $saved = {
+    my $reading = {
       session => $session,
       name    => $save,
       choices => \@choices,
     };
     my $file = './reading-' . time() . '.dat';
-    store($saved, $file);
+    store($reading, $file);
   }
   elsif ($action eq 'Load') {
     my $data = retrieve $load;
