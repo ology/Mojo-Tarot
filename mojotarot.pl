@@ -143,7 +143,7 @@ __DATA__
 % # Cut
 <form method="get" class="block">
   <input type="hidden" name="action" value="Cut" />
-  <select name="cut" title="Cut the deck" class="btn btn-mini btn-info" onchange="this.form.submit()">
+  <select name="cut" title="Cut the deck" class="btn btn-sm btn-info" onchange="this.form.submit()">
     <option value="0" selected disabled>Cut</option>
 % for my $n (1 .. keys %$deck) {
     <option value="<%= $n %>"><%= $n %></option>
@@ -165,7 +165,7 @@ __DATA__
 % # Spread
 <form method="get" class="block">
   <input type="hidden" name="action" value="Spread" />
-  <select name="type" title="Generate a spread" onchange="this.form.submit()" class="btn btn-mini">
+  <select name="type" title="Generate a spread" onchange="this.form.submit()" class="btn btn-sm">
     <option value="0" selected disabled>Spread</option>
 % for my $n (1 .. 10) {
     <option value="<%= $n %>"><%= $n %></option>
@@ -176,7 +176,7 @@ __DATA__
 % # Choose
 <form method="get" class="block">
   <input type="hidden" name="action" value="Choose" />
-  <select name="choice" title="Choose a card" class="btn btn-mini" onchange="this.form.submit()">
+  <select name="choice" title="Choose a card" class="btn btn-sm" onchange="this.form.submit()">
     <option value="" selected disabled>Card</option>
 % for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
 %   my $n = $deck->{$card}{p};
