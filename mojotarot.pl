@@ -2,8 +2,8 @@
 use Mojolicious::Lite -signatures;
 
 use Data::Dumper::Compact qw(ddc);
-use List::Util qw(first);
 use File::Find::Rule ();
+use List::Util qw(first);
 use Storable qw(retrieve store);
 
 use lib 'lib';
