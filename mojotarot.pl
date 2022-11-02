@@ -29,7 +29,7 @@ get '/' => sub ($c) {
   }
 
   # collect the choices that have been made
-  my $choices = $c->cookie('choice') || '';
+  my $choices = $c->cookie('choice') // '';
   $choices = [ split /\|/, $choices ];
 
   # remember the actions taken
@@ -209,6 +209,13 @@ __DATA__
   <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= ucfirst $card->{name} %> (<%= $card->{n} %>)" height="200" width="100" style="<%= $style %>" />
   </a>
 %   }
+<!-- maybe...
+  <p></p>
+  <form method="get" class="block">
+    <input type="text" name="name" title="Name for this saved reading" placeholder="Name" />
+    <input type="submit" name="action" title="Save this reading" value="Save" class="btn btn-sm btn-dark" />
+  </form>
+-->
 </div>
 % }
 % elsif ($view) {
