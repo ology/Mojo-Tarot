@@ -36,7 +36,7 @@ get '/' => sub ($c) {
   my $crumb_trail = $c->cookie('crumbs') || '';
   $crumb_trail = [ split /\|/, $crumb_trail ];
 
-  my ($view, $spread) = (0, 0);
+  my $view = 0;
 
   # take action!
   if ($action eq 'View') {
@@ -52,7 +52,7 @@ get '/' => sub ($c) {
     push @$crumb_trail, "$action $cut";
   }
   elsif ($action eq 'Spread') {
-    ($spread) = Tarot::spread($deck, $type);
+    my ($spread) = Tarot::spread($deck, $type);
     push @$choices, map { $_->{p} } @$spread;
     push @$crumb_trail, "$action $type";
   }
@@ -95,7 +95,6 @@ get '/' => sub ($c) {
     template => 'index',
     deck     => $deck,
     view     => $view,
-    spread   => $spread,
     choices  => \@choices,
     crumbs   => $crumb_trail,
     orient   => $orient,
@@ -205,17 +204,6 @@ __DATA__
 <hr>
 <div>
 %   for my $card (@$choices) {
-%     my $style = $card->{o} ? 'transform: scaleY(-1);' : '';
-  <a href="<%= $card->{file} %>">
-  <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= ucfirst $card->{name} %> (<%= $card->{n} %>)" height="200" width="100" style="<%= $style %>" />
-  </a>
-%   }
-</div>
-% }
-% elsif ($spread) {
-<hr>
-<div>
-%   for my $card (@$spread) {
 %     my $style = $card->{o} ? 'transform: scaleY(-1);' : '';
   <a href="<%= $card->{file} %>">
   <img src="<%= $card->{file} %>" alt="<%= $card->{name} %>" title="<%= ucfirst $card->{name} %> (<%= $card->{n} %>)" height="200" width="100" style="<%= $style %>" />
