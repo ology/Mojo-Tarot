@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use Data::Dumper::Compact qw(ddc);
-use Carp qw(croak);
 use List::Util qw(shuffle);
 
 use constant MAJOR_ARCANA => (
@@ -84,7 +83,7 @@ sub cut_deck {
   my ($deck, $n) = @_;
   my @cards = keys %$deck;
   $n ||= int(@cards) / 2; # default half of deck
-  croak "N must be between 1 and ", scalar(@cards), "\n"
+  die "N must be between 1 and ", scalar(@cards), "\n"
     if $n < 1 || $n > @cards;
   my @ordered = sort { $deck->{$a}{p} <=> $deck->{$b}{p} } @cards;
   my @cut = (
@@ -107,7 +106,7 @@ sub choose {
     $chosen = $card;
     last;
   }
-  croak 'No card chosen' unless $chosen;
+  die 'No card chosen' unless $chosen;
   $deck->{$chosen}{chosen} = 1;
   return $deck->{$chosen};
 }
