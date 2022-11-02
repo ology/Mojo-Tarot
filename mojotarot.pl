@@ -229,7 +229,7 @@ __DATA__
 
 % # Clear
 <form method="get" class="block">
-  <input type="submit" name="action" title="Clear the choices" value="Clear" class="btn btn-sm btn-outline-dark" />
+  <input type="submit" name="action" title="Clear the choices" value="Clear" class="btn btn-sm btn-light" />
 </form>
 
 </div>
