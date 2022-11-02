@@ -223,7 +223,7 @@ __DATA__
 %   }
   <p></p>
   <form method="get" class="block">
-    <input type="text" name="name" title="Name for this saved reading" placeholder="Name" />
+    <input type="text" name="name" title="Name for this saved reading" placeholder="Reading name" />
     <input type="submit" name="action" title="Save this reading" value="Save" class="btn btn-sm btn-dark" />
   </form>
 </div>
