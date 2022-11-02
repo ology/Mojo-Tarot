@@ -1,5 +1,6 @@
 requires 'Data::Dumper::Compact';
-requires 'Mojolicious';
+requires 'File::Find::Rule';
 requires 'List::Util';
+requires 'Mojolicious';
 requires 'Set::Array';
 requires 'Storable';
