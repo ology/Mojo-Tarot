@@ -43,7 +43,7 @@ sub build_cards {
     (
       map {
         my $suit = $_;
-        map { "$_ of $suit" } 1 .. 10, qw(page knight queen king)
+        map { "$_ of $suit" } 'ace', 2 .. 10, qw(page knight queen king)
       } MINOR_ARCANA_SUITS
     ),
   );
