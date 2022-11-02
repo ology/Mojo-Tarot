@@ -87,6 +87,7 @@ get '/' => sub ($c) {
     push @choices, $deck->{$card};
   }
 
+  # save or load readings
   if ($action eq 'Save') {
     my $saved = {
       session => $session,
