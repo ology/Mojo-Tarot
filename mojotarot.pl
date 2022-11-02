@@ -3,6 +3,7 @@ use Mojolicious::Lite -signatures;
 
 use Data::Dumper::Compact qw(ddc);
 use List::Util qw(first);
+use File::Find::Rule ();
 use Storable qw(retrieve store);
 
 use lib 'lib';
@@ -103,6 +104,15 @@ get '/' => sub ($c) {
     store($saved, $file);
   }
 
+  my @readings;
+  my @files = File::Find::Rule->file()
+    ->name('reading-*.dat' )
+    ->in('.');
+  for my $file (@files) {
+    my $data = retrieve $file;
+    push @readings, { file => $file, name => $data->{name} };
+  }
+
   $c->render(
     template => 'index',
     deck     => $deck,
@@ -110,6 +120,7 @@ get '/' => sub ($c) {
     choices  => \@choices,
     crumbs   => $crumb_trail,
     orient   => $orient,
+    readings => \@readings,
   );
 } => 'index';
 
@@ -225,6 +236,16 @@ __DATA__
   <form method="get" class="block">
     <input type="text" name="name" title="Name for this saved reading" placeholder="Reading name" />
     <input type="submit" name="action" title="Save this reading" value="Save" class="btn btn-sm btn-dark" />
+  </form>
+  <br>
+  <form method="get" class="block">
+    <input type="hidden" name="action" value="Load" />
+    <select name="reading" title="Choose a reading" class="btn btn-sm" onchange="this.form.submit()">
+      <option value="" selected disabled>Load reading</option>
+% for my $reading (@$readings) {
+      <option value="<%= $reading->{file} %>"><%= $reading->{name} %></option>
+% }
+    </select>
   </form>
 </div>
 % }
