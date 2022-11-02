@@ -2,6 +2,7 @@
 use Mojolicious::Lite -signatures;
 
 use Data::Dumper::Compact qw(ddc);
+use List::Util qw(first);
 use Storable qw(retrieve store);
 
 use lib 'lib';
@@ -15,6 +16,7 @@ get '/' => sub ($c) {
   my $action = $c->param('action') || ''; # action to perform
   my $choice = $c->param('choice');       # chosen card
   my $orient = $c->param('orient') || 0;  # upside down or not?
+  my $name   = $c->param('name');         # saved reading name
 
   # is there a deck to use?
   my $deck;
@@ -87,8 +89,18 @@ get '/' => sub ($c) {
   # get the cards that have been chosen
   my @choices;
   for my $n (@$choices) {
-    my $card = ( grep { $deck->{$_}{p} == $n } keys %$deck )[0];
+    my $card = ( first { $deck->{$_}{p} == $n } keys %$deck )[0];
     push @choices, $deck->{$card};
+  }
+
+  if ($action eq 'Save') {
+    my $saved = {
+      session => $session,
+      name    => $name,
+      choices => \@choices,
+    };
+    my $file = './reading-' . time() . '.dat';
+    store($saved, $file);
   }
 
   $c->render(
