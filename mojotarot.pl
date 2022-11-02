@@ -109,7 +109,8 @@ get '/' => sub ($c) {
     ->in('.');
   for my $file (@files) {
     my $data = retrieve $file;
-    push @readings, { file => $file, name => $data->{name} };
+    push @readings, { file => $file, name => $data->{name} }
+      if $data->{session} == $session;
   }
 
   # remember the choices and actions
