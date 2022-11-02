@@ -62,9 +62,7 @@ get '/' => sub ($c) {
   }
   elsif ($action eq 'Reset') {
     ($deck) = Tarot::build_deck();
-    $c->cookie(choice => '');
     $choices = [];
-    $c->cookie(crumbs => '');
     $crumb_trail = ['Reset'];
     $orient = 0;
   }
@@ -75,9 +73,7 @@ get '/' => sub ($c) {
   }
   elsif ($action eq 'Clear') {
     Tarot::clear($deck);
-    $c->cookie(choice => '');
     $choices = [];
-    $c->cookie(crumbs => '');
     $crumb_trail = [];
   }
 
