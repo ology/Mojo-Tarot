@@ -104,7 +104,7 @@ get '/' => sub ($c) {
     my $data = retrieve $load;
     @choices = $data->{choices}->@*;
     $choices = [ map { $_->{p} } @choices ];
-    $crumb_trail = ['Load'];
+    $crumb_trail = ["Load $data->{name}"];
   }
 
   my @readings;
@@ -191,6 +191,17 @@ __DATA__
 
 <p></p>
 
+% # Load
+<form method="get" class="block">
+  <input type="hidden" name="action" value="Load" />
+  <select name="reading" title="Choose a reading" class="btn btn-sm" onchange="this.form.submit()">
+    <option value="" selected disabled>Load</option>
+% for my $reading (@$readings) {
+    <option value="<%= $reading->{file} %>"><%= $reading->{name} %></option>
+% }
+  </select>
+</form>
+
 % # Spread
 <form method="get" class="block">
   <input type="hidden" name="action" value="Spread" />
@@ -243,16 +254,6 @@ __DATA__
   <form method="get" class="block">
     <input type="text" name="name" title="Name for this saved reading" placeholder="Reading name" />
     <input type="submit" name="action" title="Save this reading" value="Save" class="btn btn-sm btn-dark" />
-  </form>
-  <br>
-  <form method="get" class="block">
-    <input type="hidden" name="action" value="Load" />
-    <select name="reading" title="Choose a reading" class="btn btn-sm" onchange="this.form.submit()">
-      <option value="" selected disabled>Load reading</option>
-% for my $reading (@$readings) {
-      <option value="<%= $reading->{file} %>"><%= $reading->{name} %></option>
-% }
-    </select>
   </form>
 </div>
 % }
