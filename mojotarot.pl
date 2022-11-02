@@ -160,14 +160,14 @@ __DATA__
 % # View
 <form method="get" class="block">
   <button type="submit" name="action" title="View the deck" value="View" class="btn btn-sm btn-success" />
-    <i class="fa-solid fa-magnifying-glass"></i> View
+    View
   </button>
 </form>
 
 % # Reset
 <form method="get" class="block">
   <button type="submit" name="action" title="Reset the deck" value="Reset" class="btn btn-sm btn-primary" />
-    <i class="fa-solid fa-rotate-left"></i> Reset
+    Reset
   </button>
 </form>
 
@@ -185,7 +185,7 @@ __DATA__
 % # Shuffle
 <form method="get" class="block">
   <button type="submit" name="action" title="Shuffle the deck" value="Shuffle" class="btn btn-sm btn-info" />
-    <i class="fa-solid fa-shuffle"></i> Shuffle
+    Shuffle
   </button>
   <div class="form-check form-check-inline">
 % my $checked = $orient ? 'checked' : '';
@@ -235,7 +235,7 @@ __DATA__
 % # Clear
 <form method="get" class="block">
   <button type="submit" name="action" title="Clear the choices" value="Clear" class="btn btn-sm btn-light" />
-    <i class="fa-solid fa-trash-can"></i> Clear
+    Clear
   </button>
 </form>
 
@@ -262,7 +262,7 @@ __DATA__
   <form method="get" class="block">
     <input type="text" name="name" title="Name for this saved reading" placeholder="Reading name" />
     <button type="submit" name="action" title="Save this reading" value="Save" class="btn btn-sm btn-dark" />
-      <i class="fa-solid fa-cloud-arrow-up"></i> Save
+      Save
     </button>
   </form>
 </div>
@@ -303,8 +303,6 @@ __DATA__
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" onerror="this.onerror=null;this.href='/css/bootstrap.min.css';" />
-    <link href="/fontawesome/css/fontawesome.css" rel="stylesheet">
-    <link href="/fontawesome/css/solid.css" rel="stylesheet">
     <title><%= title %></title>
     <style>
       .block {
