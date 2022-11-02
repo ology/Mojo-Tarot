@@ -112,8 +112,8 @@ app->start;
 
 sub _store_deck {
   my ($c, $deck, $session) = @_;
+  ($deck) ||= Tarot::build_deck();
   unless ($session) {
-    ($deck) = Tarot::build_deck();
     $session = time();
     $c->session(session => $session);
   }
