@@ -37,8 +37,8 @@ get '/' => sub ($c) {
   $choices = [ split /\|/, $choices ];
 
   # remember the actions taken
-  my $crumb_trail = $c->cookie('crumbs') || '';
-  $crumb_trail = [ split /\|/, $crumb_trail ];
+  my $crumbs = $c->cookie('crumbs') || '';
+  $crumbs = [ split /\|/, $crumbs ];
 
   my $view = 0;
 
@@ -48,33 +48,33 @@ get '/' => sub ($c) {
   }
   elsif ($action eq 'Shuffle') {
     Tarot::shuffle_deck($deck, $orient);
-    push @$crumb_trail, $action;
+    push @$crumbs, $action;
     $view = 1;
   }
   elsif ($action eq 'Cut') {
     Tarot::cut_deck($deck, $cut);
-    push @$crumb_trail, "$action $cut";
+    push @$crumbs, "$action $cut";
   }
   elsif ($action eq 'Spread') {
     my ($spread) = Tarot::spread($deck, $type);
     push @$choices, map { $_->{p} } @$spread;
-    push @$crumb_trail, "$action $type";
+    push @$crumbs, "$action $type";
   }
   elsif ($action eq 'Reset') {
     ($deck) = Tarot::build_deck();
     $choices = [];
-    $crumb_trail = ['Reset'];
+    $crumbs = ['Reset'];
     $orient = 0;
   }
   elsif ($action eq 'Choose') {
     Tarot::choose($deck, $choice);
     push @$choices, $choice;
-    push @$crumb_trail, "Choose $choice";
+    push @$crumbs, "Choose $choice";
   }
   elsif ($action eq 'Clear') {
     Tarot::clear($deck);
     $choices = [];
-    $crumb_trail = [];
+    $crumbs = [];
   }
 
   # remember the deck
@@ -101,7 +101,7 @@ get '/' => sub ($c) {
     my $data = retrieve $load;
     @choices = $data->{choices}->@*;
     $choices = [ map { $_->{p} } @choices ];
-    $crumb_trail = ["Load $data->{name}"];
+    $crumbs = ["Load $data->{name}"];
   }
 
     # TODO purge defunct readings
@@ -117,14 +117,14 @@ get '/' => sub ($c) {
 
   # remember the choices and actions
   $c->cookie(choice => join '|', @$choices);
-  $c->cookie(crumbs => join '|', @$crumb_trail);
+  $c->cookie(crumbs => join '|', @$crumbs);
 
   $c->render(
     template => 'index',
     deck     => $deck,
     view     => $view,
     choices  => \@choices,
-    crumbs   => $crumb_trail,
+    crumbs   => $crumbs,
     orient   => $orient,
     readings => \@readings,
   );
