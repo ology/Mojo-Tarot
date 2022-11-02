@@ -29,7 +29,7 @@ get '/' => sub ($c) {
   }
 
   # collect the choices that have been made
-  my $choices = $c->cookie('choice');
+  my $choices = $c->cookie('choice') || '';
   $choices = [ split /\|/, $choices ];
 
   # remember the actions taken
