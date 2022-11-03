@@ -32,7 +32,7 @@ get '/' => sub ($c) {
     $c->app->log->info("Made new session deck $session");
   }
 
-  # collect the choices 0-78 that have been made
+  # collect the choices 0-77 that have been made
   my $choices = $c->cookie('choice') // '';
   $choices = [ split /\|/, $choices ];
 
