@@ -57,18 +57,18 @@ get '/' => sub ($c) {
     push @$crumbs, "$action $cut";
     $c->app->log->info('Cut deck');
   }
-  elsif ($action eq 'Spread') {
-    my ($spread) = Tarot::spread($deck, $type);
-    push @$choices, map { $_->{p} } @$spread;
-    push @$crumbs, "$action $type";
-    $c->app->log->info('Show spread');
-  }
   elsif ($action eq 'Reset') {
     ($deck) = Tarot::build_deck();
     $choices = [];
     $crumbs = ['Reset'];
     $orient = 0;
     $c->app->log->info('Reset deck');
+  }
+  elsif ($action eq 'Spread') {
+    my ($spread) = Tarot::spread($deck, $type);
+    push @$choices, map { $_->{p} } @$spread;
+    push @$crumbs, "$action $type";
+    $c->app->log->info('Show spread');
   }
   elsif ($action eq 'Choose') {
     Tarot::choose($deck, $choice);
