@@ -55,6 +55,12 @@ $t->get_ok('/?action=Shuffle&orient=on')
   ->content_like(qr/checked/, 'Orient checked')
 ;
 
+$t->get_ok('/?action=Spread&type=1')
+  ->status_is(200)
+  ->content_like(qr|&gt; Spread 1\s*</div>|, 'Spread text')
+  ->content_like(qr/img src/, 'image on page')
+;
+
 # purge the deck file(s) created by this test
 my @files = File::Find::Rule->file()->name($name)->in('.');
 for my $file (@files) {
