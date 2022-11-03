@@ -27,13 +27,13 @@ get '/' => sub ($c) {
   my $session_file = './deck-' . $session . '.dat';
   if ($session && -e $session_file) {
     $deck = retrieve $session_file;
-    $deck->{_date} = time(); # update last used date
     $c->app->log->info("Loaded session deck $session");
   }
   else {
     ($deck, $session) = _store_deck($c);
     $c->app->log->info("Made new session deck $session");
   }
+  $deck->{_date} = time(); # update last used date
 
   # collect the choices 0-77 that have been made
   my $choices = $c->cookie('choice') // '';
@@ -149,10 +149,7 @@ app->start;
 
 sub _store_deck {
   my ($c, $deck, $session) = @_;
-  unless ($deck) {
-    ($deck) = Tarot::build_deck();
-    $deck->{_date} = time(); # update last used date
-  }
+  ($deck) ||= Tarot::build_deck();
   unless ($session) {
     $session = time();
     $c->session(session => $session);
