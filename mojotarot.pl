@@ -194,7 +194,7 @@ __DATA__
   </button>
   <div class="form-check form-check-inline">
 % my $checked = $orient ? 'checked' : '';
-    <input class="form-check-input" type="checkbox" name="orient" <%= $checked %> title="Shuffle with approximately half upside down" />
+    <input class="form-check-input" type="checkbox" name="orient" title="Shuffle with approximately half upside down" <%= $checked %>/>
   </div>
 </form>
 
