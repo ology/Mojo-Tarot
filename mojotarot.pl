@@ -27,7 +27,7 @@ get '/' => sub ($c) {
   my $session_file = './deck-' . $session . '.dat';
   if ($session && -e $session_file) {
     $deck = retrieve $session_file;
-#    $deck->{_date} = time(); # update last used date
+    $deck->{_date} = time(); # update last used date
     $c->app->log->info("Loaded session deck $session");
   }
   else {
@@ -101,14 +101,14 @@ get '/' => sub ($c) {
       session => $session,
       name    => $save,
       choices => \@choices,
-#      _date   => time(),
+      _date   => time(),
     };
     my $file = './reading-' . time() . '.dat';
     store($reading, $file);
   }
   elsif ($action eq 'Load') {
     my $data = retrieve $load;
-#    $data->{_date} = time(); # update last used date
+    $data->{_date} = time(); # update last used date
     @choices = $data->{choices}->@*;
     $choices = [ map { $_->{p} } @choices ];
     $crumbs = ["Load $data->{name}"];
@@ -149,7 +149,10 @@ app->start;
 
 sub _store_deck {
   my ($c, $deck, $session) = @_;
-  ($deck) ||= Tarot::build_deck();
+  unless ($deck) {
+    ($deck) = Tarot::build_deck();
+    $deck->{_date} = time(); # update last used date
+  }
   unless ($session) {
     $session = time();
     $c->session(session => $session);
