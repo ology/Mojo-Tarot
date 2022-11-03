@@ -26,6 +26,7 @@ get '/' => sub ($c) {
   my $session_file = './deck-' . $session . '.dat';
   if ($session && -e $session_file) {
     $deck = retrieve $session_file;
+    $c->app->log->info("Loaded session deck $session");
   }
   else {
     $session = _store_deck($c);
@@ -49,31 +50,37 @@ get '/' => sub ($c) {
   elsif ($action eq 'Shuffle') {
     Tarot::shuffle_deck($deck, $orient);
     push @$crumbs, $action;
+    $c->app->log->info('Shuffle deck');
   }
   elsif ($action eq 'Cut') {
     Tarot::cut_deck($deck, $cut);
     push @$crumbs, "$action $cut";
+    $c->app->log->info('Cut deck');
   }
   elsif ($action eq 'Spread') {
     my ($spread) = Tarot::spread($deck, $type);
     push @$choices, map { $_->{p} } @$spread;
     push @$crumbs, "$action $type";
+    $c->app->log->info('Show spread');
   }
   elsif ($action eq 'Reset') {
     ($deck) = Tarot::build_deck();
     $choices = [];
     $crumbs = ['Reset'];
     $orient = 0;
+    $c->app->log->info('Reset deck');
   }
   elsif ($action eq 'Choose') {
     Tarot::choose($deck, $choice);
     push @$choices, $choice;
     push @$crumbs, "Choose $choice";
+    $c->app->log->info('Choose card');
   }
   elsif ($action eq 'Clear') {
     Tarot::clear($deck);
     $choices = [];
     $crumbs = [];
+    $c->app->log->info('Clear choices');
   }
 
   # remember the deck
