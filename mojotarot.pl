@@ -10,6 +10,8 @@ use Time::HiRes qw(time);
 use lib 'lib';
 use Tarot ();
 
+use constant LIMIT => 60 * 60 * 24 * 30; # last used date max
+
 get '/' => sub ($c) {
   my $type   = $c->param('type');         # spread type
   my $cut    = $c->param('cut');          # cut deck
@@ -18,8 +20,6 @@ get '/' => sub ($c) {
   my $orient = $c->param('orient') || 0;  # upside down or not?
   my $save   = $c->param('name');         # saved reading name
   my $load   = $c->param('reading');      # reading to load
-
-  # TODO Purge old session decks
 
   # is there a deck to use?
   my $deck;
@@ -114,7 +114,6 @@ get '/' => sub ($c) {
     $crumbs = ["Load $data->{name}"];
   }
 
-  # TODO purge defunct readings
   my @readings;
   my @files = File::Find::Rule->file()
     ->name('reading-*.dat' )
@@ -140,9 +139,9 @@ get '/' => sub ($c) {
   );
 } => 'index';
 
-helper card_file => sub ($c, $card) {
-  return Tarot::card_file($card);
-};
+# TODO Purge old session decks and defunct readings
+get '/purge' => sub ($c) {
+} => 'purge';
 
 app->log->level('info');
 
