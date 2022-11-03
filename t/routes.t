@@ -30,6 +30,7 @@ $t->get_ok('/')
   ->content_like(qr/value="Clear"/, 'has Clear btn')
 ;
 
+# TODO replace with https://github.com/avkhozov/Test-Mojo-Session/pull/10 when/if available
 like $t->_extract_session->{session}, qr/^$stamp\.\d+$/, 'session created';
 
 $t->get_ok('/?action=View')
