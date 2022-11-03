@@ -111,7 +111,7 @@ get '/' => sub ($c) {
 
   my @readings;
   my @files = File::Find::Rule->file()
-    ->name('reading-*.dat' )
+    ->name('reading-*.dat')
     ->in('.');
   for my $file (@files) {
     my $data = retrieve $file;
