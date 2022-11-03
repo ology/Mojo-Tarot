@@ -62,10 +62,10 @@ sub build_deck {
       o      => 0,  # orientation
       chosen => 0,  # has been chosen
       file   => card_file($card),
-      date   => time(),
     };
     $n++;
   }
+#  $deck{_date} = time(); # update last used date
   return \%deck;
 }
 
