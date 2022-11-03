@@ -327,7 +327,7 @@ __DATA__
       <h3><%= title %></h3>
       <%= content %>
       <p></p>
-      <div id="footer" class="text-secondary">
+      <div id="footer" class="small">
         <hr>
         Built by <a href="http://gene.ology.net/">Gene</a>
         with <a href="https://www.perl.org/">Perl</a> and
