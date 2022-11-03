@@ -74,6 +74,12 @@ $t->get_ok('/?action=Choose&choice=0')
   ->content_like(qr/value="Save"/, 'has Save btn')
 ;
 
+$t->get_ok('/?action=Clear')
+  ->status_is(200)
+  ->content_unlike(qr/<div class="small">/, 'no action trail')
+  ->content_unlike(qr/img src/, 'image not on page')
+;
+
 # purge the deck file(s) created by this test
 my @files = File::Find::Rule->file()->name($name)->in('.');
 for my $file (@files) {
