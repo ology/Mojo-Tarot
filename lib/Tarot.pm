@@ -61,6 +61,7 @@ sub build_deck {
       o      => 0,  # orientation
       chosen => 0,  # has been chosen
       file   => card_file($card),
+      date   => time(),
     };
     $n++;
   }
