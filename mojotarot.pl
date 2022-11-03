@@ -28,7 +28,6 @@ get '/' => sub ($c) {
   if ($session && -e $session_file) {
     $deck = retrieve $session_file;
 #    $deck->{_date} = time(); # update last used date
-    $c->app->log->info("Loaded session deck $session");
   }
   else {
     ($deck, $session) = _store_deck($c);
@@ -186,7 +185,7 @@ __DATA__
   <input type="hidden" name="action" value="Cut" />
   <select name="cut" title="Cut the deck" class="btn btn-sm" onchange="this.form.submit()">
     <option value="0" selected disabled>Cut</option>
-% for my $n (1 .. keys %$deck) {
+% for my $n (1 .. keys(%$deck) - 1) {
     <option value="<%= $n %>"><%= $n %></option>
 % }
   </select>
@@ -234,6 +233,7 @@ __DATA__
   <input type="hidden" name="action" value="Choose" />
   <select name="choice" title="Choose a card" class="btn btn-sm" onchange="this.form.submit()">
     <option value="" selected disabled>Card</option>
+% delete $deck->{_date};
 % for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
 %   my $n = $deck->{$card}{p};
 %   my $disabled = $deck->{$card}{chosen} ? 'disabled' : '';
@@ -283,6 +283,7 @@ __DATA__
   <table cellpadding="2" border="0">
 %   my $n = 0;
 %   my $cells = 3;
+%   delete $deck->{_date};
 %   for my $name (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
 %   my $row = 0;
 %     if ($n == 0 || $n % $cells == 0) {
