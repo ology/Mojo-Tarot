@@ -10,8 +10,6 @@ use Time::HiRes qw(time);
 use lib 'lib';
 use Tarot ();
 
-# TODO Purge old session decks
-
 get '/' => sub ($c) {
   my $type   = $c->param('type');         # spread type
   my $cut    = $c->param('cut');          # cut deck
@@ -20,6 +18,8 @@ get '/' => sub ($c) {
   my $orient = $c->param('orient') || 0;  # upside down or not?
   my $save   = $c->param('name');         # saved reading name
   my $load   = $c->param('reading');      # reading to load
+
+  # TODO Purge old session decks
 
   # is there a deck to use?
   my $deck;
