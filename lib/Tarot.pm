@@ -5,6 +5,7 @@ use warnings;
 
 use Data::Dumper::Compact qw(ddc);
 use List::Util qw(shuffle);
+use Time::HiRes qw(time);
 
 use constant MAJOR_ARCANA => (
   'fool',
