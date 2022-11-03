@@ -27,11 +27,11 @@ get '/' => sub ($c) {
   my $session_file = './deck-' . $session . '.dat';
   if ($session && -e $session_file) {
     $deck = retrieve $session_file;
-    $deck->{date} = time(); # update last used date
+#    $deck->{_date} = time(); # update last used date
     $c->app->log->info("Loaded session deck $session");
   }
   else {
-    $session = _store_deck($c);
+    ($deck, $session) = _store_deck($c);
     $c->app->log->info("Made new session deck $session");
   }
 
@@ -101,14 +101,14 @@ get '/' => sub ($c) {
       session => $session,
       name    => $save,
       choices => \@choices,
-      date    => time(),
+#      _date   => time(),
     };
     my $file = './reading-' . time() . '.dat';
     store($reading, $file);
   }
   elsif ($action eq 'Load') {
     my $data = retrieve $load;
-    $data->{date} = time(); # update last used date
+#    $data->{_date} = time(); # update last used date
     @choices = $data->{choices}->@*;
     $choices = [ map { $_->{p} } @choices ];
     $crumbs = ["Load $data->{name}"];
@@ -156,7 +156,7 @@ sub _store_deck {
   }
   my $file = './deck-' . $session . '.dat';
   store($deck, $file);
-  return $c->session('session');
+  return $deck, $c->session('session');
 }
 
 __DATA__
