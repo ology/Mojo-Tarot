@@ -171,7 +171,7 @@ __DATA__
 
 % # Reset
 <form method="get" class="block">
-  <button type="submit" name="action" title="Reset the deck" value="Reset" class="btn btn-sm btn-primary" />
+  <button type="submit" name="action" title="Reset the deck" value="Reset" class="btn btn-sm btn-info" />
     Reset
   </button>
 </form>
