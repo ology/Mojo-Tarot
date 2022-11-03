@@ -70,6 +70,8 @@ $t->get_ok('/?action=Choose&choice=0')
   ->content_like(qr|&gt; Choose 0\s*</div>|, 'Choose text')
   ->content_like(qr/img src/, 'image on page')
   ->content_like(qr/title="Fool \(0\)"/, 'Fool (0) card')
+  ->content_like(qr/name="name"/, 'Reading name input')
+  ->content_like(qr/value="Save"/, 'has Save btn')
 ;
 
 # purge the deck file(s) created by this test
