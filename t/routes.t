@@ -3,11 +3,11 @@ use Mojo::Base -strict;
 use File::Find::Rule ();
 use Time::HiRes qw(time);
 
-use Test::Mojo;
+use Test::Mojo::Session;
 use Test::More;
 
 use Mojo::File qw(curfile);
-my $t = Test::Mojo->new(curfile->dirname->sibling('mojotarot.pl'));
+my $t = Test::Mojo::Session->new(curfile->dirname->sibling('mojotarot.pl'));
 
 my $now = time();
 (my $stamp = $now) =~ s/^(\d+)\.\d+/$1/;
@@ -16,6 +16,8 @@ diag "Created deck file glob: $name";
 
 $t->get_ok('/')
   ->status_is(200)
+  ->session_ok
+  ->session_has('/session')
   ->content_like(qr/Court de Gébelin/, 'has title')
   ->content_like(qr/value="View"/, 'has View btn')
   ->content_like(qr/value="Reset"/, 'has Reset btn')
@@ -27,6 +29,8 @@ $t->get_ok('/')
   ->content_like(qr/value="Choose"/, 'has Choose select')
   ->content_like(qr/value="Clear"/, 'has Clear btn')
 ;
+
+like $t->_extract_session->{session}, qr/^$stamp\.\d+$/, 'session created';
 
 $t->get_ok('/?action=View')
   ->status_is(200)
