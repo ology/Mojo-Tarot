@@ -5,6 +5,7 @@ use Data::Dumper::Compact qw(ddc);
 use File::Find::Rule ();
 use List::Util qw(first);
 use Storable qw(retrieve store);
+use Time::HiRes qw(time);
 
 use lib 'lib';
 use Tarot ();
