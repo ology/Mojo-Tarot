@@ -10,8 +10,6 @@ use Time::HiRes qw(time);
 use lib 'lib';
 use Tarot ();
 
-use constant LIMIT => 60 * 60 * 24 * 30; # last used date max
-
 get '/' => sub ($c) {
   my $type   = $c->param('type');         # spread type
   my $cut    = $c->param('cut');          # cut deck
@@ -33,7 +31,6 @@ get '/' => sub ($c) {
     ($deck, $session) = _store_deck($c);
     $c->app->log->info("Made new session deck $session");
   }
-  $deck->{_date} = time(); # update last used date
 
   # collect the choices 0-77 that have been made
   my $choices = $c->cookie('choice') // '';
@@ -101,14 +98,12 @@ get '/' => sub ($c) {
       session => $session,
       name    => $save,
       choices => \@choices,
-      _date   => time(),
     };
     my $file = './reading-' . time() . '.dat';
     store($reading, $file);
   }
   elsif ($action eq 'Load') {
     my $data = retrieve $load;
-    $data->{_date} = time(); # update last used date
     @choices = $data->{choices}->@*;
     $choices = [ map { $_->{p} } @choices ];
     $crumbs = ["Load $data->{name}"];
@@ -234,7 +229,6 @@ __DATA__
   <input type="hidden" name="action" value="Choose" />
   <select name="choice" title="Choose a card" class="btn btn-sm" onchange="this.form.submit()">
     <option value="" selected disabled>Card</option>
-% delete $deck->{_date};
 % for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
 %   my $n = $deck->{$card}{p};
 %   my $disabled = $deck->{$card}{chosen} ? 'disabled' : '';
@@ -284,7 +278,6 @@ __DATA__
   <table cellpadding="2" border="0">
 %   my $n = 0;
 %   my $cells = 3;
-%   delete $deck->{_date};
 %   for my $name (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
 %   my $row = 0;
 %     if ($n == 0 || $n % $cells == 0) {

@@ -65,7 +65,6 @@ sub build_deck {
     };
     $n++;
   }
-#  $deck{_date} = time(); # update last used date
   return \%deck;
 }
 
