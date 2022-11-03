@@ -47,6 +47,7 @@ $t->get_ok('/?action=Cut&cut=1')
 $t->get_ok('/?action=Shuffle')
   ->status_is(200)
   ->content_like(qr|&gt; Shuffle\s*</div>|, 'Shuffle text')
+  ->content_unlike(qr/checked/, 'Orient not checked')
 ;
 
 $t->get_ok('/?action=Shuffle&orient=on')
