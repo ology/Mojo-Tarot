@@ -100,12 +100,14 @@ get '/' => sub ($c) {
       session => $session,
       name    => $save,
       choices => \@choices,
+      date    => time(),
     };
     my $file = './reading-' . time() . '.dat';
     store($reading, $file);
   }
   elsif ($action eq 'Load') {
     my $data = retrieve $load;
+    $data->{date} = time(); # update last used date
     @choices = $data->{choices}->@*;
     $choices = [ map { $_->{p} } @choices ];
     $crumbs = ["Load $data->{name}"];
