@@ -26,6 +26,7 @@ get '/' => sub ($c) {
   my $session_file = './deck-' . $session . '.dat';
   if ($session && -e $session_file) {
     $deck = retrieve $session_file;
+    $deck->{date} = time(); # update last used date
     $c->app->log->info("Loaded session deck $session");
   }
   else {
