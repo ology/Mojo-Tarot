@@ -47,6 +47,7 @@ subtest reset => sub {
   $t->get_ok('/?action=Reset')
     ->status_is(200)
     ->content_unlike(qr/<div class="small">/, 'no action text')
+    ->content_unlike(qr/img src/, 'image not on page')
   ;
 };
 
@@ -86,6 +87,7 @@ subtest choose => sub {
   $t->get_ok('/?action=Reset')
     ->status_is(200)
     ->content_unlike(qr/<div class="small">/, 'no action text')
+    ->content_unlike(qr/img src/, 'image not on page')
   ;
   $t->get_ok('/?action=Choose&choice=0')
     ->status_is(200)
@@ -106,7 +108,7 @@ subtest clear => sub {
 };
 
 subtest purge => sub {
-  diag 'purge the deck file(s) created by this test...';
+  diag 'Purge the deck file(s) created by this test...';
   my @files = File::Find::Rule->file()->name($name)->in('.');
   for my $file (@files) {
     ok -e $file, "deck file: $file exists";
