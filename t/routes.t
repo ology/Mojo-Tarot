@@ -18,7 +18,7 @@ subtest widgets => sub {
   $t->get_ok('/')
     ->status_is(200)
     ->session_ok
-    ->session_has('/session')
+    ->session_like('/session' => qr/^(\d+)\.\d+$/, 'session created')
     ->content_like(qr/Court de Gébelin/, 'has title')
     ->content_like(qr/value="View"/, 'has View btn')
     ->content_like(qr/value="Reset"/, 'has Reset btn')
@@ -30,9 +30,6 @@ subtest widgets => sub {
     ->content_like(qr/value="Choose"/, 'has Choose select')
     ->content_like(qr/value="Clear"/, 'has Clear btn')
   ;
-
-  # TODO replace with https://github.com/avkhozov/Test-Mojo-Session/pull/10 when/if available
-  like $t->_extract_session->{session}, qr/^$stamp\.\d+$/, 'session created';
 };
 
 subtest view => sub {
