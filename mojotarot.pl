@@ -36,7 +36,7 @@ get '/' => sub ($c) {
   my $choices = $c->cookie('choice') // '';
   $choices = [ split /\|/, $choices ];
 
-  # remember the actions taken
+  # collect the actions taken
   my $crumbs = $c->cookie('crumbs') || '';
   $crumbs = [ split /\|/, $crumbs ];
 
