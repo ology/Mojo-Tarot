@@ -106,7 +106,7 @@ get '/' => sub ($c) {
     $crumbs = [ _make_crumb($action, $data->{name}) ];
   }
 
-  # load the session readings
+  # load the session reading file form options
   my @readings;
   my @files = File::Find::Rule->file()
     ->name('reading-*.dat')
