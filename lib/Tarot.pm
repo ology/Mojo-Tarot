@@ -108,19 +108,25 @@ sub choose {
     $chosen = $card;
     last;
   }
-  die 'No card chosen' unless $chosen;
-  $deck->{$chosen}{chosen} = 1;
-  return $deck->{$chosen};
+  if ($chosen) {
+    $deck->{$chosen}{chosen} = 1;
+    return $deck->{$chosen};
+  }
+  else {
+    warn 'No card chosen' unless $chosen;
+    return;
+  }
 }
 
 sub spread {
   my ($deck, $n) = @_;
   $n ||= 3;
-  my @spread;
+  my @spread = [];
   for my $draw (1 .. $n) {
     my @non_chosen = map { $deck->{$_}{p} } grep { $deck->{$_}{chosen} == 0 } keys %$deck;
     my $choice = $non_chosen[ int rand @non_chosen ];
-    push @spread, choose($deck, $choice);
+    my $card = $choice ? choose($deck, $choice) : undef;
+    push @spread, choose($deck, $choice) if $card;
   }
   return \@spread;
 }
