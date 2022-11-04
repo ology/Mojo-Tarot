@@ -80,6 +80,8 @@ subtest spread => sub {
     ->status_is(200)
     ->content_like(qr|Spread 1\s*</div>|, 'Spread text')
     ->content_like(qr/img src/, 'image on page')
+    ->content_like(qr/name="name"/, 'Reading name input')
+    ->content_like(qr/value="Save"/, 'has Save btn')
   ;
 };
 
