@@ -59,7 +59,7 @@ get '/' => sub ($c) {
   elsif ($action eq 'Reset') {
     ($deck) = Tarot::build_deck();
     $choices = [];
-    $crumbs = ['Reset'];
+    $crumbs = [];
     $orient = 0;
     $c->app->log->info('Reset deck');
   }
