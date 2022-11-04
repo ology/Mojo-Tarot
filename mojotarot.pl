@@ -218,7 +218,7 @@ __DATA__
   <input type="hidden" name="action" value="Spread" />
   <select name="type" title="Generate a spread" onchange="this.form.submit()" class="btn btn-sm">
     <option value="0" selected disabled>Spread</option>
-% for my $n (1 .. 10) {
+% for my $n (1 .. 12) {
     <option value="<%= $n %>"><%= $n %></option>
 % }
   </select>
