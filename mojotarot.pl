@@ -48,11 +48,11 @@ get '/' => sub ($c) {
   }
   elsif ($action eq 'shuffle') {
     Tarot::shuffle_deck($deck, $orient);
-    push @$crumbs, ucfirst $action;
+    push @$crumbs, _make_crumb($action);
   }
   elsif ($action eq 'cut') {
     Tarot::cut_deck($deck, $cut);
-    push @$crumbs, ucfirst($action) . ' ' . $cut;
+    push @$crumbs, _make_crumb($action, $cut);
   }
   elsif ($action eq 'reset') {
     ($deck) = Tarot::build_deck();
@@ -64,13 +64,13 @@ get '/' => sub ($c) {
     my ($spread) = Tarot::spread($deck, $type);
     if (@$spread) {
       push @$choices, map { $_->{p} } @$spread;
-      push @$crumbs, ucfirst($action) . ' ' . $type;
+      push @$crumbs, _make_crumb($action, $type);
     }
   }
   elsif ($action eq 'choose') {
     if (my ($card) = Tarot::choose($deck, $choice)) {
       push @$choices, $choice;
-      push @$crumbs, ucfirst($action) . ' ' . $choice;
+      push @$crumbs, _make_crumb($action, $choice);
     }
   }
   elsif ($action eq 'clear') {
@@ -103,8 +103,7 @@ get '/' => sub ($c) {
     my $data = retrieve $load;
     @choices = $data->{choices}->@*;
     $choices = [ map { $_->{p} } @choices ];
-    my $crumb = ucfirst($action) . ' ' . $data->{name};
-    $crumbs = [ $crumb ];
+    $crumbs = [ _make_crumb($action, $data->{name}) ];
   }
 
   my @readings;
@@ -139,6 +138,14 @@ get '/purge' => sub ($c) {
 app->log->level('info');
 
 app->start;
+
+sub _make_crumb {
+  my ($action, $datum) = @_;
+  $datum //= '';
+  my $crumb = ucfirst $action;
+  $crumb .= ' ' . $datum if $datum;
+  return $crumb;
+}
 
 sub _store_deck {
   my ($c, $deck, $session) = @_;
