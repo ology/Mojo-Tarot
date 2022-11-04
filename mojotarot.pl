@@ -48,38 +48,38 @@ get '/' => sub ($c) {
   }
   elsif ($action eq 'shuffle') {
     Tarot::shuffle_deck($deck, $orient);
-    push @$crumbs, $action;
-    $c->app->log->info('Shuffle deck');
+    push @$crumbs, ucfirst $action;
+    $c->app->log->info("$action deck");
   }
   elsif ($action eq 'cut') {
     Tarot::cut_deck($deck, $cut);
-    push @$crumbs, "$action $cut";
-    $c->app->log->info('Cut deck');
+    push @$crumbs, ucfirst($action) . ' ' . $cut;
+    $c->app->log->info("$action deck");
   }
   elsif ($action eq 'reset') {
     ($deck) = Tarot::build_deck();
     $choices = [];
     $crumbs = [];
     $orient = 0;
-    $c->app->log->info('Reset deck');
+    $c->app->log->info("$action deck");
   }
   elsif ($action eq 'spread') {
     my ($spread) = Tarot::spread($deck, $type);
     push @$choices, map { $_->{p} } @$spread;
-    push @$crumbs, "$action $type";
-    $c->app->log->info('Show spread');
+    push @$crumbs, ucfirst($action) . ' ' . $type;
+    $c->app->log->info('show spread');
   }
   elsif ($action eq 'choose') {
     Tarot::choose($deck, $choice);
     push @$choices, $choice;
-    push @$crumbs, "Choose $choice";
-    $c->app->log->info('Choose card');
+    push @$crumbs, ucfirst($action) . ' ' . $choice;
+    $c->app->log->info('choose card');
   }
   elsif ($action eq 'clear') {
     Tarot::clear($deck);
     $choices = [];
     $crumbs = [];
-    $c->app->log->info('Clear choices');
+    $c->app->log->info('clear choices');
   }
 
   # remember the deck
@@ -106,7 +106,8 @@ get '/' => sub ($c) {
     my $data = retrieve $load;
     @choices = $data->{choices}->@*;
     $choices = [ map { $_->{p} } @choices ];
-    $crumbs = ["Load $data->{name}"];
+    my $crumb = ucfirst($action) . ' ' . $data->{name};
+    $crumbs = [ $crumb ];
   }
 
   my @readings;
