@@ -121,7 +121,7 @@ sub choose {
 sub spread {
   my ($deck, $n) = @_;
   $n ||= 3;
-  my @spread = [];
+  my @spread;
   for my $draw (1 .. $n) {
     my @non_chosen = map { $deck->{$_}{p} } grep { $deck->{$_}{chosen} == 0 } keys %$deck;
     my $choice = $non_chosen[ int rand @non_chosen ];
