@@ -18,7 +18,7 @@ subtest widgets => sub {
   $t->get_ok('/')
     ->status_is(200)
     ->session_ok
-    ->session_like('/session' => qr/^(\d+)\.\d+$/, 'session created')
+    ->session_like('/session' => qr/^$stamp\.\d+$/, 'session created')
     ->content_like(qr/Court de Gébelin/, 'has title')
     ->content_like(qr/value="View"/, 'has View btn')
     ->content_like(qr/value="Reset"/, 'has Reset btn')
