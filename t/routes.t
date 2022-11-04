@@ -1,12 +1,12 @@
 use Mojo::Base -strict;
 
 use File::Find::Rule ();
+use Mojo::File qw(curfile);
 use Time::HiRes qw(time);
 
 use Test::Mojo::Session;
 use Test::More;
 
-use Mojo::File qw(curfile);
 my $t = Test::Mojo::Session->new(curfile->dirname->sibling('mojotarot.pl'));
 
 my $now = time();
