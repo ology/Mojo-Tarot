@@ -62,12 +62,13 @@ get '/' => sub ($c) {
   }
   elsif ($action eq 'spread') {
     my ($spread) = Tarot::spread($deck, $type);
-    push @$choices, map { $_->{p} } @$spread;
-    push @$crumbs, ucfirst($action) . ' ' . $type if @$spread;
+    if (@$spread) {
+      push @$choices, map { $_->{p} } @$spread;
+      push @$crumbs, ucfirst($action) . ' ' . $type;
+    }
   }
   elsif ($action eq 'choose') {
-    my ($card) = Tarot::choose($deck, $choice);
-    if ($card) {
+    if (my ($card) = Tarot::choose($deck, $choice)) {
       push @$choices, $choice;
       push @$crumbs, ucfirst($action) . ' ' . $choice;
     }
