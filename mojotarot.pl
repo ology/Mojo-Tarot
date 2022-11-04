@@ -43,39 +43,39 @@ get '/' => sub ($c) {
   my $view = 0;
 
   # take action!
-  if ($action eq 'View') {
+  if ($action eq 'view') {
     $view = 1;
   }
-  elsif ($action eq 'Shuffle') {
+  elsif ($action eq 'shuffle') {
     Tarot::shuffle_deck($deck, $orient);
     push @$crumbs, $action;
     $c->app->log->info('Shuffle deck');
   }
-  elsif ($action eq 'Cut') {
+  elsif ($action eq 'cut') {
     Tarot::cut_deck($deck, $cut);
     push @$crumbs, "$action $cut";
     $c->app->log->info('Cut deck');
   }
-  elsif ($action eq 'Reset') {
+  elsif ($action eq 'reset') {
     ($deck) = Tarot::build_deck();
     $choices = [];
     $crumbs = [];
     $orient = 0;
     $c->app->log->info('Reset deck');
   }
-  elsif ($action eq 'Spread') {
+  elsif ($action eq 'spread') {
     my ($spread) = Tarot::spread($deck, $type);
     push @$choices, map { $_->{p} } @$spread;
     push @$crumbs, "$action $type";
     $c->app->log->info('Show spread');
   }
-  elsif ($action eq 'Choose') {
+  elsif ($action eq 'choose') {
     Tarot::choose($deck, $choice);
     push @$choices, $choice;
     push @$crumbs, "Choose $choice";
     $c->app->log->info('Choose card');
   }
-  elsif ($action eq 'Clear') {
+  elsif ($action eq 'clear') {
     Tarot::clear($deck);
     $choices = [];
     $crumbs = [];
@@ -93,7 +93,7 @@ get '/' => sub ($c) {
   }
 
   # save or load readings
-  if ($action eq 'Save') {
+  if ($action eq 'save') {
     my $reading = {
       session => $session,
       name    => $save,
@@ -102,7 +102,7 @@ get '/' => sub ($c) {
     my $file = './reading-' . time() . '.dat';
     store($reading, $file);
   }
-  elsif ($action eq 'Load') {
+  elsif ($action eq 'load') {
     my $data = retrieve $load;
     @choices = $data->{choices}->@*;
     $choices = [ map { $_->{p} } @choices ];
@@ -164,21 +164,21 @@ __DATA__
 
 % # View
 <form method="get" class="block">
-  <button type="submit" name="action" title="View the deck" value="View" class="btn btn-sm btn-success" />
+  <button type="submit" name="action" title="View the deck" value="view" class="btn btn-sm btn-success" />
     View
   </button>
 </form>
 
 % # Reset
 <form method="get" class="block">
-  <button type="submit" name="action" title="Reset the deck" value="Reset" class="btn btn-sm btn-info" />
+  <button type="submit" name="action" title="Reset the deck" value="reset" class="btn btn-sm btn-info" />
     Reset
   </button>
 </form>
 
 % # Cut
 <form method="get" class="block">
-  <input type="hidden" name="action" value="Cut" />
+  <input type="hidden" name="action" value="cut" />
   <select name="cut" title="Cut the deck" class="btn btn-sm" onchange="this.form.submit()">
     <option value="0" selected disabled>Cut</option>
 % for my $n (1 .. keys(%$deck) - 1) {
@@ -189,7 +189,7 @@ __DATA__
 
 % # Shuffle
 <form method="get" class="block">
-  <button type="submit" name="action" title="Shuffle the deck" value="Shuffle" class="btn btn-sm btn-info" />
+  <button type="submit" name="action" title="Shuffle the deck" value="shuffle" class="btn btn-sm btn-info" />
     Shuffle
   </button>
   <div class="form-check form-check-inline">
@@ -202,7 +202,7 @@ __DATA__
 
 % # Spread
 <form method="get" class="block">
-  <input type="hidden" name="action" value="Spread" />
+  <input type="hidden" name="action" value="spread" />
   <select name="type" title="Generate a spread" onchange="this.form.submit()" class="btn btn-sm">
     <option value="0" selected disabled>Spread</option>
 % for my $n (1 .. 12) {
@@ -213,7 +213,7 @@ __DATA__
 
 % # Choose
 <form method="get" class="block">
-  <input type="hidden" name="action" value="Choose" />
+  <input type="hidden" name="action" value="choose" />
   <select name="choice" title="Choose a card" class="btn btn-sm" onchange="this.form.submit()">
     <option value="" selected disabled>Card</option>
 % for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
@@ -226,7 +226,7 @@ __DATA__
 
 % # Clear
 <form method="get" class="block">
-  <button type="submit" name="action" title="Clear the choices" value="Clear" class="btn btn-sm btn-light" />
+  <button type="submit" name="action" title="Clear the choices" value="clear" class="btn btn-sm btn-light" />
     Clear
   </button>
 </form>
@@ -235,7 +235,7 @@ __DATA__
 
 % # Load
 <form method="get" class="block">
-  <input type="hidden" name="action" value="Load" />
+  <input type="hidden" name="action" value="load" />
   <select name="reading" title="Choose a reading" class="btn btn-sm" onchange="this.form.submit()">
     <option value="" selected disabled>Load Reading</option>
 % for my $reading (@$readings) {
@@ -266,7 +266,7 @@ __DATA__
   <p></p>
   <form method="get" class="block">
     <input type="text" name="name" title="Name for this saved reading" placeholder="Reading name" />
-    <button type="submit" name="action" title="Save this reading" value="Save" class="btn btn-sm btn-dark" />
+    <button type="submit" name="action" title="Save this reading" value="save" class="btn btn-sm btn-dark" />
       Save
     </button>
   </form>
