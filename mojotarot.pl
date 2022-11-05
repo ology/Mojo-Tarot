@@ -85,8 +85,8 @@ get '/' => sub ($c) {
   # get the cards that have been chosen
   my @choices;
   for my $n (@$choices) {
-    my $card = ( first { $deck->{$_}{p} == $n } keys %$deck )[0];
-    push @choices, $deck->{$card};
+    my $card = ( first { $deck->{cards}{$_}{p} == $n } keys $deck->{cards}->%* )[0];
+    push @choices, $deck->{cards}{$card};
   }
 
   # save or load readings
@@ -186,7 +186,7 @@ __DATA__
   <input type="hidden" name="action" value="cut" />
   <select name="cut" title="Cut the deck" class="btn btn-sm" onchange="this.form.submit()">
     <option value="0" selected disabled>Cut</option>
-% for my $n (1 .. keys(%$deck) - 1) {
+% for my $n (1 .. keys($deck->{cards}->%*) - 1) {
     <option value="<%= $n %>"><%= $n %></option>
 % }
   </select>
@@ -221,9 +221,9 @@ __DATA__
   <input type="hidden" name="action" value="choose" />
   <select name="choice" title="Choose a card" class="btn btn-sm" onchange="this.form.submit()">
     <option value="" selected disabled>Card</option>
-% for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
-%   my $n = $deck->{$card}{p};
-%   my $disabled = $deck->{$card}{chosen} ? 'disabled' : '';
+% for my $card (sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*) {
+%   my $n = $deck->{cards}{$card}{p};
+%   my $disabled = $deck->{cards}{$card}{chosen} ? 'disabled' : '';
     <option value="<%= $n %>" <%= $disabled %>><%= $n %></option>
 % }
   </select>
@@ -283,15 +283,15 @@ __DATA__
   <table cellpadding="2" border="0">
 %   my $n = 0;
 %   my $cells = 3;
-%   for my $name (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
+%   for my $name (sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*) {
 %   my $row = 0;
 %     if ($n == 0 || $n % $cells == 0) {
     <tr>
 %     }
       <td>
-%       my $style = $deck->{$name}{o} ? 'transform: scaleY(-1);' : '';
-        <a href="<%= $deck->{$name}{file} %>">
-        <img src="<%= $deck->{$name}{file} %>" alt="<%= $name %>" title="<%= ucfirst $name %> (<%= $deck->{$name}{n} %>)" height="200" width="100" style="<%= $style %>" />
+%       my $style = $deck->{cards}{$name}{o} ? 'transform: scaleY(-1);' : '';
+        <a href="<%= $deck->{cards}{$name}{file} %>">
+        <img src="<%= $deck->{cards}{$name}{file} %>" alt="<%= $name %>" title="<%= ucfirst $name %> (<%= $deck->{cards}{$name}{n} %>)" height="200" width="100" style="<%= $style %>" />
         </a>
       </td>
 %     if ($row == $cells - 1) {
