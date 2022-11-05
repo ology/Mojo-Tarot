@@ -123,7 +123,9 @@ sub spread {
   $n ||= 3;
   my @spread;
   for my $draw (1 .. $n) {
-    my @non_chosen = map { $deck->{cards}{$_}{p} } grep { $deck->{cards}{$_}{chosen} == 0 } keys $deck->{cards}->%*;
+    my @non_chosen = map { $deck->{cards}{$_}{p} }
+      grep { $deck->{cards}{$_}{chosen} == 0 }
+        keys $deck->{cards}->%*;
     my $choice = $non_chosen[ int rand @non_chosen ];
     my $card = defined $choice ? choose($deck, $choice) : undef;
     push @spread, $card if $card;
