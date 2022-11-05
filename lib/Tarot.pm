@@ -88,8 +88,8 @@ sub cut_deck {
     if $n < 0 || $n > $#cards;
   my @ordered = sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } @cards;
   my @cut = (
-    @ordered[ $n .. $#ordered ],
-    @ordered[  0 .. $n - 1 ],
+    @ordered[ $n + 1 .. $#ordered ],
+    @ordered[  0 .. $n ],
   );
   my $i = 0;
   for my $card (@cut) {
