@@ -85,7 +85,7 @@ sub cut_deck {
   my @cards = keys $deck->{cards}->%*;
   $n //= int(@cards) / 2; # default half of deck
   die "N must be between 0 and ", $#cards, "\n"
-    if $n < 0 || $n > @cards;
+    if $n < 0 || $n > $#cards;
   my @ordered = sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } @cards;
   my @cut = (
     @ordered[ $n .. $#ordered ],
