@@ -142,7 +142,6 @@ app->start;
 
 sub _make_crumb {
   my ($action, $datum) = @_;
-  $datum //= '';
   my $crumb = ucfirst $action;
   $crumb .= ' ' . $datum if defined $datum;
   return $crumb;
