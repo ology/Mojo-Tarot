@@ -155,6 +155,7 @@ sub _store_deck {
     $c->session(session => $session);
   }
   my $file = './deck-' . $session . '.dat';
+  $deck->{last_seen} = time();
   store($deck, $file);
   return $deck, $c->session('session');
 }
