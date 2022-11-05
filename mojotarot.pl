@@ -187,7 +187,7 @@ __DATA__
   <input type="hidden" name="action" value="cut" />
   <select name="cut" title="Cut the deck" class="btn btn-sm" onchange="this.form.submit()">
     <option value="0" selected disabled>Cut</option>
-% for my $n (1 .. keys($deck->{cards}->%*) - 1) {
+% for my $n (1 .. keys $deck->{cards}->%*) {
     <option value="<%= $n %>"><%= $n %></option>
 % }
   </select>
