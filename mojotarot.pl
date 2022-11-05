@@ -15,7 +15,7 @@ get '/' => sub ($c) {
   my $cut    = $c->param('cut');          # cut deck
   my $action = $c->param('action') || ''; # action to perform
   my $choice = $c->param('choice');       # chosen card
-  my $orient = $c->param('orient') || 0;  # upside down or not?
+  my $orient = $c->param('orient') || 0;  # shuffle upside down
   my $save   = $c->param('name');         # saved reading name
   my $load   = $c->param('reading');      # reading to load
 
