@@ -20,7 +20,7 @@ get '/' => sub ($c) {
   my $load   = $c->param('reading');      # reading to load
 
   # is there a deck to use?
-  my $deck;
+  my $deck; # NB: this variable is roughly immortal, and continuously changing
   my $session = $c->session('session') || '';
   my $session_file = './deck-' . $session . '.dat';
   if ($session && -e $session_file) {
