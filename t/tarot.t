@@ -17,10 +17,10 @@ subtest build_cards => sub {
 
 subtest build_deck => sub {
   ($deck) = Tarot::build_deck();
-  is keys %$deck, @cards, 'full deck';
+  is keys $deck->{cards}->%*, @cards, 'full deck';
 
   my $i = 0;
-  for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
+  for my $card (sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*) {
     is $card, $cards[$i], $card;
     $i++;
   }
@@ -33,9 +33,9 @@ subtest shuffle_deck => sub {
     my $is_oriented = 0;
     Tarot::shuffle_deck($deck);
     my $i = 0;
-    for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
+    for my $card (sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*) {
       $is_shuffled++ if $card ne $cards[$i];
-      $is_oriented++ if $deck->{$card}{o};
+      $is_oriented++ if $deck->{cards}{$card}{o};
       $i++;
     }
     ok $is_shuffled, 'is shuffled';
@@ -45,8 +45,8 @@ subtest shuffle_deck => sub {
   subtest orientation => sub {
     my $is_oriented = 0;
     Tarot::shuffle_deck($deck, 1);
-    for my $card (keys %$deck) {
-      $is_oriented++ if $deck->{$card}{o};
+    for my $card (keys $deck->{cards}->%*) {
+      $is_oriented++ if $deck->{cards}{$card}{o};
     }
     ok $is_oriented, 'is oriented';
   };
@@ -59,7 +59,7 @@ subtest cut_deck => sub {
   diag 'Cut deck at position 1';
   Tarot::cut_deck($deck, 1);
   my $i = 0;
-  for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
+  for my $card (sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*) {
     is $card, $rotated[$i], $card;
     $i++;
   }
@@ -69,7 +69,7 @@ subtest choose => sub {
   ($deck) = Tarot::build_deck();
   diag 'Choose the card at position 1';
   Tarot::choose($deck, 1);
-  for my $card (sort { $deck->{$a}{p} <=> $deck->{$b}{p} } keys %$deck) {
+  for my $card (sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*) {
     is $card, 'fool', 'fool';
     last;
   }
@@ -80,8 +80,8 @@ subtest spread => sub {
   my $expected = 3;
   Tarot::spread($deck, $expected);
   my $chosen = 0;
-  for my $card (keys %$deck) {
-    $chosen++ if $deck->{$card}{chosen};
+  for my $card (keys $deck->{cards}->%*) {
+    $chosen++ if $deck->{cards}{$card}{chosen};
   }
   is $chosen, $expected, 'spread';
 };
