@@ -72,15 +72,15 @@ subtest choose => sub {
   my ($got) = Tarot::choose($deck, 0);
   is $got->{name}, $expect, 'expected card returned';
   my $chosen = 0;
-  my $name = '';
+  my @names;
   for my $card (keys $deck->{cards}->%*) {
     if ($deck->{cards}{$card}{chosen}) {
       $chosen++;
-      $name = $deck->{cards}{$card}{name};
+      push @names, $card;
     }
   }
   is $chosen, 1, '1 card chosen in deck';
-  is $name, $expect, 'expected card chosen in deck';
+  is_deeply $got->{name}, $names[0], 'expected card chosen in deck';
 };
 
 subtest spread => sub {
@@ -90,10 +90,15 @@ subtest spread => sub {
   my ($got) = Tarot::spread($deck, $expect);
   is @$got, $expect, 'expected spread size';
   my $chosen = 0;
+  my @names;
   for my $card (keys $deck->{cards}->%*) {
-    $chosen++ if $deck->{cards}{$card}{chosen};
+    if ($deck->{cards}{$card}{chosen}) {
+      $chosen++;
+      push @names, $card;
+    }
   }
   is $chosen, $expect, '3 cards chosen in deck';
+  is_deeply [ sort map { $_->{name} } @$got ], [ sort @names ], 'expected cards chosen in deck';
 };
 
 done_testing();
