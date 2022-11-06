@@ -140,18 +140,28 @@ app->start;
 
 sub _purge {
   my ($c) = @_;
+  # purge defunct sessions
   my $now = time();
-  (my $stamp = $now) =~ s/^(\d+)\.\d+/$1/;
+  my @old_sessions;
   my @files = File::Find::Rule->file()->name(DECK_GLOB)->in('.');
-  my $purged = 0;
   for my $file (sort @files) {
     my $deck = retrieve $file;
     if ($deck->{last_seen} + TIME_LIMIT < $now) {
-      $c->app->log->info("Removing $file deck");
-      $purged++;
+      $c->app->log->info("Remove $file");
+      (my $stamp = $file) =~ s/^deck-(\d+\.\d+)\.dat/$1/;
+      push @old_sessions, $stamp;
+      unlink $file;
     }
   }
-  # TODO purge readings too
+  # purge readings too
+  @files = File::Find::Rule->file()->name(READING_GLOB)->in('.');
+  for my $file (sort @files) {
+    my $reading = retrieve $file;
+    if (List::Util::any { $reading->{session} == $_ } @old_sessions) {
+      $c->app->log->info("Remove $file");
+      unlink $file;
+    }
+  }
 }
 
 sub _make_crumb {
