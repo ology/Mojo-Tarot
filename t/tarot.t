@@ -98,7 +98,8 @@ subtest spread => sub {
     }
   }
   is $chosen, $expect, "$expect cards chosen in deck";
-  is_deeply [ sort map { $_->{name} } @$got ], [ sort @names ], 'expected cards chosen in deck';
+  is_deeply [ sort map { $_->{name} } @$got ], [ sort @names ],
+    'expected cards chosen in deck';
 };
 
 done_testing();
