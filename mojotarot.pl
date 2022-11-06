@@ -154,6 +154,7 @@ sub _purge {
       $purged++;
     }
   }
+  # TODO purge readings too
 }
 
 sub _make_crumb {
@@ -175,7 +176,7 @@ sub _store_deck {
   ($deck) ||= Tarot::build_deck();
   unless ($session) {
     $session = time();
-    $c->session(session => $session);
+    $c->session(session => $session, expiration => LIMIT);
   }
   my $file = _make_save_file($session);
   $deck->{last_seen} = time();
