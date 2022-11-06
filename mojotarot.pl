@@ -10,6 +10,8 @@ use Time::HiRes qw(time);
 use lib 'lib';
 use Tarot ();
 
+use constant LIMIT => 60 * 60 * 24; # 1 day
+
 get '/' => sub ($c) {
   my $type   = $c->param('type');         # spread type
   my $cut    = $c->param('cut');          # cut deck
@@ -134,6 +136,19 @@ get '/' => sub ($c) {
 
 # TODO Purge old session decks and defunct readings
 get '/purge' => sub ($c) {
+  my $now = time();
+  (my $stamp = $now) =~ s/^(\d+)\.\d+/$1/;
+  my $name = 'deck-*.dat';
+  my @files = File::Find::Rule->file()->name($name)->in('.');
+  my $purged = 0;
+  for my $file (sort @files) {
+    my $deck = retrieve $file;
+    if ($deck->{last_seen} + LIMIT < $now) {
+      $c->app->log->info("Removing $file deck");
+      $purged++;
+    }
+  }
+  $c->redirect_to($c->url_for('index'));
 } => 'purge';
 
 app->log->level('info');
