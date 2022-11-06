@@ -79,8 +79,8 @@ subtest choose => sub {
       $name = $deck->{cards}{$card}{name};
     }
   }
-  is $name, $expect, 'expected card chosen in deck';
   is $chosen, 1, '1 card chosen in deck';
+  is $name, $expect, 'expected card chosen in deck';
 };
 
 subtest spread => sub {
