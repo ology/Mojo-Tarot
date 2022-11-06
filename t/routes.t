@@ -107,7 +107,7 @@ subtest choose => sub {
     ->content_unlike(qr/<div class="small">/, 'no action text')
     ->element_exists_not('img', 'image not on page')
   ;
-  $t->get_ok('/?action=cut&cut=0') # make sure the deck has been altered for the clear subtest
+  $t->get_ok('/?action=cut&cut=0') # NB: make sure the deck has been changed
     ->status_is(200)
     ->content_like(qr|Cut 0\s*</div>|, 'cut text')
   ;
@@ -126,10 +126,10 @@ subtest clear => sub {
     ->content_unlike(qr/<div class="small">/, 'no action text')
     ->element_exists_not('img', 'image not on page')
   ;
-    $t->get_ok('/?action=view')
-      ->status_is(200)
-      ->element_exists('img:nth-of-type(1)[alt="magician"]', 'magician card first')
-    ;
+  $t->get_ok('/?action=view') # NB: make sure the cut deck is unchanged
+    ->status_is(200)
+    ->element_exists('img:nth-of-type(1)[alt="magician"]', 'magician card first')
+  ;
 };
 
 subtest cleanup => sub {
