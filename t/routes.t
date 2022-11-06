@@ -68,7 +68,6 @@ subtest shuffle => sub {
     $t->get_ok('/?action=shuffle')
       ->status_is(200)
       ->content_like(qr|Shuffle\s*</div>|, 'Shuffle text')
-      ->content_unlike(qr/checked/, 'Orient not checked')
     ;
   };
 
