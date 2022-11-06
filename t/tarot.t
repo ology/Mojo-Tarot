@@ -12,7 +12,8 @@ my @cards;
 
 sub _sorted_keys {
   my ($deck) = @_;
-  return sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*;
+  return sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} }
+    keys $deck->{cards}->%*;
 }
 
 subtest build_cards => sub {
