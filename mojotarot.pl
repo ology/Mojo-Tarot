@@ -122,8 +122,8 @@ get '/' => sub ($c) {
   }
 
   # remember the choices and actions
-  $c->cookie(choice => join '|', @$choices);
-  $c->cookie(crumbs => join '|', @$crumbs);
+  $c->cookie(choice => join('|', @$choices), { samesite => 'Lax' });
+  $c->cookie(crumbs => join('|', @$crumbs), { samesite => 'Lax' });
 
   $c->render(
     template => 'index',
