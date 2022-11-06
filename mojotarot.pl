@@ -165,8 +165,7 @@ sub _make_crumb {
 
 sub _make_save_file {
   my ($session, $type) = @_;
-  $session ||= '';
-  $type    ||= 'deck';
+  $type ||= 'deck';
   my $file = sprintf './%s-%s.dat', $type, $session;
   return $file;
 }
