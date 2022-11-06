@@ -120,7 +120,7 @@ subtest choose => sub {
 subtest clear => sub {
   $t->get_ok('/?action=clear')
     ->status_is(200)
-    ->content_unlike(qr/<div class="small">/, 'no action trail')
+    ->content_unlike(qr/<div class="small">/, 'no action text')
     ->element_exists_not('img', 'image not on page')
   ;
 };
