@@ -131,7 +131,6 @@ get '/' => sub ($c) {
     view     => $view,
     choices  => \@choices,
     crumbs   => $crumbs,
-    orient   => $orient,
     readings => \@readings,
   );
 } => 'index';
@@ -222,8 +221,7 @@ __DATA__
     Shuffle
   </button>
   <div class="form-check form-check-inline">
-% my $checked = $orient ? 'checked' : '';
-    <input class="form-check-input" type="checkbox" name="orient" title="Shuffle with approximately half upside down" <%= $checked %>/>
+    <input class="form-check-input" type="checkbox" name="orient" title="Shuffle with approximately half upside down" />
   </div>
 </form>
 
