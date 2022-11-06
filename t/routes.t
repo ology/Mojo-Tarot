@@ -34,8 +34,7 @@ subtest widgets => sub {
 subtest view => sub {
   $t->get_ok('/?action=view')
     ->status_is(200)
-    ->content_like(qr/title="Fool \(0\)"/, 'Fool (0) card')
-    ->content_like(qr/title="King of pentacles \(77\)"/, 'King of pentacles (77) card')
+    ->element_count_is('img', 78, '78 images')
   ;
 };
 
@@ -48,9 +47,10 @@ subtest reset => sub {
 };
 
 subtest cut => sub {
-  $t->get_ok('/?action=cut&cut=1')
+  $t->get_ok('/?action=cut&cut=0')
     ->status_is(200)
-    ->content_like(qr|Cut 1\s*</div>|, 'Cut text')
+    ->content_like(qr|Cut 0\s*</div>|, 'Cut text')
+#    ->content_is(qr//, 'cut deck')
   ;
 };
 
