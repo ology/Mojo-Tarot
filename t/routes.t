@@ -14,7 +14,7 @@ my $now = time();
 subtest widgets => sub {
   $t->get_ok('/')
     ->status_is(200)
-    ->session_ok('/session')
+    ->session_has('/session')
     ->content_like(qr/Court de Gébelin/, 'has title')
     ->element_exists('button[value="view"]', 'has View btn')
     ->element_exists('button[value="reset"]', 'has Reset btn')
