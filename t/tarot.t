@@ -75,7 +75,7 @@ subtest choose => sub {
   for my $card (keys $deck->{cards}->%*) {
     if ($deck->{cards}{$card}{chosen}) {
       $chosen++;
-      is $deck->{cards}{$card}{name}, $expect, 'expected card in deck';
+      is $deck->{cards}{$card}{name}, $expect, 'expected chosen in deck';
     }
   }
   is $chosen, 1, '1 card chosen';
@@ -84,12 +84,13 @@ subtest choose => sub {
 subtest spread => sub {
   ($deck) = Tarot::build_deck();
   my $expect = 3;
-  Tarot::spread($deck, $expect);
+  my ($got) = Tarot::spread($deck, $expect);
+  is @$got, $expect, 'expected spread size';
   my $chosen = 0;
   for my $card (keys $deck->{cards}->%*) {
     $chosen++ if $deck->{cards}{$card}{chosen};
   }
-  is $chosen, $expect, 'spread';
+  is $chosen, $expect, '3 cards chosen in deck';
 };
 
 done_testing();
