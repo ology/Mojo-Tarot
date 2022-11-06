@@ -109,7 +109,7 @@ subtest purge => sub {
   diag 'Purge the deck file(s) created by this test...';
   my @files = File::Find::Rule->file()->name($name)->in('.');
   for my $file (@files) {
-    ok -e $file, "deck file: $file exists";
+    ok -e $file, "$file exists";
     unlink $file;
     ok !-e $file, 'removed deck file';
   }
