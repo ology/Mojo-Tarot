@@ -26,9 +26,9 @@ get '/' => sub ($c) {
   # is there a deck to use?
   my $deck; # NB: this variable is roughly immortal, and continuously changing
   my $session = $c->session('session') || '';
-  my $session_file = _make_file_name($session);
-  if ($session && -e $session_file) {
-    $deck = retrieve $session_file;
+  my $file = _make_file_name($session);
+  if ($session && -e $file) {
+    $deck = retrieve $file;
     $c->app->log->info("Loaded session deck $session");
   }
   else {
