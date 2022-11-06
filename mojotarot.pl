@@ -36,7 +36,7 @@ get '/' => sub ($c) {
 
   _purge($c); # purge old decks & readings
 
-  # collect the choices 0-77 that have been made
+  # collect the 0-77 choices that have been made
   my $choices = $c->cookie('choice') // '';
   $choices = [ split /\|/, $choices ];
 
