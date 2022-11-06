@@ -120,6 +120,10 @@ subtest choose => sub {
     ->element_exists('input[type="text"][name="name"]', 'has reading name input')
     ->element_exists('button[value="save"]', 'has Save btn')
   ;
+  $t->get_ok('/?action=choose&choice=0') # NB: make sure choosing the same card doesn't duplicate
+    ->status_is(200)
+    ->element_count_is('img', 1, '1 image only')
+  ;
 };
 
 subtest clear => sub {
