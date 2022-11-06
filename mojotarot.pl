@@ -308,8 +308,8 @@ __DATA__
 %   my $n = 0;
 %   my $cells = 3;
 %   for my $name (sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*) {
-%   my $named = $deck->{cards}{$name};
-%   my $row = 0;
+%     my $named = $deck->{cards}{$name};
+%     my $row = 0;
 %     if ($n == 0 || $n % $cells == 0) {
     <tr>
 %     }
