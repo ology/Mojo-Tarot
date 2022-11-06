@@ -42,7 +42,7 @@ subtest reset => sub {
   $t->get_ok('/?action=reset')
     ->status_is(200)
     ->content_unlike(qr/<div class="small">/, 'no action text')
-    ->content_unlike(qr/img src/, 'image not on page')
+    ->element_exists_not('img', 'image not on page')
   ;
   $t->get_ok('/?action=view')
     ->status_is(200)
@@ -86,7 +86,7 @@ subtest spread => sub {
   $t->get_ok('/?action=spread&type=1')
     ->status_is(200)
     ->content_like(qr|Spread 1\s*</div>|, 'spread text')
-    ->content_like(qr/img src/, 'image on page')
+    ->element_exists('img', 'image on page')
     ->element_exists('input[type="text"][name="name"]', 'has reading name input')
     ->element_exists('button[value="save"]', 'has Save btn')
   ;
@@ -96,7 +96,7 @@ subtest choose => sub {
   $t->get_ok('/?action=reset')
     ->status_is(200)
     ->content_unlike(qr/<div class="small">/, 'no action text')
-    ->content_unlike(qr/img src/, 'image not on page')
+    ->element_exists_not('img', 'image not on page')
   ;
   $t->get_ok('/?action=choose&choice=0')
     ->status_is(200)
@@ -112,7 +112,7 @@ subtest clear => sub {
   $t->get_ok('/?action=clear')
     ->status_is(200)
     ->content_unlike(qr/<div class="small">/, 'no action trail')
-    ->content_unlike(qr/img src/, 'image not on page')
+    ->element_exists_not('img', 'image not on page')
   ;
 };
 
