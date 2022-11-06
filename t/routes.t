@@ -103,8 +103,8 @@ subtest choose => sub {
     ->content_like(qr|Choose 0\s*</div>|, 'choose text')
     ->content_like(qr/img src/, 'image on page')
     ->content_like(qr/title="Fool \(0\)"/, 'fool card')
-    ->content_like(qr/name="name"/, 'Reading name input')
-    ->content_like(qr/value="save"/, 'has Save btn')
+    ->element_exists('input[type="text"][name="name"]', 'has reading name input')
+    ->element_exists('button[value="save"]', 'has Save btn')
   ;
 };
 
