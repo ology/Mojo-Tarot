@@ -116,9 +116,9 @@ get '/' => sub ($c) {
   my @readings;
   my @files = File::Find::Rule->file()->name(READING_GLOB)->in('.');
   for my $file (@files) {
-    my $data = retrieve $file;
-    push @readings, { file => $file, name => $data->{name} }
-      if $data->{session} == $session;
+    my $reading = retrieve $file;
+    push @readings, { file => $file, name => $reading->{name} }
+      if $reading->{session} == $session;
   }
 
   # remember the choices and actions
