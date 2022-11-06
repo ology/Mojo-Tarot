@@ -30,7 +30,7 @@ subtest build_deck => sub {
     is $card, $cards[$i], $card;
     $i++;
   }
-  diag 'If we got here ok, the deck is sorted';
+  diag 'If still ok, deck is sorted';
 };
 
 subtest shuffle_deck => sub {
