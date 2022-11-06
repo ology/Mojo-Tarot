@@ -90,6 +90,7 @@ subtest spread => sub {
   $t->get_ok('/?action=spread&type=1')
     ->status_is(200)
     ->content_like(qr|Spread 1\s*</div>|, 'spread text')
+    ->element_count_is('img', 1, '1 image only')
     ->element_exists('img', 'image on page')
     ->element_exists('input[type="text"][name="name"]', 'has reading name input')
     ->element_exists('button[value="save"]', 'has Save btn')
