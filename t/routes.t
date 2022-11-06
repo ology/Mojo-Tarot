@@ -107,11 +107,14 @@ subtest choose => sub {
     ->content_unlike(qr/<div class="small">/, 'no action text')
     ->element_exists_not('img', 'image not on page')
   ;
+  $t->get_ok('/?action=cut&cut=0') # make sure the deck has been altered for the clear subtest
+    ->status_is(200)
+    ->content_like(qr|Cut 0\s*</div>|, 'cut text')
+  ;
   $t->get_ok('/?action=choose&choice=0')
     ->status_is(200)
     ->content_like(qr|Choose 0\s*</div>|, 'choose text')
-    ->element_exists('img', 'image on page')
-    ->element_exists('img[alt="fool"]', 'fool card')
+    ->element_exists('img[alt="magician"]', 'magician card')
     ->element_exists('input[type="text"][name="name"]', 'has reading name input')
     ->element_exists('button[value="save"]', 'has Save btn')
   ;
