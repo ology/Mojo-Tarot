@@ -114,6 +114,7 @@ subtest choose => sub {
   $t->get_ok('/?action=choose&choice=0')
     ->status_is(200)
     ->content_like(qr|Choose 0\s*</div>|, 'choose text')
+    ->element_count_is('img', 1, '1 image only')
     ->element_exists('img[alt="magician"]', 'magician card')
     ->element_exists('input[type="text"][name="name"]', 'has reading name input')
     ->element_exists('button[value="save"]', 'has Save btn')
