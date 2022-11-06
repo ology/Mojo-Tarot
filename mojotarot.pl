@@ -46,7 +46,7 @@ get '/' => sub ($c) {
   my $crumbs = $c->cookie('crumbs') || '';
   $crumbs = [ split /\|/, $crumbs ];
 
-  my $view = 0;
+  my $view = 0; # viewing is off by default
 
   # take action!
   if ($action eq 'view') {
