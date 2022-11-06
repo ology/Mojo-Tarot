@@ -67,6 +67,10 @@ subtest shuffle => sub {
     $t->get_ok('/?action=shuffle&orient=on')
       ->status_is(200)
     ;
+    $t->get_ok('/?action=view')
+      ->status_is(200)
+      ->content_like(qr/style="transform: scaleY\(-1\);"/, 'orient on') # at least 1 card is flipped
+    ;
   };
 };
 
