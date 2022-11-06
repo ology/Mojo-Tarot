@@ -44,6 +44,11 @@ subtest reset => sub {
     ->content_unlike(qr/<div class="small">/, 'no action text')
     ->content_unlike(qr/img src/, 'image not on page')
   ;
+  $t->get_ok('/?action=view')
+    ->status_is(200)
+    ->element_exists('img:nth-of-type(1)[alt="fool"]', 'fool card first')
+    ->element_exists('img:nth-last-of-type(1)[alt="king of pentacles"]', 'king of pentacles card last')
+  ;
 };
 
 subtest cut => sub {
