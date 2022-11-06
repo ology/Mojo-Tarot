@@ -50,7 +50,11 @@ subtest cut => sub {
   $t->get_ok('/?action=cut&cut=0')
     ->status_is(200)
     ->content_like(qr|Cut 0\s*</div>|, 'Cut text')
-#    ->content_is(qr//, 'cut deck')
+  ;
+  $t->get_ok('/?action=view')
+    ->status_is(200)
+    ->element_exists('img:nth-of-type(1)[alt="magician"]', 'magician card first')
+    ->element_exists('img:nth-last-of-type(1)[alt="fool"]', 'fool card last')
   ;
 };
 
