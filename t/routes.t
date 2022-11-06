@@ -105,8 +105,8 @@ subtest clear => sub {
   ;
 };
 
-subtest purge => sub {
-  diag 'Purge the deck file(s) created by this test...';
+subtest cleanup => sub {
+  diag 'Clean-up the deck file(s) created by this test...';
   my @files = File::Find::Rule->file()->name($name)->in('.');
   for my $file (@files) {
     ok -e $file, "$file exists";
