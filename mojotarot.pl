@@ -24,7 +24,7 @@ get '/' => sub ($c) {
   # is there a deck to use?
   my $deck; # NB: this variable is roughly immortal, and continuously changing
   my $session = $c->session('session') || '';
-  my $session_file = './deck-' . $session . '.dat';
+  my $session_file = _make_save_file($session);
   if ($session && -e $session_file) {
     $deck = retrieve $session_file;
     $c->app->log->info("Loaded session deck $session");
@@ -100,7 +100,7 @@ get '/' => sub ($c) {
       name    => $save,
       choices => \@choices,
     };
-    my $file = './reading-' . time() . '.dat';
+    my $file = _make_save_file($session, 'reading');
     store($reading, $file);
   }
   elsif ($action eq 'load') {
@@ -163,6 +163,14 @@ sub _make_crumb {
   return $crumb;
 }
 
+sub _make_save_file {
+  my ($session, $type) = @_;
+  $session ||= '';
+  $type    ||= 'deck';
+  my $file = sprintf './%s-%s.dat', $type, $session;
+  return $file;
+}
+
 sub _store_deck {
   my ($c, $deck, $session) = @_;
   ($deck) ||= Tarot::build_deck();
@@ -170,7 +178,7 @@ sub _store_deck {
     $session = time();
     $c->session(session => $session);
   }
-  my $file = './deck-' . $session . '.dat';
+  my $file = _make_save_file($session);
   $deck->{last_seen} = time();
   store($deck, $file);
   return $deck, $c->session('session');
