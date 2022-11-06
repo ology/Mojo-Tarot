@@ -26,7 +26,7 @@ get '/' => sub ($c) {
   # is there a deck to use?
   my $deck; # NB: this variable is roughly immortal, and continuously changing
   my $session = $c->session('session') || '';
-  my $session_file = _make_save_file($session);
+  my $session_file = _make_file_name($session);
   if ($session && -e $session_file) {
     $deck = retrieve $session_file;
     $c->app->log->info("Loaded session deck $session");
@@ -101,7 +101,7 @@ get '/' => sub ($c) {
       name    => $save,
       choices => \@choices,
     };
-    my $file = _make_save_file($session, 'reading');
+    my $file = _make_file_name($session, 'reading');
     store($reading, $file);
   }
   elsif ($action eq 'load') {
@@ -161,7 +161,7 @@ sub _make_crumb {
   return $crumb;
 }
 
-sub _make_save_file {
+sub _make_file_name {
   my ($session, $type) = @_;
   $type ||= 'deck';
   my $file = sprintf './%s-%s.dat', $type, $session;
@@ -175,7 +175,7 @@ sub _store_deck {
     $session = time();
     $c->session(session => $session, expiration => TIME_LIMIT);
   }
-  my $file = _make_save_file($session);
+  my $file = _make_file_name($session);
   $deck->{last_seen} = time();
   store($deck, $file);
   return $deck, $c->session('session');
