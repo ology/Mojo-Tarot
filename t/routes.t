@@ -87,8 +87,8 @@ subtest spread => sub {
     ->status_is(200)
     ->content_like(qr|Spread 1\s*</div>|, 'spread text')
     ->content_like(qr/img src/, 'image on page')
-    ->content_like(qr/name="name"/, 'reading name input')
-    ->content_like(qr/value="save"/, 'has Save btn')
+    ->element_exists('input[type="text"][name="name"]', 'has reading name input')
+    ->element_exists('button[value="save"]', 'has Save btn')
   ;
 };
 
