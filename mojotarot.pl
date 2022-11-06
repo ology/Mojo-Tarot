@@ -16,7 +16,7 @@ use constant TIME_LIMIT   => 60 * 60 * 24; # 1 day
 
 get '/' => sub ($c) {
   my $type   = $c->param('type');         # spread type
-  my $cut    = $c->param('cut');          # cut deck
+  my $cut    = $c->param('cut');          # cut deck position
   my $action = $c->param('action') || ''; # action to perform
   my $choice = $c->param('choice');       # chosen card
   my $orient = $c->param('orient') || 0;  # shuffle ~50% upside down
