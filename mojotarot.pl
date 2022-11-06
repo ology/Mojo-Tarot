@@ -280,9 +280,8 @@ __DATA__
 </div>
 % }
 
-<hr>
-
 % if (@$choices) {
+<hr>
 <div>
 %   for my $card (@$choices) {
 %     my $style = $card->{o} ? 'transform: scaleY(-1);' : '';
@@ -300,6 +299,7 @@ __DATA__
 </div>
 % }
 % elsif ($view) {
+<hr>
 <div>
   <table cellpadding="2" border="0">
 %   my $n = 0;
