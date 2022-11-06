@@ -17,7 +17,7 @@ diag "Created deck file glob: $name";
 subtest widgets => sub {
   $t->get_ok('/')
     ->status_is(200)
-    ->session_like('/session' => qr/^$stamp\.\d+$/, 'session created')
+    ->session_ok('/session')
     ->content_like(qr/Court de Gébelin/, 'has title')
     ->content_like(qr/value="view"/, 'has View btn')
     ->content_like(qr/value="reset"/, 'has Reset btn')
