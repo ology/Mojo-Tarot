@@ -57,7 +57,7 @@ subtest cut_deck => sub {
   my @rotated = $sa->rotate('ftol');
   ($deck) = Tarot::build_deck();
   diag 'Cut deck at position 1';
-  Tarot::cut_deck($deck, 1);
+  Tarot::cut_deck($deck, 0);
   my $i = 0;
   for my $card (sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*) {
     is $card, $rotated[$i], $card;
