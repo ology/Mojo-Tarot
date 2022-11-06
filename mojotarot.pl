@@ -57,8 +57,10 @@ get '/' => sub ($c) {
     push @$crumbs, _make_crumb($action);
   }
   elsif ($action eq 'cut') {
-    Tarot::cut_deck($deck, $cut);
-    push @$crumbs, _make_crumb($action, $cut);
+    if ($cut >= 0 && $cut <= keys($deck->{cards}->%*) - 2) {
+      Tarot::cut_deck($deck, $cut);
+      push @$crumbs, _make_crumb($action, $cut);
+    }
   }
   elsif ($action eq 'reset') {
     ($deck) = Tarot::build_deck();
