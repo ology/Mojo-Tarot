@@ -67,9 +67,9 @@ subtest cut_deck => sub {
 
 subtest choose => sub {
   ($deck) = Tarot::build_deck();
-  diag 'Choose the card at position 1';
-  Tarot::choose($deck, 1);
-  for my $card (keys $deck->{cards}->%*) {
+  diag 'Choose the card at position 0';
+  Tarot::choose($deck, 0);
+  for my $card (sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*) {
     is $card, 'fool', 'fool';
     last;
   }
