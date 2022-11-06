@@ -126,6 +126,10 @@ subtest clear => sub {
     ->content_unlike(qr/<div class="small">/, 'no action text')
     ->element_exists_not('img', 'image not on page')
   ;
+    $t->get_ok('/?action=view')
+      ->status_is(200)
+      ->element_exists('img:nth-of-type(1)[alt="magician"]', 'magician card first')
+    ;
 };
 
 subtest cleanup => sub {
