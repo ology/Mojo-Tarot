@@ -80,7 +80,7 @@ subtest choose => sub {
     }
   }
   is $chosen, 1, '1 card chosen in deck';
-  is_deeply $got->{name}, $names[0], 'expected card chosen in deck';
+  is $got->{name}, $names[0], 'expected card chosen in deck';
 };
 
 subtest spread => sub {
