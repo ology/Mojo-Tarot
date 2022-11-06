@@ -54,7 +54,7 @@ subtest reset => sub {
 subtest cut => sub {
   $t->get_ok('/?action=cut&cut=0')
     ->status_is(200)
-    ->content_like(qr|Cut 0\s*</div>|, 'Cut text')
+    ->content_like(qr|Cut 0\s*</div>|, 'cut text')
   ;
   $t->get_ok('/?action=view')
     ->status_is(200)
@@ -67,7 +67,7 @@ subtest shuffle => sub {
   subtest nonoriented => sub {
     $t->get_ok('/?action=shuffle')
       ->status_is(200)
-      ->content_like(qr|Shuffle\s*</div>|, 'Shuffle text')
+      ->content_like(qr|Shuffle\s*</div>|, 'shuffle text')
     ;
   };
 
@@ -85,9 +85,9 @@ subtest shuffle => sub {
 subtest spread => sub {
   $t->get_ok('/?action=spread&type=1')
     ->status_is(200)
-    ->content_like(qr|Spread 1\s*</div>|, 'Spread text')
+    ->content_like(qr|Spread 1\s*</div>|, 'spread text')
     ->content_like(qr/img src/, 'image on page')
-    ->content_like(qr/name="name"/, 'Reading name input')
+    ->content_like(qr/name="name"/, 'reading name input')
     ->content_like(qr/value="save"/, 'has Save btn')
   ;
 };
@@ -100,9 +100,9 @@ subtest choose => sub {
   ;
   $t->get_ok('/?action=choose&choice=0')
     ->status_is(200)
-    ->content_like(qr|Choose 0\s*</div>|, 'Choose text')
+    ->content_like(qr|Choose 0\s*</div>|, 'choose text')
     ->content_like(qr/img src/, 'image on page')
-    ->content_like(qr/title="Fool \(0\)"/, 'Fool (0) card')
+    ->content_like(qr/title="Fool \(0\)"/, 'fool card')
     ->content_like(qr/name="name"/, 'Reading name input')
     ->content_like(qr/value="save"/, 'has Save btn')
   ;
