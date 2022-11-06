@@ -64,7 +64,6 @@ get '/' => sub ($c) {
     ($deck) = Tarot::build_deck();
     $choices = [];
     $crumbs = [];
-    $orient = 0;
   }
   elsif ($action eq 'spread') {
     my ($spread) = Tarot::spread($deck, $type);
