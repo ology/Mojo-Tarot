@@ -34,6 +34,8 @@ get '/' => sub ($c) {
     $c->app->log->info("Made new session deck $session");
   }
 
+  _purge($c); # purge old decks & readings
+
   # collect the choices 0-77 that have been made
   my $choices = $c->cookie('choice') // '';
   $choices = [ split /\|/, $choices ];
@@ -134,8 +136,12 @@ get '/' => sub ($c) {
   );
 } => 'index';
 
-# TODO Purge old session decks and defunct readings
-get '/purge' => sub ($c) {
+app->log->level('info');
+
+app->start;
+
+sub _purge {
+  my ($c) = @_;
   my $now = time();
   (my $stamp = $now) =~ s/^(\d+)\.\d+/$1/;
   my $name = 'deck-*.dat';
@@ -148,12 +154,7 @@ get '/purge' => sub ($c) {
       $purged++;
     }
   }
-  $c->redirect_to($c->url_for('index'));
-} => 'purge';
-
-app->log->level('info');
-
-app->start;
+}
 
 sub _make_crumb {
   my ($action, $datum) = @_;
