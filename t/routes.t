@@ -108,7 +108,8 @@ subtest choose => sub {
     ->content_unlike(qr/<div class="small">/, 'no action text')
     ->element_exists_not('img', 'image not on page')
   ;
-  $t->get_ok('/?action=cut&cut=0') # NB: make sure the deck has been changed
+  # NB: make sure the deck has been changed
+  $t->get_ok('/?action=cut&cut=0')
     ->status_is(200)
     ->content_like(qr|Cut 0\s*</div>|, 'cut text')
   ;
@@ -120,11 +121,13 @@ subtest choose => sub {
     ->element_exists('input[type="text"][name="name"]', 'has reading name input')
     ->element_exists('button[value="save"]', 'has Save btn')
   ;
-  $t->get_ok('/?action=choose&choice=0') # NB: make sure choosing the same card doesn't duplicate
+  # NB: make sure choosing the same card doesn't duplicate
+  $t->get_ok('/?action=choose&choice=0')
     ->status_is(200)
     ->element_count_is('img', 1, '1 image only')
   ;
-  $t->get_ok('/?action=choose&choice=1') # NB: make sure choosing another shows 2 cards
+  # NB: make sure choosing another shows 2 cards
+  $t->get_ok('/?action=choose&choice=1')
     ->status_is(200)
     ->element_count_is('img', 2, '2 images')
   ;
