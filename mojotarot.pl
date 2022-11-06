@@ -308,14 +308,15 @@ __DATA__
 %   my $n = 0;
 %   my $cells = 3;
 %   for my $name (sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*) {
+%   my $named = $deck->{cards}{$name};
 %   my $row = 0;
 %     if ($n == 0 || $n % $cells == 0) {
     <tr>
 %     }
       <td>
-%       my $style = $deck->{cards}{$name}{o} ? 'transform: scaleY(-1);' : '';
-        <a href="<%= $deck->{cards}{$name}{file} %>">
-        <img src="<%= $deck->{cards}{$name}{file} %>" alt="<%= $name %>" title="<%= ucfirst $name %> (<%= $deck->{cards}{$name}{n} %>)" height="200" width="100" style="<%= $style %>" />
+%       my $style = $named->{o} ? 'transform: scaleY(-1);' : '';
+        <a href="<%= $named->{file} %>">
+        <img src="<%= $named->{file} %>" alt="<%= $name %>" title="<%= ucfirst $name %> (<%= $named->{n} %>)" height="200" width="100" style="<%= $style %>" />
         </a>
       </td>
 %     if ($row == $cells - 1) {
