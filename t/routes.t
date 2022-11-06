@@ -54,7 +54,7 @@ subtest reset => sub {
 subtest cut => sub {
   $t->get_ok('/?action=cut&cut=100')
     ->status_is(200)
-    ->content_unlike(qr|Cut 100\s*</div>|, 'cut text')
+    ->content_unlike(qr|Cut 100\s*</div>|, 'no cut text')
   ;
   $t->get_ok('/?action=cut&cut=0')
     ->status_is(200)
