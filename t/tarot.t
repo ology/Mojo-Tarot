@@ -10,6 +10,11 @@ use_ok 'Tarot';
 my $deck;
 my @cards;
 
+sub _sorted_keys {
+  my ($deck) = @_;
+  return sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*;
+}
+
 subtest build_cards => sub {
   @cards = Tarot::build_cards();
   is @cards, 78, 'cards';
@@ -20,7 +25,7 @@ subtest build_deck => sub {
   is keys $deck->{cards}->%*, @cards, 'full deck';
 
   my $i = 0;
-  for my $card (sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*) {
+  for my $card (_sorted_keys($deck)) {
     is $card, $cards[$i], $card;
     $i++;
   }
@@ -33,7 +38,7 @@ subtest shuffle_deck => sub {
     my $is_oriented = 0;
     Tarot::shuffle_deck($deck);
     my $i = 0;
-    for my $card (sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*) {
+    for my $card (_sorted_keys($deck)) {
       $is_shuffled++ if $card ne $cards[$i];
       $is_oriented++ if $deck->{cards}{$card}{o};
       $i++;
@@ -59,7 +64,7 @@ subtest cut_deck => sub {
   diag 'Cut deck at position 0';
   Tarot::cut_deck($deck, 0);
   my $i = 0;
-  for my $card (sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*) {
+  for my $card (_sorted_keys($deck)) {
     is $card, $rotated[$i], $card;
     $i++;
   }
