@@ -15,7 +15,7 @@ subtest widgets => sub {
   $t->get_ok('/')
     ->status_is(200)
     ->session_has('/session')
-    ->content_like(qr/Court de Gébelin/, 'has title')
+    ->text_is('h3' => 'Court de Gébelin', 'has page title')
     ->element_exists('button[value="view"]', 'has View btn')
     ->element_exists('button[value="reset"]', 'has Reset btn')
     ->element_exists('select[name="cut"]', 'has Cut select')
