@@ -140,7 +140,7 @@ app->start;
 
 sub _purge {
   my ($c) = @_;
-  # purge defunct sessions
+  # purge defunct decks
   my $now = time();
   my @old_sessions;
   my @files = File::Find::Rule->file()->name(DECK_GLOB)->in('.');
