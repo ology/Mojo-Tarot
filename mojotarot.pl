@@ -148,7 +148,7 @@ sub _purge {
     my $deck = retrieve $file;
     if ($deck->{last_seen} + TIME_LIMIT < $now) {
       $c->app->log->info("Remove $file");
-      (my $stamp = $file) =~ s/^deck-(\d+\.\d+)\.dat/$1/;
+      (my $stamp = $file) =~ s/^deck-(\d+\.\d+)\.dat$/$1/;
       push @old_sessions, $stamp;
       unlink $file;
     }
