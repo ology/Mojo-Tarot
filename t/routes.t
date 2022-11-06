@@ -11,8 +11,6 @@ my $t = Test::Mojo::Session->new(curfile->dirname->sibling('mojotarot.pl'));
 
 my $now = time();
 (my $stamp = $now) =~ s/^(\d+)\.\d+/$1/;
-my $name = 'deck-' . $stamp . '.*.dat';
-diag "Created deck file glob: $name";
 
 subtest widgets => sub {
   $t->get_ok('/')
@@ -148,6 +146,7 @@ subtest clear => sub {
 
 subtest cleanup => sub {
   diag 'Clean-up the file(s) created by this test...';
+  my $name = 'deck-' . $stamp . '.*.dat';
   my @files = File::Find::Rule->file()->name($name)->in('.');
   for my $file (@files) {
     ok -e $file, "$file exists";
