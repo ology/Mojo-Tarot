@@ -115,7 +115,7 @@ get '/' => sub ($c) {
   # load the session reading file form options
   my @readings;
   my @files = File::Find::Rule->file()->name(READING_GLOB)->in('.');
-  for my $file (@files) {
+  for my $file (sort @files) {
     my $reading = retrieve $file;
     push @readings, { file => $file, name => $reading->{name} }
       if $reading->{session} == $session;
