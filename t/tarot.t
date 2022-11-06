@@ -68,11 +68,17 @@ subtest cut_deck => sub {
 subtest choose => sub {
   ($deck) = Tarot::build_deck();
   diag 'Choose the card at position 0';
-  Tarot::choose($deck, 0);
-  for my $card (sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*) {
-    is $card, 'fool', 'fool';
-    last;
+  my $expect = 'fool';
+  my ($got) = Tarot::choose($deck, 0);
+  is $got->{name}, $expect, 'expected card returned';
+  my $chosen = 0;
+  for my $card (keys $deck->{cards}->%*) {
+    if ($deck->{cards}{$card}{chosen}) {
+      $chosen++;
+      is $deck->{cards}{$card}{name}, $expect, 'expected card in deck';
+    }
   }
+  is $chosen, 1, '1 card chosen';
 };
 
 subtest spread => sub {
