@@ -10,7 +10,9 @@ use Time::HiRes qw(time);
 use lib 'lib';
 use Tarot ();
 
-use constant LIMIT => 60 * 60 * 24; # 1 day
+use constant DECK_GLOB    => 'deck-*.dat';
+use constant READING_GLOB => 'reading-*.dat';
+use constant TIME_LIMIT   => 60 * 60 * 24; # 1 day
 
 get '/' => sub ($c) {
   my $type   = $c->param('type');         # spread type
@@ -112,9 +114,7 @@ get '/' => sub ($c) {
 
   # load the session reading file form options
   my @readings;
-  my @files = File::Find::Rule->file()
-    ->name('reading-*.dat')
-    ->in('.');
+  my @files = File::Find::Rule->file()->name(READING_GLOB)->in('.');
   for my $file (@files) {
     my $data = retrieve $file;
     push @readings, { file => $file, name => $data->{name} }
@@ -144,12 +144,11 @@ sub _purge {
   my ($c) = @_;
   my $now = time();
   (my $stamp = $now) =~ s/^(\d+)\.\d+/$1/;
-  my $name = 'deck-*.dat';
-  my @files = File::Find::Rule->file()->name($name)->in('.');
+  my @files = File::Find::Rule->file()->name(DECK_GLOB)->in('.');
   my $purged = 0;
   for my $file (sort @files) {
     my $deck = retrieve $file;
-    if ($deck->{last_seen} + LIMIT < $now) {
+    if ($deck->{last_seen} + TIME_LIMIT < $now) {
       $c->app->log->info("Removing $file deck");
       $purged++;
     }
@@ -176,7 +175,7 @@ sub _store_deck {
   ($deck) ||= Tarot::build_deck();
   unless ($session) {
     $session = time();
-    $c->session(session => $session, expiration => LIMIT);
+    $c->session(session => $session, expiration => TIME_LIMIT);
   }
   my $file = _make_save_file($session);
   $deck->{last_seen} = time();
