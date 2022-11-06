@@ -148,11 +148,14 @@ subtest cleanup => sub {
   (my $stamp = $now) =~ s/^(\d+)\.\d+/$1/;
   my $name = 'deck-' . $stamp . '.*.dat';
   my @files = File::Find::Rule->file()->name($name)->in('.');
+  my $removed = 0;
   for my $file (@files) {
     ok -e $file, "$file exists";
     unlink $file;
     ok !-e $file, 'removed deck file';
+    $removed++;
   }
+  ok $removed, 'removed test file(s)';
 };
 
 done_testing();
