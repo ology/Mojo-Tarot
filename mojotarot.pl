@@ -159,7 +159,7 @@ sub _purge {
   @files = File::Find::Rule->file()->name(READING_GLOB)->in('.');
   for my $file (sort @files) {
     my $reading = retrieve $file;
-    if (List::Util::any { $reading->{session} == $_ } @old_sessions) {
+    if (grep { $reading->{session} == $_ } @old_sessions) {
       $c->app->log->info("Remove $file");
       unlink $file;
     }
