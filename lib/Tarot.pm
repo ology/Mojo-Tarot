@@ -147,4 +147,17 @@ sub card_file {
   return $filename;
 }
 
+sub get_chosen {
+  my ($deck, $choices) = @_;
+
+  my @chosen;
+
+  for my $n (@$choices) {
+    my $card = ( first { $deck->{cards}{$_}{p} == $n } keys $deck->{cards}->%* )[0];
+    push @chosen, $deck->{cards}{$card};
+  }
+
+  return \@chosen;
+}
+
 1;
