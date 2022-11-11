@@ -122,6 +122,7 @@ sub spread {
   my ($deck, $n) = @_;
   $n ||= 3;
   my @spread;
+  # not the most efficient loop...
   for my $draw (1 .. $n) {
     my @non_chosen = map { $deck->{cards}{$_}{p} }
       grep { $deck->{cards}{$_}{chosen} == 0 }
