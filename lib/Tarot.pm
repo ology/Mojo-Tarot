@@ -89,7 +89,7 @@ sub cut_deck {
   my @ordered = sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } @cards;
   my @cut = (
     @ordered[ $n + 1 .. $#ordered ],
-    @ordered[  0 .. $n ],
+    @ordered[ 0 .. $n ],
   );
   my $i = 0;
   for my $card (@cut) {
