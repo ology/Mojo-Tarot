@@ -88,26 +88,22 @@ get '/' => sub ($c) {
   _store_deck($c, $deck, $session);
 
   # get the cards that have been chosen
-  my @choices;
-  for my $n (@$choices) {
-    my $card = ( first { $deck->{cards}{$_}{p} == $n } keys $deck->{cards}->%* )[0];
-    push @choices, $deck->{cards}{$card};
-  }
+  my $chosen = Tarot::get_chosen($deck, $choices);
 
   # save or load readings
   if ($action eq 'save') {
     my $reading = {
       session => $session,
       name    => $save,
-      choices => \@choices,
+      choices => $chosen,
     };
     my $file = _make_file_name($session, 'reading');
     store($reading, $file);
   }
   elsif ($action eq 'load') {
     my $data = retrieve $load;
-    @choices = $data->{choices}->@*;
-    $choices = [ map { $_->{p} } @choices ];
+    $chosen = $data->{choices};
+    $choices = [ map { $_->{p} } @$chosen ];
     $crumbs = [ _make_crumb($action, $data->{name}) ];
   }
 
@@ -128,7 +124,7 @@ get '/' => sub ($c) {
     template => 'index',
     deck     => $deck,
     view     => $view,
-    choices  => \@choices,
+    choices  => $chosen,
     crumbs   => $crumbs,
     readings => \@readings,
   );
