@@ -108,4 +108,23 @@ subtest spread => sub {
     'expected cards chosen in deck';
 };
 
+subtest get_chosen => sub {
+  ($deck) = Tarot::build_deck();
+  my $choose = [];
+  my $expect = [];
+  my ($got) = Tarot::get_chosen($deck, $choose);
+  is_deeply $got, $expect, 'no choices';
+  $choose = [666, 667];
+  ($got) = Tarot::get_chosen($deck, $choose);
+  is_deeply $got, $expect, 'invalid choices';
+  $choose = [13, 1, 0];
+  $expect = [
+    { chosen => 0, file => '/images/death.jpeg', n => 13, name => 'death', o => 0, p => 13 },
+    { chosen => 0, file => '/images/magician.jpeg', n => 1, name => 'magician', o => 0, p => 1 },
+    { chosen => 0, file => '/images/fool.jpeg', n => 0, name => 'fool', o => 0, p => 0 },
+  ];
+  ($got) = Tarot::get_chosen($deck, $choose);
+  is_deeply $got, $expect, 'valid choices';
+};
+
 done_testing();
