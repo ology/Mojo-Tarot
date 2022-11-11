@@ -11,7 +11,7 @@ use Tarot ();
 
 use constant DECK_GLOB    => 'deck-*.dat';
 use constant READING_GLOB => 'reading-*.dat';
-use constant TIME_LIMIT   => 60 * 60 * 24; # 1 day
+use constant TIME_LIMIT   => 60 * 60 * 24 * 30; # 30 days
 
 get '/' => sub ($c) {
   my $type   = $c->param('type');         # spread type
