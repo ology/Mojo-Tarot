@@ -154,7 +154,7 @@ sub get_chosen {
 
   for my $n (@$choices) {
     my $card = ( first { $deck->{cards}{$_}{p} == $n } keys $deck->{cards}->%* )[0];
-    push @chosen, $deck->{cards}{$card};
+    push @chosen, $deck->{cards}{$card} if $card && exists $deck->{cards}{$card};
   }
 
   return \@chosen;
