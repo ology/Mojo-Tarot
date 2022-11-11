@@ -73,7 +73,7 @@ sub shuffle_deck {
   my @shuffled = shuffle(keys $deck->{cards}->%*);
   my $i = 0;
   for my $card (@shuffled) {
-    my $orientation = $orient ? int rand 2 : $deck->{$card}{o};
+    my $orientation = $orient ? int rand 2 : $deck->{cards}{$card}{o};
     $deck->{cards}{$card}->{p} = $i;
     $deck->{cards}{$card}->{o} = $orientation;
     $i++;
