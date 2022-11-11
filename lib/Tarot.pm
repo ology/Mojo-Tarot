@@ -83,7 +83,7 @@ sub shuffle_deck {
 sub cut_deck {
   my ($deck, $n) = @_;
   my @cards = keys $deck->{cards}->%*;
-  $n //= int(@cards) / 2; # default half of deck
+  $n //= int(@cards / 2); # default half of deck
   die "N must be between 0 and ", $#cards - 1, "\n"
     if $n < 0 || $n > $#cards - 1;
   my @ordered = sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } @cards;
