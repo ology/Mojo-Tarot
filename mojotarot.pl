@@ -349,8 +349,12 @@ __DATA__
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" onerror="this.onerror=null;this.href='/css/bootstrap.min.css';" />
     <title><%= title %></title>
     <style>
+      @font-face{
+        font-family: "Luminari-Regular";
+        src: url('/font/Luminari-Regular.ttf');
+      }
       body {
-        font-family: luminari, fantasy;
+        font-family: 'Luminari-Regular', Arial, sans-serif;
       }
       .padpage {
         padding-top: 10px;
