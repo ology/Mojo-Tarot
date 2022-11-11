@@ -14,11 +14,11 @@ use constant READING_GLOB => 'reading-*.dat';
 use constant TIME_LIMIT   => 60 * 60 * 24 * 30; # 30 days
 
 get '/' => sub ($c) {
-  my $type   = $c->param('type');         # spread type
-  my $cut    = $c->param('cut');          # cut deck position
   my $action = $c->param('action') || ''; # action to perform
-  my $choice = $c->param('choice');       # chosen card
+  my $cut    = $c->param('cut');          # cut deck position
   my $orient = $c->param('orient') || 0;  # shuffle ~50% upside down
+  my $type   = $c->param('type');         # spread type
+  my $choice = $c->param('choice');       # chosen card
   my $save   = $c->param('name');         # reading name to save
   my $load   = $c->param('reading');      # reading to load
 
