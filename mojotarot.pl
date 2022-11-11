@@ -350,7 +350,7 @@ __DATA__
     <title><%= title %></title>
     <style>
       @font-face{
-        font-family: "Luminari-Regular";
+        font-family: 'Luminari-Regular';
         src: url('/font/Luminari-Regular.ttf');
       }
       body {
