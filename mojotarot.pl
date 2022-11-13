@@ -13,6 +13,12 @@ use constant DECK_GLOB    => 'deck-*.dat';
 use constant READING_GLOB => 'reading-*.dat';
 use constant TIME_LIMIT   => 60 * 60 * 24 * 30; # 30 days
 
+helper cards => sub ($c, $deck) {
+  my @cards = sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} }
+    keys $deck->{cards}->%*;
+  return @cards;
+};
+
 get '/' => sub ($c) {
   my $action = $c->param('action') || ''; # action to perform
   my $cut    = $c->param('cut');          # cut deck position
@@ -213,7 +219,7 @@ __DATA__
   <input type="hidden" name="action" value="cut" />
   <select name="cut" title="Cut the deck" class="btn btn-sm" onchange="this.form.submit()">
     <option value="0" selected disabled>Cut</option>
-% for my $n (0 .. keys($deck->{cards}->%*) - 2) {
+% for my $n (0 .. cards($deck) - 2) {
     <option value="<%= $n %>"><%= $n %></option>
 % }
   </select>
@@ -247,7 +253,7 @@ __DATA__
   <input type="hidden" name="action" value="choose" />
   <select name="choice" title="Choose a card" class="btn btn-sm" onchange="this.form.submit()">
     <option value="" selected disabled>Card</option>
-% for my $card (sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*) {
+% for my $card (cards($deck)) {
 %   my $n = $deck->{cards}{$card}{p};
 %   my $disabled = $deck->{cards}{$card}{chosen} ? 'disabled' : '';
     <option value="<%= $n %>" <%= $disabled %>><%= $n %></option>
@@ -309,7 +315,7 @@ __DATA__
   <table cellpadding="2" border="0">
 %   my $n = 0;
 %   my $cells = 3;
-%   for my $name (sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} } keys $deck->{cards}->%*) {
+%   for my $name (cards($deck)) {
 %     my $card = $deck->{cards}{$name};
 %     my $row = 0;
 %     if ($n == 0 || $n % $cells == 0) {
