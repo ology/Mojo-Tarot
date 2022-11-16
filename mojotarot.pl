@@ -13,7 +13,7 @@ use constant DECK_GLOB    => 'deck-*.dat';
 use constant READING_GLOB => 'reading-*.dat';
 use constant TIME_LIMIT   => 60 * 60 * 24 * 30; # 30 days
 
-helper cards => sub ($c, $deck) {
+helper cards => sub ($c, $deck) { # for use in the template
   my @cards = sort { $deck->{cards}{$a}{p} <=> $deck->{cards}{$b}{p} }
     keys $deck->{cards}->%*;
   return @cards;
