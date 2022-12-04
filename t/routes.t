@@ -31,7 +31,7 @@ subtest widgets => sub {
 subtest view => sub {
   $t->get_ok($t->app->url_for('index')->query(action => 'view'))
     ->status_is(200)
-    ->element_count_is('img' => 78, '78 images')
+    ->element_count_is(img => 78, '78 images')
   ;
 };
 
@@ -85,7 +85,7 @@ subtest spread => sub {
   $t->get_ok($t->app->url_for('index')->query(action => 'spread', type => 1))
     ->status_is(200)
     ->content_like(qr|Spread 1\s*</div>|, 'spread text')
-    ->element_count_is('img' => 1, '1 image only')
+    ->element_count_is(img => 1, '1 image only')
     ->element_exists('img', 'image on page')
     ->element_exists('input[type="text"][name="name"]', 'has reading name input')
     ->element_exists('button[value="save"]', 'has Save btn')
@@ -93,7 +93,7 @@ subtest spread => sub {
   $t->get_ok($t->app->url_for('index')->query(action => 'spread', type => 100))
     ->status_is(200)
     ->content_like(qr|Spread 100\s*</div>|, 'spread text')
-    ->element_count_is('img' => 78, '78 images')
+    ->element_count_is(img => 78, '78 images')
   ;
 };
 
@@ -111,7 +111,7 @@ subtest choose => sub {
   $t->get_ok($t->app->url_for('index')->query(action => 'choose', choice => 0))
     ->status_is(200)
     ->content_like(qr|Choose 0\s*</div>|, 'choose text')
-    ->element_count_is('img' => 1, '1 image only')
+    ->element_count_is(img => 1, '1 image only')
     ->element_exists('img[alt="magician"]', 'magician card')
     ->element_exists('input[type="text"][name="name"]', 'has reading name input')
     ->element_exists('button[value="save"]', 'has Save btn')
@@ -119,12 +119,12 @@ subtest choose => sub {
   # make sure choosing the same card doesn't duplicate
   $t->get_ok($t->app->url_for('index')->query(action => 'choose', choice => 0))
     ->status_is(200)
-    ->element_count_is('img' => 1, '1 image only')
+    ->element_count_is(img => 1, '1 image only')
   ;
   # make sure choosing another shows 2 cards
   $t->get_ok($t->app->url_for('index')->query(action => 'choose', choice => 1))
     ->status_is(200)
-    ->element_count_is('img' => 2, '2 images')
+    ->element_count_is(img => 2, '2 images')
   ;
 };
 
